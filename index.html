@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TCS Academy Software Engineer Bootcamp</title>
+    <!-- Bulma CSS CDN link -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts for Prompt and Sarabun -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles to enhance the Bulma layout */
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f5f5f5; /* A light grey background */
+        }
+        .hero-body {
+            text-align: center;
+        }
+        .section {
+            padding: 3rem 1.5rem;
+        }
+        .container {
+            max-width: 960px;
+        }
+        .box {
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-item.has-dropdown:hover .navbar-dropdown {
+            display: block;
+        }
+        .content ul {
+            list-style: none; /* Remove default list style */
+            padding-left: 0;
+        }
+        .content ul li:before {
+            content: "✓"; /* Add a custom checkmark bullet */
+            color: #209CEE; /* Bulma's primary color */
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        /* New font styles for titles and headers */
+        .title, .subtitle, h1, h2, h3, h4, h5, h6 {
+            font-family: 'Prompt', sans-serif;
+        }
+        .cta-box {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .icon-text {
+            display: flex;
+            align-items: center;
+        }
+        .icon-text .icon {
+            margin-right: 0.5rem;
+        }
+        .price-box {
+            background-color: #ffdd57; /* Bulma's yellow for emphasis */
+            color: #000;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+        .price-box h4 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .price-box p {
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero section with title and subtitle -->
+    <section class="hero is-primary is-bold">
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a class="navbar-item is-size-4 has-text-weight-bold" href="#">
+                            TCS Academy
+                        </a>
+                        <span class="navbar-burger" data-target="navbarMenu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </div>
+                    <div id="navbarMenu" class="navbar-menu">
+                        <div class="navbar-end">
+                            <a class="navbar-item is-active" href="#">
+                                หน้าแรก
+                            </a>
+                            <a class="navbar-item" href="#">
+                                เกี่ยวกับเรา
+                            </a>
+                            <a class="navbar-item" href="#">
+                                ติดต่อ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title is-size-1">
+                    TCS Academy Software Engineer Bootcamp
+                </h1>
+                <h2 class="subtitle is-size-4">
+                    CodeCamp Advance: หลักสูตรสู่การพัฒนาซอฟต์แวร์ระดับมืออาชีพ
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Stats Section -->
+    <section class="section has-text-centered">
+        <div class="container">
+            <div class="columns is-mobile is-multiline is-centered">
+                <div class="column is-one-third">
+                    <div class="is-size-3 has-text-weight-bold">
+                        <span class="icon is-large has-text-primary">
+                            <i class="fas fa-book"></i>
+                        </span>
+                        <span>200+</span>
+                    </div>
+                    <p class="is-size-5 has-text-grey">บทเรียน</p>
+                </div>
+                <div class="column is-one-third">
+                    <div class="is-size-3 has-text-weight-bold">
+                        <span class="icon is-large has-text-primary">
+                            <i class="fas fa-clock"></i>
+                        </span>
+                        <span>90+</span>
+                    </div>
+                    <p class="is-size-5 has-text-grey">ชั่วโมง</p>
+                </div>
+                <div class="column is-one-third">
+                    <div class="is-size-3 has-text-weight-bold">
+                        <span class="icon is-large has-text-primary">
+                            <i class="fas fa-calendar-alt"></i>
+                        </span>
+                        <span>4-6</span>
+                    </div>
+                    <p class="is-size-5 has-text-grey">เดือน</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Price Section -->
+    <section class="section has-text-centered">
+        <div class="container">
+            <div class="price-box">
+                <h3 class="title is-4">The Most Affordable Bootcamp on Earth</h3>
+                <h4 class="title is-size-1 has-text-dark">THB 4,900</h4>
+                <p class="is-size-5 has-text-dark">ราคานี้ถึงวันที่ 23 สิงหาคม 2568</p>
+                <div class="columns is-centered mt-4">
+                    <div class="column is-narrow">
+                        <p class="is-size-5 has-text-dark"><strong>จากนั้นราคาจะถูกปรับเป็น:</strong></p>
+                        <p class="is-size-6 has-text-grey mt-2">THB 6,900 ถึง 30 สิงหาคม 2568</p>
+                        <p class="is-size-6 has-text-grey">THB 9,900 หลังจากนั้น</p>
+                    </div>
+                </div>
+                <p class="mt-4">สมัครเรียนง่ายๆ ส่งข้อความหาแอดบน Facebook ได้เลยนะครับ เอาจริงๆ แค่ทักมาสมัครก็คุ้มแล้ว ยั๊งงง 555+</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Curriculum Introduction Section -->
+    <section class="section">
+        <div class="container">
+            <div class="box">
+                <h3 class="title is-4 has-text-centered">🎯 หลักสูตร "CodeCamp Advance" ที่จะเปลี่ยนชีวิตคุณ!</h3>
+                <div class="content has-text-centered">
+                    <p class="is-size-5 has-text-weight-bold">มาเรียนกันแบบจริงจัง 5 โมดูลที่ครอบคลุมทุกอย่างที่ Software Engineer ต้องรู้</p>
+                    <img src="https://placehold.co/600x400/209CEE/ffffff?text=CodeCamp+Advance+Curriculum" alt="หลักสูตร CodeCamp Advance ที่ครอบคลุม" style="border-radius: 8px; margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                </div>
+                <div class="content">
+                    <p>สวัสดีครับทุกคน! แอดจะมาแนะนำหลักสูตร "CodeCamp Advance" ที่แอดออกแบบมาให้ครอบคลุมทุกอย่างที่ Software Engineer ระดับมืออาชีพต้องรู้เลยครับ</p>
+                    
+                    <p class="is-size-5 has-text-weight-bold mt-4">🚀 <strong>Module 1: รากฐานและความมั่นคงของระบบ</strong></p>
+                    <p>เริ่มต้นด้วยการปูพื้นฐานที่แข็งแกร่ง! เราเริ่มจาก Java Programming Language ที่จะเจาะลึกฟีเจอร์ล่าสุด รวมถึง Concurrency และ Multithreading ที่เป็นหัวใจสำคัญของระบบสมัยใหม่</p>
+                    <p>จากนั้นเราจะเรียน Spring Boot ที่จะสอนการสร้าง Web API และ RESTful Services แบบมืออาชีพ พร้อมกับ Spring Framework Core ที่จะทำให้คุณเข้าใจ IoC, DI, และ AOP อย่างลึกซึ้ง</p>
+                    <p>ไม่พลาดเรื่องฐานข้อมูลด้วย Spring Data JPA และ Hibernate สำหรับ ORM และการจัดการฐานข้อมูลอย่างมีประสิทธิภาพ รวมถึง Maven/Gradle สำหรับการจัดการ Project และ Build Automation</p>
+                    <p>และที่สำคัญ! เราจะเรียน Frontend Technologies เพื่อเชื่อมต่อกับ UI Framework ยอดนิยม เช่น React หรือ Angular</p>
+                    
+                    <p class="is-size-5 has-text-weight-bold mt-4">⚡ <strong>Module 2: ประสิทธิภาพและกระบวนการ</strong></p>
+                    <p>โมดูลนี้จะทำให้คุณเป็น DevOps Engineer ที่เก่ง! เริ่มจาก CI/CD Pipelines ด้วย Jenkins และ GitHub Actions ที่จะทำให้การ Deploy เป็นเรื่องง่ายๆ</p>
+                    <p>เรียนรู้ Infrastructure as Code ด้วย Terraform และ Ansible ที่จะเปลี่ยนวิธีการจัดการ Infrastructure ให้เป็นแบบสมัยใหม่ และไม่พลาด Version Control ด้วย Git ที่เป็นพื้นฐานสำคัญ</p>
+                    <p>และที่ตื่นเต้นที่สุด! เราจะเรียน Kubernetes ตั้งแต่พื้นฐานไปจนถึงขั้นสูง รวมถึง KubeVirt สำหรับการจัดการ Virtual Machine ร่วมกับ Container และการทำ Container Orchestration แบบมืออาชีพ</p>
+                    
+                    <p class="is-size-5 has-text-weight-bold mt-4">🎯 <strong>Module 3: คุณภาพและประสิทธิภาพของโค้ด</strong></p>
+                    <p>ยกระดับคุณภาพโค้ดของคุณให้เป็นระดับมืออาชีพ! เริ่มจาก Source Code Analysis ด้วย SonarQube และการวัด Code Coverage ด้วย JaCoCo</p>
+                    <p>เรียน Test-Driven Development (TDD) และ Automated Testing ด้วย JUnit, Mockito, Selenium, และ Cucumber ที่จะทำให้โค้ดของคุณมีคุณภาพสูงสุด</p>
+                    <p>ไม่พลาดเรื่อง Performance Optimization สำหรับ Spring Boot Application และการทำ Code Refactoring, Clean Code Practices, และ Coding Standards ที่เป็นมาตรฐานในอุตสาหกรรม</p>
+                    
+                    <p class="is-size-5 has-text-weight-bold mt-4">🚀 <strong>Module 4: นวัตกรรมและการเติบโต</strong></p>
+                    <p>ขับเคลื่อนนวัตกรรมและสนับสนุนการเติบโตของระบบ! เรียน Microservices Architecture ที่จะทำให้ระบบของคุณยืดหยุ่นและขยายตัวได้</p>
+                    <p>เข้าใจ Analytics ด้วย Google Analytics และ Firebase Analytics ที่จะช่วยให้คุณตัดสินใจได้ดีขึ้น และเรียนรู้ Technology-specific Best Practices ที่เป็นประสบการณ์จริงจากผู้เชี่ยวชาญ</p>
+                    <p>ไม่พลาดเรื่อง Documentation ด้วย Swagger/OpenAPI และ Javadoc รวมถึง Project and Team Management ด้วย Agile/Scrum, Jira, และ Trello</p>
+                    
+                    <p class="is-size-5 has-text-weight-bold mt-4">🌐 <strong>Module 5: การรวมระบบภายนอกและการปรับขนาด</strong></p>
+                    <p>โมดูลสุดท้ายที่จะทำให้คุณเป็น Full-Stack Engineer ที่เก่ง! เรียน Message Brokers ด้วย RabbitMQ และ Apache Kafka สำหรับระบบที่ต้องรองรับข้อมูลมหาศาล</p>
+                    <p>เข้าใจ Elasticsearch, Kong API Gateway, และ Database Scaling ที่จะทำให้ระบบของคุณเติบโตได้ไม่จำกัด และเรียน Graph System Implementation ด้วย D3.js, Chart.js, และ Plotly</p>
+                    <p>ปิดท้ายด้วย Advanced Troubleshooting & Debugging และ Observability ด้วย Prometheus และ Jaeger/Zipkin รวมถึง Soft Skills และ Professional Mindset ที่จะทำให้คุณเป็นที่ต้องการในตลาดแรงงาน</p>
+                    
+                    <div class="notification is-info mt-4">
+                        <p class="is-size-5 has-text-weight-bold">💡 <strong>แอดออกแบบหลักสูตรนี้มาให้ครอบคลุมทุกอย่างที่ Software Engineer ต้องรู้ในปี 2025 และอนาคตข้างหน้า!</strong></p>
+                        <p>ไม่ว่าจะเป็น Java, Spring Boot, DevOps, Kubernetes, Testing, หรือ Microservices ทุกอย่างอยู่ในหลักสูตรนี้หมดเลยครับ</p>
+                    </div>
+                    
+                    <p class="mt-4">เอาจริงๆ แอดเชื่อว่าหลักสูตรนี้จะเปลี่ยนชีวิตของทุกคนที่เรียน เพราะเราไม่ได้สอนแค่ทักษะทางเทคนิค แต่สอนวิธีคิดและแนวทางการพัฒนาตัวเองที่ยั่งยืนด้วยครับ</p>
+                    <p>มาเรียนกันแบบจริงจัง 5 โมดูลที่ครอบคลุมทุกอย่างที่ Software Engineer ต้องรู้ พร้อมกันนะครับ! 🚀</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Program Objectives Section -->
+    <section class="section">
+        <div class="container">
+            <div class="box">
+                <h3 class="title is-4 has-text-centered">หลังจากเรียนจบ นักเรียนจะสามารถ...</h3>
+                <div class="content">
+                    <p>หลักสูตร "CodeCamp Advance" ฉบับสมบูรณ์นี้ถูกออกแบบมาเพื่อเตรียมคุณให้พร้อมสำหรับการเป็นนักพัฒนาซอฟต์แวร์ระดับมืออาชีพ ด้วยการผสานทักษะทางเทคนิคขั้นสูงเข้ากับแนวปฏิบัติด้าน DevOps, การจัดการโครงการ, และ Soft Skills ที่จำเป็นสำหรับการทำงานจริง</p>
+                    <ul>
+                        <li><div class="icon-text"><span class="icon"><i class="fas fa-microchip"></i></span><span>มีรากฐานที่มั่นคงในการสร้างระบบซอฟต์แวร์ที่แข็งแกร่งและเชื่อถือได้</span></div></li>
+                        <li><div class="icon-text"><span class="icon"><i class="fas fa-cogs"></i></span><span>ปรับปรุงกระบวนการทำงานให้มีประสิทธิภาพสูงสุดด้วย DevOps</span></div></li>
+                        <li><div class="icon-text"><span class="icon"><i class="fas fa-award"></i></span><span>ยกระดับคุณภาพโค้ดและประสิทธิภาพของแอปพลิเคชัน</span></div></li>
+                        <li><div class="icon-text"><span class="icon"><i class="fas fa-rocket"></i></span><span>ขับเคลื่อนนวัตกรรมและสนับสนุนการเติบโตของระบบในระยะยาว</span></div></li>
+                        <li><div class="icon-text"><span class="icon"><i class="fas fa-plug"></i></span><span>เชื่อมต่อกับบริการภายนอกและการเตรียมระบบสำหรับการปรับขนาด</span></div></li>
+                        <li><div class="icon-text"><span class="icon"><i class="fas fa-users-cog"></i></span><span>มีความรู้ด้าน Soft Skills และ Professional Mindset ที่จำเป็นต่อการทำงาน</span></div></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+           <!-- CodeCamp Advance Information Section -->
+     <section class="section">
+         <div class="container">
+             <div class="columns is-multiline">
+                 <!-- Column 1: Program Details -->
+                 <div class="column is-one-third">
+                     <div class="box">
+                         <h3 class="title is-4 has-text-centered">ข้อมูลหลักสูตร</h3>
+                         <div class="content">
+                             <p>หลักสูตร <strong>CodeCamp Advance</strong> ใช้เวลา <strong>4-6 เดือน</strong> ประกอบด้วย:</p>
+                             <ul>
+                                 <li><strong>คลาสเรียนสด:</strong> 16 ครั้ง (3 ชั่วโมง/ครั้ง) รวมกว่า 90+ ชั่วโมง</li>
+                                 <li><strong>คอร์สวิดีโอแบบ On-demand:</strong> กว่า 200 บทเรียน</li>
+                             </ul>
+                             <p><strong>รุ่นถัดไป (รุ่นที่ 12)</strong> เริ่มในเดือนกันยายน 2568</p>
+                         </div>
+                     </div>
+                 </div>
+
+                 <!-- Column 2: Curriculum -->
+                 <div class="column is-one-third">
+                     <div class="box">
+                         <h3 class="title is-4 has-text-centered">เนื้อหาหลักสูตร</h3>
+                         <div class="content">
+                             <p>เรียนรู้ตั้งแต่พื้นฐานจนถึงขั้นสูง ครอบคลุมหัวข้อ:</p>
+                             <ul>
+                                 <li><div class="icon-text"><span class="icon"><i class="fas fa-coffee"></i></span><span>Java & Spring Boot</span></div></li>
+                                 <li><div class="icon-text"><span class="icon"><i class="fas fa-cogs"></i></span><span>DevOps & CI/CD</span></div></li>
+                                 <li><div class="icon-text"><span class="icon"><i class="fas fa-ship"></i></span><span>Kubernetes & Docker</span></div></li>
+                                 <li><div class="icon-text"><span class="icon"><i class="fas fa-code"></i></span><span>Testing & Code Quality</span></div></li>
+                                 <li><div class="icon-text"><span class="icon"><i class="fas fa-microchip"></i></span><span>Microservices Architecture</span></div></li>
+                                 <li><div class="icon-text"><span class="icon"><i class="fas fa-chart-line"></i></span><span>Performance & Scalability</span></div></li>
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+
+                 <!-- Column 3: Key Features -->
+                 <div class="column is-one-third">
+                     <div class="box">
+                         <h3 class="title is-4 has-text-centered">จุดเด่นของคอร์ส</h3>
+                         <div class="content">
+                             <p>ไม่ต้องมีพื้นฐานก็เรียนได้ และมีฟีเจอร์เด่นอีกมากมาย:</p>
+                             <ul>
+                                 <li>ไม่ต้องใช้ซอฟต์แวร์เสียเงิน (Open Source Tools)</li>
+                                 <li>มีช่องทาง Discord สำหรับถามตอบ 24/7</li>
+                                 <li>ได้รับใบประกาศนียบัตร PDF เมื่อสอบผ่าน (80%+)</li>
+                                 <li>ได้รับ Digital Badge สำหรับ Resume และ LinkedIn</li>
+                                 <li>ราคาไม่แพงที่สุดในโลก (ตามที่ระบุในเว็บไซต์)</li>
+                             </ul>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
+             <!-- Free Software Section -->
+             <div class="box mt-6">
+                 <h3 class="title is-4 has-text-centered">เรียนรู้ด้วยซอฟต์แวร์ฟรีทั้งหมด</h3>
+                 <div class="content has-text-centered">
+                     <p>Bootcamp ของเราใช้ซอฟต์แวร์ Open Source และ Cloud-Based เป็นหลัก นักเรียนไม่ต้องติดตั้งโปรแกรมเพิ่ม</p>
+                     <div class="tags are-large is-centered">
+                         <span class="tag is-info is-light">Java JDK</span>
+                         <span class="tag is-info is-light">Spring Boot</span>
+                         <span class="tag is-info is-light">IntelliJ IDEA Community</span>
+                         <span class="tag is-info is-light">VS Code</span>
+                         <span class="tag is-info is-light">Maven</span>
+                         <span class="tag is-info is-light">Git & GitHub</span>
+                         <span class="tag is-info is-light">Docker</span>
+                         <span class="tag is-info is-light">Kubernetes (Minikube)</span>
+                         <span class="tag is-info is-light">Jenkins</span>
+                         <span class="tag is-info is-light">SonarQube</span>
+                         <span class="tag is-info is-light">Prometheus</span>
+                         <span class="tag is-info is-light">Grafana</span>
+                         <span class="tag is-info is-light">PostgreSQL</span>
+                         <span class="tag is-info is-light">Redis</span>
+                         <span class="tag is-info is-light">RabbitMQ</span>
+                     </div>
+                     <p class="mt-4">ข้อดีของการเรียน Software Engineering คือโปรแกรมและซอฟต์แวร์ส่วนใหญ่เป็นแบบ Open Source สามารถใช้งานฟรีได้เลยครับ</p>
+                 </div>
+             </div>
+
+             <!-- Digital Badge Section -->
+             <div class="box mt-6">
+                 <h3 class="title is-4 has-text-centered">Show Off Your Hard Work</h3>
+                 <div class="content has-text-centered">
+                     <p>เมื่อสอบ Final (120-200 ข้อ) ผ่านแล้ว ทุกคนจะได้รับ <strong>Digital Badge</strong></p>
+                     <p>สามารถแชร์บน Facebook, LinkedIn และ Resume ได้</p>
+                     <a href="#" class="button is-primary is-medium mt-4">คลิกเพื่อดูตัวอย่าง Digital Badge</a>
+                 </div>
+             </div>
+
+             <!-- FAQ Section -->
+             <div class="box mt-6">
+                 <h3 class="title is-4 has-text-centered">คำถามที่พบบ่อย (FAQ)</h3>
+                 <div class="content">
+                     <div class="notification">
+                         <p class="is-size-5 has-text-weight-bold">Q1. ไม่มีพื้นฐานมาก่อน สามารถสมัครเรียนได้ไหม</p>
+                         <p>เราออกแบบคอร์สเรียนสำหรับนักเรียนที่ไม่มีพื้นฐานมาก่อน เริ่มเรียน <strong>1 ก.ย. – 31 ธ.ค. 2568</strong> (คลาสหลักประมาณ 4 เดือน) วิดีโอที่เราสอนสดจะถูกอัปโหลดให้ทบทวนวันถัดไป นักเรียนสามารถดูวิดีโอได้ถึง <strong>28 ก.พ. 2569</strong> นักเรียนควรมีเวลาเรียนเฉลี่ย 4-5 ชั่วโมงต่อสัปดาห์</p>
+                         <p class="mt-2"><strong>ปล.</strong> แอดเรียนจบด้าน Economics มาก็ไม่ได้ตรงสาย นักเรียน 90% ในแคมป์คือมาเรียนแบบไม่มีพื้นฐานมาก่อนเลยครับ</p>
+                     </div>
+                     <div class="notification">
+                         <p class="is-size-5 has-text-weight-bold">Q2. ไม่สะดวกเข้าเรียน Live Classes สามารถดูย้อนหลังได้หรือเปล่า</p>
+                         <p>นักเรียนสามารถดูวิดีโอย้อนหลังได้ทุกคลาสที่เราสอน ภายใน <strong>28 ก.พ. 2569</strong></p>
+                     </div>
+                     <div class="notification">
+                         <p class="is-size-5 has-text-weight-bold">Q3. วีดีโอ On-Demand เริ่มเรียนได้เลยหรือเปล่า</p>
+                         <p>นักเรียนสามารถเข้าเรียนคอร์สวิดีโอ On-Demand ของเราได้ตั้งแต่วันที่ <strong>1 ก.ย. 2568</strong> บนเว็บไซต์ <a href="https://bootcamp.datarockie.com" target="_blank">https://bootcamp.datarockie.com</a> เข้าเรียนได้ตลอด 24 ชั่วโมง</p>
+                     </div>
+                     <div class="notification">
+                         <p class="is-size-5 has-text-weight-bold">Q4. ค่าใช้จ่ายในการสมัครเรียน</p>
+                         <p><strong>One Price Plan</strong> <strong>4900</strong> บาท คุ้มที่สุดในประเทศไทย</p>
+                     </div>
+                     <div class="notification">
+                         <p class="is-size-5 has-text-weight-bold">Q5. เรียนจบแล้วมีใบ Certificate ให้หรือเปล่า</p>
+                         <p>นักเรียนที่เรียนจบหลักสูตรและสอบ <strong>Final Exam</strong> (Multiple Choice) ผ่านมากกว่า 80% จะได้รับใบ Certificate (PDF) ส่งให้ทางอีเมลภายใน <strong>28 ก.พ. 2569</strong></p>
+                     </div>
+                     <div class="notification">
+                         <p class="is-size-5 has-text-weight-bold">Q6. มีคำถามระหว่างเรียน สามารถสอบถามได้ทางไหนบ้าง</p>
+                         <p>ตอนนี้ได้เพิ่ม <strong>Discord</strong> มาด้วย เพื่อตอบนักเรียนได้เร็วยิ่งขึ้น</p>
+                     </div>
+                 </div>
+             </div>
+
+             <!-- Call to Action Section -->
+             <div class="box cta-box mt-6">
+                 <h3 class="title is-3 has-text-centered">Ready to Become a Software Engineer?</h3>
+                 <p class="is-size-5"><strong>CodeCamp Advance รุ่นที่ 12</strong> เปิดรับสมัครวันนี้ – 31 ส.ค. 2025</p>
+                 <p class="is-size-5 has-text-weight-bold">โรงเรียนเปิดวันแรก 1 ก.ย. 2568</p>
+                 <p class="is-size-6 mt-2">พลาดรอบนี้ เจอกันใหม่ปีหน้านะคร้าบ</p>
+                 <a href="https://www.facebook.com/messages/t/datarockie" target="_blank" class="button is-link is-large mt-5">
+                     <strong>สมัครเรียน bootcamp รุ่น 12</strong>
+                 </a>
+                 <p class="mt-4">แล้วพบกันนะครับทุกคน มาเรียนและเก่งไปพร้อมๆกันนะครับ</p>
+             </div>
+         </div>
+     </section>
+    <!-- Main Curriculum Section -->
+    <section class="section">
+        <div class="container">
+            <div class="box">
+                <h3 class="title is-4 has-text-centered">เนื้อหาหลักสูตรแบบเต็ม</h3>
+                <div class="content">
+                    <!-- Module 1 -->
+                    <div class="panel is-info">
+                        <p class="panel-heading">Module 1: รากฐานและความมั่นคงของระบบ (Foundation & Stability)</p>
+                        <div class="panel-block is-block">
+                            <p>โมดูลนี้จะปูพื้นฐานที่จำเป็นสำหรับการสร้างและดูแลรักษาระบบซอฟต์แวร์ที่แข็งแกร่งและเชื่อถือได้</p>
+                            <br>
+                            <h4 class="is-size-5 has-text-weight-bold">1.1 Java และ Spring Boot Development (Core Skill)</h4>
+                            <ul>
+                                <li>Java Programming Language: เจาะลึกฟีเจอร์ล่าสุดของภาษา Java รวมถึง Concurrency และ Multithreading</li>
+                                <li>Spring Boot: การสร้าง Web API, RESTful Services และการจัดการ Dependencies อย่างมีประสิทธิภาพ</li>
+                                <li>Spring Framework Core: ความเข้าใจใน IoC (Inversion of Control), DI (Dependency Injection), AOP (Aspect-Oriented Programming)</li>
+                                <li>Spring Data JPA / Hibernate: สำหรับ ORM (Object-Relational Mapping) และการจัดการฐานข้อมูล</li>
+                                <li>Maven / Gradle: การจัดการ Project และ Build Automation</li>
+                                <li>Frontend Technologies (เลือกตามความเหมาะสม): พื้นฐานการเชื่อมต่อกับ UI Framework ยอดนิยม เช่น React หรือ Angular</li>
+                            </ul>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">1.2 Monitoring and Alerts</h4>
+                            <p>การติดตั้งและใช้งานระบบ Monitoring ที่แข็งแกร่ง (Prometheus, Grafana, ELK Stack) เพื่อตรวจจับและแจ้งเตือนปัญหาเชิงรุก ลด Mean Time To Resolution (MTTR)</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">1.3 Backup Systems</h4>
+                            <p>การวางแผนและดำเนินการสำรองข้อมูลสำคัญ รวมถึงการทดสอบการกู้คืนอย่างสม่ำเสมอ เพื่อให้มั่นใจใน Recovery Point Objective (RPO) และ Recovery Time Objective (RTO)</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">1.4 Rollback Procedures</h4>
+                            <p>การพัฒนากระบวนการ Rollback อัตโนมัติและทดสอบเป็นประจำ เพื่อลด Downtime ในกรณีเกิดปัญหาจากการ Deployment</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">1.5 Security and Compliance</h4>
+                            <p>เสริมความปลอดภัยแอปพลิเคชันอย่างครบวงจร (Spring Security, OAuth/JWT) และทำความเข้าใจการปฏิบัติตามกฎหมายและมาตรฐาน (เช่น PDPA)</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">1.6 Environment Separation</h4>
+                            <p>การแยกสภาพแวดล้อม (Development, Testing, Staging, Production) อย่างชัดเจนพร้อมการจัดการ Configuration ที่เหมาะสม (Spring Cloud Config, Consul)</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">1.7 Load Testing</h4>
+                            <p>การทดสอบประสิทธิภาพของระบบภายใต้โหลดสูง (Artillery.io, k6) เพื่อระบุและแก้ไขปัญหาคอขวด</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">1.8 User Experience (UX) Design</h4>
+                            <p>หลักการออกแบบ UX ที่ดี และการทำ Usability Testing เพื่อสร้างประสบการณ์ผู้ใช้ที่ดีที่สุด</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">1.9 Feedback Loops and Customer Support</h4>
+                            <p>การสร้างระบบรับ Feedback จากลูกค้าและการจัดการ Customer Support ที่มีประสิทธิภาพ เพื่อนำข้อมูลมาปรับปรุงผลิตภัณฑ์</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">1.10 ISO/IEC 29110 Implementation</h4>
+                            <p>การทำความเข้าใจและนำมาตรฐาน ISO/IEC 29110 มาปรับใช้ในวงจรการพัฒนาซอฟต์แวร์ รวมถึงการเตรียมตัวสำหรับการรับรอง</p>
+                        </div>
+                    </div>
+
+                    <!-- Module 2 -->
+                    <div class="panel is-info mt-4">
+                        <p class="panel-heading">Module 2: ประสิทธิภาพและกระบวนการ (Efficiency & Process Improvement)</p>
+                        <div class="panel-block is-block">
+                            <p>หลังจากมีรากฐานที่มั่นคงแล้ว โมดูลนี้จะเน้นการปรับปรุงกระบวนการทำงานให้มีประสิทธิภาพสูงสุด</p>
+                            <br>
+                            <h4 class="is-size-5 has-text-weight-bold">2.1 DevOps Practices</h4>
+                            <p>หลักการและแนวปฏิบัติของ DevOps เพื่อเร่งความเร็วในการพัฒนาและส่งมอบซอฟต์แวร์</p>
+                            <ul>
+                                <li>CI/CD Pipelines: การสร้าง Continuous Integration/Deployment ด้วยเครื่องมือยอดนิยม (Jenkins, GitHub Actions)</li>
+                                <li>Infrastructure as Code (IaC): การจัดการ Infrastructure ด้วยโค้ด (Terraform, Ansible) เพื่อให้การจัดสรรทรัพยากรเป็นไปโดยอัตโนมัติและสอดคล้องกัน</li>
+                                <li>Version Control: การใช้ Git สำหรับ Source Code Management และการทำงานร่วมกันอย่างมีประสิทธิภาพ</li>
+                            </ul>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">2.2 Continuous Deployment</h4>
+                            <p>การทำให้กระบวนการ Deploy เป็นไปอย่างราบรื่น รวดเร็ว และปลอดภัย ด้วยเทคนิคอย่าง Canary Releases หรือ Feature Flagging</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">2.3 Branch Management and Release Handling</h4>
+                            <p>กลยุทธ์การจัดการ Branch (GitFlow) และการจัดการ Release (Semantic Versioning) เพื่อควบคุมคุณภาพของโค้ด</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">2.4 Kubernetes for Orchestration</h4>
+                            <p>การจัดการและปรับขนาดแอปพลิเคชันแบบ Containerized ด้วย Kubernetes</p>
+                            <ul>
+                                <li>Kubernetes Fundamentals: ทำความเข้าใจ Pods, Services, Deployments, ConfigMaps และอื่นๆ</li>
+                                <li>KubeVirt: การจัดการ Virtual Machine ร่วมกับ Container บน Kubernetes เพื่อความยืดหยุ่นในการจัดการทรัพยากร</li>
+                                <li>Container Orchestration: การ Scale, Rolling Update, และ Self-healing ของแอปพลิเคชัน</li>
+                                <li>Helm: การจัดการ Kubernetes Application ด้วย Helm Charts เพื่อให้การ Deploy ซับซ้อนง่ายขึ้น</li>
+                                <li>Kubernetes Networking: ความเข้าใจใน Ingress, Services, และ Network Policies</li>
+                                <li>Persistent Storage in Kubernetes: การจัดการ Persistent Volumes/Claims สำหรับแอปพลิเคชันที่มีสถานะ (Stateful Applications)</li>
+                                <li>Kubernetes Security: การนำ RBAC (Role-Based Access Control), Network Policies, และ Pod Security Policies มาใช้เพื่อความปลอดภัย</li>
+                            </ul>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">2.5 Caching with Memcache or Redis</h4>
+                            <p>การนำ Cache มาใช้เพื่อเพิ่มประสิทธิภาพและลดภาระฐานข้อมูล</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">2.6 Internationalization and Localization</h4>
+                            <p>การเตรียมแอปพลิเคชันสำหรับการรองรับภาษาและวัฒนธรรมที่หลากหลาย เพื่อขยายฐานผู้ใช้ทั่วโลก</p>
+                        </div>
+                    </div>
+
+                    <!-- Module 3 -->
+                    <div class="panel is-info mt-4">
+                        <p class="panel-heading">Module 3: คุณภาพและประสิทธิภาพของโค้ด (Quality & Performance)</p>
+                        <div class="panel-block is-block">
+                            <p>โมดูลนี้จะเน้นการยกระดับคุณภาพโค้ดและประสิทธิภาพของแอปพลิเคชัน</p>
+                            <br>
+                            <h4 class="is-size-5 has-text-weight-bold">3.1 Source Code Analysis and Coverage</h4>
+                            <p>การวิเคราะห์โค้ดอัตโนมัติ (SonarQube, Checkstyle) และการวัด Code Coverage (JaCoCo) เพื่อให้มั่นใจในคุณภาพของโค้ด</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">3.2 Test-Driven Development (TDD) and Automated Testing</h4>
+                            <p>การเขียน Unit Test, Integration Test และ End-to-End Test ด้วย TDD (JUnit, Mockito, Selenium, Cucumber) เพื่อเพิ่มความน่าเชื่อถือของซอฟต์แวร์</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">3.3 Performance Optimization</h4>
+                            <p>การปรับปรุงประสิทธิภาพของ Spring Boot Application (Profiling, Thread Dump Analysis, Database Query Optimization) และการระบุแก้ไขปัญหาคอขวดด้านประสิทธิภาพ</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">3.4 Code Refactoring</h4>
+                            <p>หลักการและเทคนิคการ Refactor Code เพื่อปรับปรุงความสะอาด การบำรุงรักษา และประสิทธิภาพ</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">3.5 Clean Code Practices</h4>
+                            <p>แนวปฏิบัติในการเขียนโค้ดที่สะอาด อ่านง่าย และบำรุงรักษาง่าย</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">3.6 Coding Standards</h4>
+                            <p>การกำหนดและบังคับใช้ Coding Standards (Checkstyle, SpotBugs) เพื่อความสอดคล้องใน Codebase</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">3.7 Design Patterns</h4>
+                            <p>การทำความเข้าใจและนำ Design Patterns มาใช้เพื่อแก้ปัญหาการออกแบบซอฟต์แวร์ที่ซับซ้อน</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">3.8 Enhance API Development</h4>
+                            <p>การพัฒนาและจัดการ API ที่มีคุณภาพ (API Validation, Versioning, Documentation with OpenAPI/Swagger, Automated API Testing)</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">3.9 Accessibility</h4>
+                            <p>การพัฒนา Web Application ให้เข้าถึงได้ง่ายสำหรับผู้ใช้ทุกคน ตามมาตรฐาน Web Content Accessibility Guidelines (WCAG)</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">3.10 Crash Monitoring in Mobile Apps</h4>
+                            <p>การตรวจจับและติดตาม Crash ใน Mobile Application (Firebase Crashlytics, Sentry) เพื่อปรับปรุงความเสถียร</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">3.11 Bug Tracking</h4>
+                            <p>การจัดการ Bug Tracking อย่างมีประสิทธิภาพและเป็นระบบ (Jira, Sentry)</p>
+                        </div>
+                    </div>
+
+                    <!-- Module 4 -->
+                    <div class="panel is-info mt-4">
+                        <p class="panel-heading">Module 4: นวัตกรรมและการเติบโต (Innovation & Growth)</p>
+                        <div class="panel-block is-block">
+                            <p>โมดูลนี้จะช่วยให้ทีมสามารถขับเคลื่อนนวัตกรรมและสนับสนุนการเติบโตของระบบในระยะยาว</p>
+                            <br>
+                            <h4 class="is-size-5 has-text-weight-bold">4.1 Microservices Architecture</h4>
+                            <p>การออกแบบและพัฒนาแอปพลิเคชันในรูปแบบ Microservices เพื่อเพิ่ม Scalability และ Maintainability</p>
+                            <ul>
+                                <li>Service-Oriented Architecture (SOA): หลักการเบื้องหลัง Microservices</li>
+                                <li>Service Discovery: กลไกการค้นหา Microservices (Eureka, Consul, Kubernetes Service Discovery)</li>
+                                <li>Distributed Data Management: การจัดการข้อมูลใน Microservices (Eventual Consistency, CQRS)</li>
+                                <li>Inter-Service Communication: เทคนิคการสื่อสารระหว่าง Services (REST, gRPC, Message Brokers)</li>
+                            </ul>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">4.2 Analytics</h4>
+                            <p>การใช้ข้อมูล Analytics (Google Analytics, Firebase Analytics, Custom Event Tracking) เพื่อทำความเข้าใจพฤติกรรมผู้ใช้และขับเคลื่อนการตัดสินใจทางธุรกิจ</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">4.3 Technology-specific Best Practices</h4>
+                            <p>การเรียนรู้และนำแนวปฏิบัติที่ดีที่สุดสำหรับแต่ละเทคโนโลยี (Java, Spring Boot, Kubernetes) มาใช้ในโครงการ</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">4.4 Continuous Learning and Improvement</h4>
+                            <p>การสร้างวัฒนธรรมการเรียนรู้และพัฒนาอย่างต่อเนื่องในทีม (Tech Talks, Peer Mentoring, Technology Radar)</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">4.5 Documentation</h4>
+                            <p>การสร้างเอกสารที่ครอบคลุมและเข้าถึงง่าย (Swagger/OpenAPI, Javadoc, Confluence, Markdown) เพื่อสนับสนุนการทำงานร่วมกันและการบำรุงรักษา</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">4.6 Project and Team Management</h4>
+                            <p>การบริหารจัดการโครงการและทีมพัฒนาอย่างมีประสิทธิภาพ</p>
+                            <ul>
+                                <li>Agile/Scrum: การใช้ Agile และ Scrum ในการจัดการ Development Lifecycle รวมถึงบทบาท Scrum Master/Product Owner</li>
+                                <li>Estimation Techniques: การประเมินงาน (Story Points, T-shirt sizing)</li>
+                                <li>Agile Ceremonies: การเข้าร่วมและจัดการ Daily Stand-ups, Sprint Planning, Review, Retrospective</li>
+                                <li>Code Review Best Practices: วิธีการทำ Code Review ที่มีประสิทธิภาพ การให้และรับ Feedback</li>
+                                <li>Conflict Resolution in Teams: การจัดการความขัดแย้งในการทำงานร่วมกัน</li>
+                                <li>Project Management Tools: การใช้เครื่องมือ (Jira, Trello, Asana) ในการติดตามและทำงานร่วมกัน</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Module 5 -->
+                    <div class="panel is-info mt-4">
+                        <p class="panel-heading">Module 5: การรวมระบบภายนอกและการปรับขนาด (External Integration & Scalability)</p>
+                        <div class="panel-block is-block">
+                            <p>โมดูลสุดท้ายจะมุ่งเน้นที่การเชื่อมต่อกับบริการภายนอกและการเตรียมระบบสำหรับการปรับขนาด</p>
+                            <br>
+                            <h4 class="is-size-5 has-text-weight-bold">5.1 Message Brokers (RabbitMQ or Apache Kafka)</h4>
+                            <p>การใช้งาน Message Broker เพื่อเพิ่ม Scalability และความน่าเชื่อถือของการสื่อสารแบบ Asynchronous ในระบบ Distributed Systems</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">5.2 Elasticsearch</h4>
+                            <p>การนำ Elasticsearch มาใช้เพื่อเพิ่มขีดความสามารถในการค้นหาและการวิเคราะห์ข้อมูล (เช่น Log Analysis, Full-Text Search)</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">5.3 Kong API Gateway</h4>
+                            <p>การนำ API Gateway มาใช้เพื่อจัดการ API, เพิ่มความปลอดภัย (Authentication, Authorization, Rate Limiting) และปรับปรุงประสิทธิภาพ</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">5.4 Database Scaling</h4>
+                            <p>การปรับแต่งและปรับขนาดฐานข้อมูล (Indexing, Sharding, Replication, Database Connection Pooling) เพื่อรองรับข้อมูลที่เพิ่มขึ้น</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">5.5 Graph System Implementation</h4>
+                            <p>การสร้างระบบ Graph สำหรับการแสดงผลข้อมูลแบบ Visualization</p>
+                            <ul>
+                                <li>Technologies: การใช้ JavaScript Libraries (D3.js, Chart.js, Plotly, Highcharts) ผ่านการเชื่อมต่อกับ Frontend Frameworks (React/Angular)</li>
+                                <li>Kubernetes Considerations: การ Containerize, Scaling, และ Load Balancing สำหรับ Graph Services</li>
+                            </ul>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">5.6 Report System Implementation</h4>
+                            <p>การสร้างระบบ Report เพื่อการวิเคราะห์และนำเสนอข้อมูล</p>
+                            <ul>
+                                <li>Technologies: JasperReports, Apache POI (สำหรับการสร้างเอกสาร), หรือการเชื่อมต่อกับ Reporting Tools ภายนอก (Tableau, Power BI)</li>
+                                <li>Kubernetes Considerations: การจัดการ Persistent Storage, Load Balancing, Auto-scaling สำหรับ Report Generation</li>
+                                <li>Frontend Integration: การฝัง Graph และ Report เข้าไปใน UI, การสร้าง Interactive Dashboards, และการให้ผู้ใช้สร้าง Custom Report ได้</li>
+                            </ul>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">5.7 Advanced Troubleshooting & Debugging</h4>
+                            <ul>
+                                <li>Advanced Debugging Techniques: การใช้เครื่องมือ Debugger อย่างเชี่ยวชาญ, Remote Debugging, การวิเคราะห์ Thread Dump, Heap Dump</li>
+                                <li>Log Analysis Deep Dive: การอ่านและวิเคราะห์ Log เพื่อหาสาเหตุของปัญหาอย่างละเอียด</li>
+                                <li>Troubleshooting Methodologies: การสอนกระบวนการแก้ปัญหาอย่างเป็นระบบ</li>
+                                <li>Performance Troubleshooting: การระบุและแก้ไขปัญหาคอขวดด้านประสิทธิภาพใน Production Environment</li>
+                                <li>Error Handling and Resilience Patterns: การออกแบบระบบให้ทนทานต่อความผิดพลาด (Circuit Breaker, Retry, Fallback)</li>
+                            </ul>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">5.8 Observability (Metrics, Tracing, Logging)</h4>
+                            <p>การทำความเข้าใจแนวคิดของ Observability ที่ครบวงจร, การเก็บ Metrics (Prometheus), Distributed Tracing (Jaeger/Zipkin) เพื่อติดตามการทำงานของระบบแบบ End-to-End</p>
+                            
+                            <h4 class="is-size-5 has-text-weight-bold mt-4">5.9 Soft Skills and Professional Mindset</h4>
+                            <ul>
+                                <li>Communication Skills: การสื่อสารทางเทคนิคและไม่ใช่เทคนิคอย่างมีประสิทธิภาพ</li>
+                                <li>Problem-Solving Mindset: การมองปัญหาเป็นโอกาสในการเรียนรู้และพัฒนา</li>
+                                <li>Adaptability and Continuous Learning: ความสามารถในการปรับตัวและเรียนรู้เทคโนโลยีใหม่ ๆ ตลอดเวลา</li>
+                                <li>Ownership and Accountability: ความรับผิดชอบต่อผลลัพธ์ของงาน</li>
+                                <li>Time Management & Prioritization: การจัดการเวลาและการจัดลำดับความสำคัญของงาน</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+     <!-- Live Schedule Section with Dates -->
+    <section class="section">
+        <div class="container">
+            <div class="box">
+                <h3 class="title is-4 has-text-centered">Live Schedule</h3>
+                <div class="content">
+                    <p>พบกับ Guest Lecturers ในสายงาน Data, Software, UX มาแชร์ประสบการณ์เน้นๆ</p>
+                    <p>เรียนสดพร้อมกันทุกวันเสาร์ 9.00 – 12.00 น. ทั้งหมด 16 ครั้ง (50+ ชั่วโมง)</p>
+                                         <table class="table is-striped is-fullwidth">
+                         <thead>
+                             <tr>
+                                 <th>Live</th>
+                                 <th>Topic</th>
+                                 <th>Date</th>
+                             </tr>
+                         </thead>
+                         <tbody>
+                             <tr>
+                                 <td>Live 01</td>
+                                 <td><strong>Module 1:</strong> Java Programming Language & Spring Boot Fundamentals</td>
+                                 <td>6 ก.ย.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 02</td>
+                                 <td><strong>Module 1:</strong> Spring Framework Core (IoC, DI, AOP)</td>
+                                 <td>13 ก.ย.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 03</td>
+                                 <td><strong>Module 1:</strong> Spring Data JPA & Database Management</td>
+                                 <td>20 ก.ย.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 04</td>
+                                 <td><strong>Module 1:</strong> Maven/Gradle & Frontend Technologies</td>
+                                 <td>27 ก.ย.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 05</td>
+                                 <td><strong>Module 1:</strong> Monitoring & Security (Prometheus, Spring Security)</td>
+                                 <td>4 ต.ค.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 06</td>
+                                 <td><strong>Module 1:</strong> Load Testing & Environment Management</td>
+                                 <td>11 ต.ค.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 07</td>
+                                 <td><strong>Module 2:</strong> DevOps Practices & CI/CD Pipelines</td>
+                                 <td>18 ต.ค.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 08</td>
+                                 <td><strong>Module 2:</strong> Infrastructure as Code & Version Control</td>
+                                 <td>25 ต.ค.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 09</td>
+                                 <td><strong>Module 2:</strong> Kubernetes Fundamentals & Container Orchestration</td>
+                                 <td>1 พ.ย.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 10</td>
+                                 <td><strong>Module 2:</strong> Advanced Kubernetes & Caching Strategies</td>
+                                 <td>8 พ.ย.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 11</td>
+                                 <td><strong>Module 3:</strong> Code Quality & Testing (SonarQube, JUnit)</td>
+                                 <td>15 พ.ย.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 12</td>
+                                 <td><strong>Module 3:</strong> Performance Optimization & Clean Code</td>
+                                 <td>22 พ.ย.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 13</td>
+                                 <td><strong>Module 4:</strong> Microservices Architecture & Analytics</td>
+                                 <td>29 พ.ย.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 14</td>
+                                 <td><strong>Module 4:</strong> Documentation & Project Management</td>
+                                 <td>6 ธ.ค.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 15</td>
+                                 <td><strong>Module 5:</strong> External Integration & Message Brokers</td>
+                                 <td>13 ธ.ค.</td>
+                             </tr>
+                             <tr>
+                                 <td>Live 16</td>
+                                 <td><strong>Module 5:</strong> Scalability & Professional Development | Graduation</td>
+                                 <td>20 ธ.ค.</td>
+                             </tr>
+                         </tbody>
+                     </table>
+                    <p>พิเศษ! มีแถมคลาสเสริมอีกเพียบ ร้องขอชีวิตแล้วววว 555+</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FAQ Section -->
+    <section class="section">
+        <div class="container">
+            <div class="box">
+                <h3 class="title is-4 has-text-centered">คำถามที่พบบ่อย (FAQ)</h3>
+                <div class="content">
+                    <div class="notification">
+                        <p class="is-size-5 has-text-weight-bold">Q1. ไม่มีพื้นฐานมาก่อน สามารถสมัครเรียนได้ไหม</p>
+                        <p>เราออกแบบคอร์สเรียนสำหรับนักเรียนที่ไม่มีพื้นฐานด้านนี้มาก่อน เริ่มเรียน <strong>1 ก.ย. – 31 ธ.ค. 2568</strong> (คลาสหลักประมาณ 4 เดือน) วิดีโอที่เราสอนสดจะถูกอัปโหลดให้ทบทวนวันถัดไป นักเรียนสามารถดูวิดีโอได้ถึง <strong>28 ก.พ. 2569</strong> นักเรียนควรมีเวลาเรียนเฉลี่ย 4-5 ชั่วโมงต่อสัปดาห์</p>
+                        <p class="mt-2"><strong>ปล.</strong> แอดเรียนจบด้าน Economics มาก็ไม่ได้ตรงสาย นักเรียน 90% ในแคมป์คือมาเรียนแบบไม่มีพื้นฐานมาก่อนเลยครับ</p>
+                    </div>
+                    <div class="notification">
+                        <p class="is-size-5 has-text-weight-bold">Q2. ไม่สะดวกเข้าเรียน Live Classes สามารถดูย้อนหลังได้หรือเปล่า</p>
+                        <p>นักเรียนสามารถดูวิดีโอย้อนหลังได้ทุกคลาสที่เราสอน ภายใน <strong>28 ก.พ. 2569</strong></p>
+                    </div>
+                    <div class="notification">
+                        <p class="is-size-5 has-text-weight-bold">Q3. วีดีโอ On-Demand เริ่มเรียนได้เลยหรือเปล่า</p>
+                        <p>นักเรียนสามารถเข้าเรียนคอร์สวิดีโอ On-Demand ของเราได้ตั้งแต่วันที่ <strong>1 ก.ย. 2568</strong> บนเว็บไซต์ <a href="https://bootcamp.datarockie.com" target="_blank">https://bootcamp.datarockie.com</a> เข้าเรียนได้ตลอด 24 ชั่วโมง</p>
+                    </div>
+                    <div class="notification">
+                        <p class="is-size-5 has-text-weight-bold">Q4. ค่าใช้จ่ายในการสมัครเรียน</p>
+                        <p><strong>One Price Plan</strong> <strong>4900</strong> บาท คุ้มที่สุดในประเทศไทย</p>
+                    </div>
+                    <div class="notification">
+                        <p class="is-size-5 has-text-weight-bold">Q5. เรียนจบแล้วมีใบ Certificate ให้หรือเปล่า</p>
+                        <p>นักเรียนที่เรียนจบหลักสูตรและสอบ <strong>Final Exam</strong> (Multiple Choice) ผ่านมากกว่า 80% จะได้รับใบ Certificate (PDF) ส่งให้ทางอีเมลภายใน <strong>28 ก.พ. 2569</strong></p>
+                    </div>
+                    <div class="notification">
+                        <p class="is-size-5 has-text-weight-bold">Q6. มีคำถามระหว่างเรียน สามารถสอบถามได้ทางไหนบ้าง</p>
+                        <p>ตอนนี้ได้เพิ่ม <strong>Discord</strong> มาด้วย เพื่อตอบนักเรียนได้เร็วยิ่งขึ้น</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="section">
+        <div class="container">
+            <div class="box cta-box mt-6">
+                <h3 class="title is-3 has-text-centered">Ready to Become a Software Engineer?</h3>
+                <p class="is-size-5"><strong>TCS Academy Software Engineer Bootcamp</strong> เปิดรับสมัครวันนี้ – 31 ส.ค. 2025</p>
+                <p class="is-size-5 has-text-weight-bold">โรงเรียนเปิดวันแรก 1 ก.ย. 2568</p>
+                <p class="is-size-6 mt-2">พลาดรอบนี้ เจอกันใหม่ปีหน้านะคร้าบ</p>
+                <a href="https://www.facebook.com/messages/t/datarockie" target="_blank" class="button is-link is-large mt-5">
+                    <strong>สมัครเรียน bootcamp รุ่น 12</strong>
+                </a>
+                <p class="mt-4">แล้วพบกันนะครับทุกคน มาเรียนและเก่งไปพร้อมๆกันนะครับ</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p><strong>TCS Academy Software Engineer Bootcamp</strong></p>
+            <p>เว็บไซต์นี้สร้างขึ้นเพื่อการสาธิตโดยใช้ Bulma CSS framework</p>
+            <p>Facebook (150K+) | YouTube (30K+) | Web For Impact</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript for the mobile menu -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get all "navbar-burger" elements
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            
+            // Check if there are any navbar burgers
+            if ($navbarBurgers.length > 0) {
+                // Add a click event on each of them
+                $navbarBurgers.forEach(el => {
+                    el.addEventListener('click', () => {
+                        // Get the target from the "data-target" attribute
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+                        
+                        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
