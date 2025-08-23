@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เรื่องเล่าของนายโอ๊ค: จากฝันสู่การสร้างอาณาจักร Oak Commerce</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Sarabun', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            font-family: 'Prompt', sans-serif;
+            font-size: 2.5rem;
+            color: #1976d2;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .mission-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border-left: 5px solid #1976d2;
+        }
+        
+        .mission-card h2 {
+            font-family: 'Prompt', sans-serif;
+            color: #1976d2;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .mission-card h3 {
+            font-family: 'Prompt', sans-serif;
+            color: #333;
+            font-size: 1.4rem;
+            margin: 25px 0 15px 0;
+            border-bottom: 2px solid #e3f2fd;
+            padding-bottom: 10px;
+        }
+        
+        .mission-card p {
+            margin-bottom: 15px;
+            text-align: justify;
+            color: #555;
+        }
+        
+        .code-block {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+        
+        .code-block.language-java {
+            border-left: 4px solid #f44336;
+        }
+        
+        .code-block.language-python {
+            border-left: 4px solid #ff9800;
+        }
+        
+        .code-block.language-yaml {
+            border-left: 4px solid #2196f3;
+        }
+        
+        .code-block.language-json {
+            border-left: 4px solid #4caf50;
+        }
+        
+        .code-block.language-sql {
+            border-left: 4px solid #9c27b0;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #1976d2;
+        }
+        
+        .highlight-box h4 {
+            color: #1976d2;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .example-box {
+            background: #fff3e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .example-box h4 {
+            color: #e65100;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .icon {
+            font-size: 2rem;
+            color: #1976d2;
+        }
+        
+        .step-number {
+            background: #1976d2;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .conclusion {
+            background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        
+        .conclusion h2 {
+            font-family: 'Prompt', sans-serif;
+            color: #2e7d32;
+            margin-bottom: 15px;
+        }
+        
+        .conclusion p {
+            color: #1b5e20;
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .mission-card {
+                padding: 20px;
+            }
+            
+            .code-block {
+                font-size: 0.8rem;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>ตัวอย่างการใช้ Technology ที่ต้องเรียน ด้วยการสร้าง Web </h1>
+            <h2>จากฝันสู่การสร้างอาณาจักร Oak Commerce</h2>
+            <p>การเดินทางครั้งนี้คือภารกิจแห่งชีวิตที่เต็มไปด้วยความท้าทายและความรู้ใหม่ๆ</p>
+        </div>
+
+        <!-- Mission 1 -->
+        <div class="mission-card">
+            <h2>
+                <span class="step-number">1</span>
+                ภารกิจที่ 1: การวางแผนและสร้างพิมพ์เขียว
+            </h2>
+            
+            <p>นายโอ๊คไม่ได้เริ่มจากการเขียนโค้ด แต่เขาเริ่มต้นด้วยการวางแผนอย่างละเอียด เขาใช้หลักการ User Experience (UX) Design เพื่อทำความเข้าใจพฤติกรรมของลูกค้าและสร้างแผนผังการใช้งานร้านค้าให้ง่ายที่สุด</p>
+            
+            <div class="highlight-box">
+                <h4>📋 ตัวอย่างการสร้าง Persona</h4>
+                <p><strong>Persona: ลิลลี่</strong> สาวออฟฟิศอายุ 25 ที่ชอบสินค้าแฟชั่นและต้องการช้อปปิ้งออนไลน์ที่รวดเร็วและปลอดภัย</p>
+            </div>
+            
+            <p>จากนั้นจึงใช้เครื่องมืออย่าง Jira เพื่อติดตามความคืบหน้าของงาน เหมือนกับว่าทุกขั้นตอนต้องเป็นไปตามมาตรฐานสากล ISO/IEC 29110 Implementation ที่ช่วยให้การพัฒนามีคุณภาพ</p>
+            
+            <p>เมื่อทีมเริ่มทำงานร่วมกัน นายโอ๊คก็ต้องแน่ใจว่าทุกคนสามารถทำงานบนโค้ดชุดเดียวกันได้อย่างมีประสิทธิภาพ เขาใช้ระบบ Version Control อย่าง Git เพื่อติดตามการเปลี่ยนแปลงของโค้ด และกำหนดกฎการทำงานร่วมกันด้วย GitFlow</p>
+            
+            <div class="code-block language-yaml">
+                <h4>ตัวอย่าง: การใช้ GitFlow</h4>
+                <pre># 1. เริ่มต้นพัฒนาฟีเจอร์ใหม่บน Branch 'feature'
+$ git checkout develop
+$ git checkout -b feature/new-user-auth
+
+# 2. เมื่อเสร็จสิ้นการพัฒนา ให้รวมโค้ดกลับไปที่ develop
+$ git checkout develop
+$ git merge feature/new-user-auth
+$ git branch -d feature/new-user-auth</pre>
+            </div>
+        </div>
+
+        <!-- Mission 2 -->
+        <div class="mission-card">
+            <h2>
+                <span class="step-number">2</span>
+                ภารกิจที่ 2: การก่อตั้งรากฐานที่มั่นคง
+            </h2>
+            
+            <p>เมื่อแผนที่พร้อมแล้ว นายโอ๊คก็เริ่มลงมือสร้างโครงสร้างหลักของร้านค้าด้วยเวทมนตร์ภาษา Java และใช้ Spring Boot เป็นแม่พิมพ์วิเศษที่ช่วยสร้างโครงสร้างพื้นฐานได้อย่างรวดเร็ว</p>
+            
+            <p>หัวใจของร้านคือการจัดการข้อมูลสินค้าและลูกค้า นายโอ๊คใช้ Spring Data JPA / Hibernate เป็นเหมือนเลขาส่วนตัวที่ช่วยบันทึกข้อมูลลงฐานข้อมูลโดยไม่ต้องเขียนคำสั่ง SQL เองทั้งหมด</p>
+            
+            <div class="code-block language-java">
+                <h4>ตัวอย่าง: การใช้ Spring Framework Core (Dependency Injection)</h4>
+                <pre>@Service
+public class OrderService {
+    // Spring จะ "ฉีด" (Inject) OrderRepository เข้ามาให้เราเอง
+    private final OrderRepository orderRepository;
+
+    public OrderService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+}</pre>
+            </div>
+            
+            <div class="code-block language-java">
+                <h4>ตัวอย่าง: การสร้างโมเดลสินค้าและ Repository ด้วย Spring Data JPA</h4>
+                <pre>@Entity
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private double price;
+}
+
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    // Spring สร้าง method พื้นฐานให้เราอัตโนมัติ
+}</pre>
+            </div>
+            
+            <div class="code-block language-json">
+                <h4>ตัวอย่าง: ข้อมูลรีวิวในรูปแบบ Document ของ MongoDB</h4>
+                <pre>{
+  "_id": ObjectId("60d5f8a0c6a5b7c8d9e0f1a2"),
+  "productId": "SKU-001",
+  "rating": 5,
+  "comment": "สินค้าดีมากค่ะ! ส่งไวด้วย",
+  "reviewer": {
+    "name": "Jane Doe",
+    "customerId": "CUST-123"
+  }
+}</pre>
+            </div>
+            
+            <p>เพื่อเพิ่มความเร็วในการดึงข้อมูลสินค้าขายดี นายโอ๊คใช้ Memcache หรือ Redis เป็นตะกร้าของโปรดที่เก็บข้อมูลไว้ในหน่วยความจำ</p>
+            
+            <div class="code-block language-python">
+                <h4>ตัวอย่างการใช้ Memcache/Redis ใน Python</h4>
+                <pre>import redis
+
+# เชื่อมต่อกับ Redis server
+r = redis.Redis(host='localhost', port=6379, db=0)
+
+# กำหนดข้อมูลสินค้าที่ต้องการเก็บใน cache
+product_id = "12345"
+product_data = "{'name': 'Laptop', 'price': 25000, 'stock': 10}"
+
+# 1. ลองดึงข้อมูลจาก cache ก่อน
+cached_data = r.get(f'product:{product_id}')
+
+if cached_data:
+    print("Found in cache!")
+    print(cached_data.decode('utf-8'))
+else:
+    print("Not in cache, fetching from database...")
+    # 2. ดึงข้อมูลจาก database จริงๆ
+    data_from_db = product_data
+    # 3. เก็บข้อมูลใน cache พร้อมกำหนดเวลาหมดอายุ (60 นาที)
+    r.setex(f'product:{product_id}', 3600, data_from_db)
+    print("Data stored in cache.")
+    print(data_from_db)</pre>
+            </div>
+            
+            <h3>การสร้าง Frontend ด้วย Angular และเชื่อมโยงกับ Backend API</h3>
+            
+            <p>เมื่อ Backend พร้อมแล้ว นายโอ๊คก็เริ่มสร้างส่วนหน้าเว็บไซต์ด้วย Angular Framework ที่เป็นเหมือนศิลปินวาดภาพที่สร้างประสบการณ์การใช้งานที่สวยงามและตอบสนองได้อย่างรวดเร็ว</p>
+            
+            <div class="highlight-box">
+                <h4>🎨 ข้อดีของ Angular สำหรับ E-commerce</h4>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Component-based Architecture:</strong> แยกส่วนการทำงานเป็น Component ย่อยๆ ทำให้ดูแลรักษาง่าย</li>
+                    <li><strong>TypeScript:</strong> ภาษาโปรแกรมมิ่งที่ปลอดภัยและมี IntelliSense ที่ดี</li>
+                    <li><strong>Dependency Injection:</strong> จัดการการเชื่อมต่อระหว่าง Component ได้อย่างมีประสิทธิภาพ</li>
+                    <li><strong>Routing:</strong> สร้าง Single Page Application ที่มี Navigation ที่ลื่นไหล</li>
+                </ul>
+            </div>
+            
+            <div class="code-block language-java">
+                <h4>ตัวอย่าง: Spring Boot REST API Controller สำหรับสินค้า</h4>
+                <pre>@RestController
+@RequestMapping("/api/products")
+@CrossOrigin(origins = "http://localhost:4200") // อนุญาตให้ Angular เข้าถึงได้
+public class ProductController {
+
+    @Autowired
+    private ProductService productService;
+
+    // GET: ดึงข้อมูลสินค้าทั้งหมด
+    @GetMapping
+    public ResponseEntity<List<Product>> getAllProducts() {
+        List<Product> products = productService.getAllProducts();
+        return ResponseEntity.ok(products);
+    }
+
+    // GET: ดึงข้อมูลสินค้าตาม ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+        Product product = productService.getProductById(id);
+        if (product != null) {
+            return ResponseEntity.ok(product);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    // POST: เพิ่มสินค้าใหม่
+    @PostMapping
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        Product savedProduct = productService.saveProduct(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
+    }
+
+    // PUT: อัปเดตข้อมูลสินค้า
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        Product updatedProduct = productService.updateProduct(id, product);
+        if (updatedProduct != null) {
+            return ResponseEntity.ok(updatedProduct);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    // DELETE: ลบสินค้า
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        boolean deleted = productService.deleteProduct(id);
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+}</pre>
+            </div>
+            
+            <div class="code-block language-typescript">
+                <h4>ตัวอย่าง: Angular Service สำหรับเรียกใช้ Product API</h4>
+                <pre>import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Product } from '../models/product.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProductService {
+
+  private apiUrl = 'http://localhost:8080/api/products';
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
+
+  constructor(private http: HttpClient) { }
+
+  // ดึงข้อมูลสินค้าทั้งหมด
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.apiUrl);
+  }
+
+  // ดึงข้อมูลสินค้าตาม ID
+  getProduct(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.apiUrl}/${id}`);
+  }
+
+  // เพิ่มสินค้าใหม่
+  createProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(this.apiUrl, product, this.httpOptions);
+  }
+
+  // อัปเดตข้อมูลสินค้า
+  updateProduct(id: number, product: Product): Observable<Product> {
+    return this.http.put<Product>(`${this.apiUrl}/${id}`, product, this.httpOptions);
+  }
+
+  // ลบสินค้า
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  // ค้นหาสินค้าตามชื่อ
+  searchProducts(term: string): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}/search?name=${term}`);
+  }
+}</pre>
+            </div>
+            
+            <div class="code-block language-typescript">
+                <h4>ตัวอย่าง: Angular Component สำหรับแสดงรายการสินค้า</h4>
+                <pre>import { Component, OnInit } from '@angular/core';
+import { Product } from '../models/product.model';
+import { ProductService } from '../services/product.service';
+
+@Component({
+  selector: 'app-product-list',
+  templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.css']
+})
+export class ProductListComponent implements OnInit {
+
+  products: Product[] = [];
+  loading = false;
+  error = '';
+
+  constructor(private productService: ProductService) { }
+
+  ngOnInit(): void {
+    this.loadProducts();
+  }
+
+  loadProducts(): void {
+    this.loading = true;
+    this.productService.getProducts()
+      .subscribe({
+        next: (data) => {
+          this.products = data;
+          this.loading = false;
+        },
+        error: (error) => {
+          this.error = 'เกิดข้อผิดพลาดในการโหลดข้อมูลสินค้า';
+          this.loading = false;
+          console.error('Error loading products:', error);
+        }
+      });
+  }
+
+  deleteProduct(id: number): void {
+    if (confirm('คุณต้องการลบสินค้านี้หรือไม่?')) {
+      this.productService.deleteProduct(id)
+        .subscribe({
+          next: () => {
+            this.products = this.products.filter(p => p.id !== id);
+            alert('ลบสินค้าเรียบร้อยแล้ว');
+          },
+          error: (error) => {
+            alert('เกิดข้อผิดพลาดในการลบสินค้า');
+            console.error('Error deleting product:', error);
+          }
+        });
+    }
+  }
+}</pre>
+            </div>
+            
+            <div class="code-block language-html">
+                <h4>ตัวอย่าง: Angular Template สำหรับแสดงรายการสินค้า</h4>
+                <pre>&lt;div class="product-list-container"&gt;
+  &lt;h2&gt;รายการสินค้าทั้งหมด&lt;/h2&gt;
+  
+  &lt;!-- Loading Spinner --&gt;
+  &lt;div *ngIf="loading" class="loading-spinner"&gt;
+    &lt;mat-spinner&gt;&lt;/mat-spinner&gt;
+    กำลังโหลดข้อมูล...
+  &lt;/div&gt;
+  
+  &lt;!-- Error Message --&gt;
+  &lt;div *ngIf="error" class="error-message"&gt;
+    {{ error }}
+  &lt;/div&gt;
+  
+  &lt;!-- Product Grid --&gt;
+  &lt;div *ngIf="!loading && !error" class="product-grid"&gt;
+    &lt;div *ngFor="let product of products" class="product-card"&gt;
+      &lt;img [src]="product.imageUrl" [alt]="product.name" class="product-image"&gt;
+      &lt;div class="product-info"&gt;
+        &lt;h3&gt;{{ product.name }}&lt;/h3&gt;
+        &lt;p class="product-description"&gt;{{ product.description }}&lt;/p&gt;
+        &lt;p class="product-price"&gt;฿{{ product.price | number:'1.2-2' }}&lt;/p&gt;
+        &lt;p class="product-stock"&gt;คงเหลือ: {{ product.stock }} ชิ้น&lt;/p&gt;
+        
+        &lt;div class="product-actions"&gt;
+          &lt;button mat-raised-button color="primary" 
+                  (click)="viewProduct(product.id)"&gt;
+            ดูรายละเอียด
+          &lt;/button&gt;
+          &lt;button mat-raised-button color="warn" 
+                  (click)="deleteProduct(product.id)"&gt;
+            ลบ
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;!-- Empty State --&gt;
+  &lt;div *ngIf="!loading && !error && products.length === 0" class="empty-state"&gt;
+    &lt;p&gt;ไม่พบสินค้าในระบบ&lt;/p&gt;
+    &lt;button mat-raised-button color="primary" routerLink="/products/add"&gt;
+      เพิ่มสินค้าใหม่
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</pre>
+            </div>
+            
+            <div class="code-block language-typescript">
+                <h4>ตัวอย่าง: Angular Model สำหรับ Product</h4>
+                <pre>export interface Product {
+  id?: number;
+  name: string;
+  description: string;
+  price: number;
+  stock: number;
+  imageUrl?: string;
+  category?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface ProductResponse {
+  success: boolean;
+  data: Product[];
+  message?: string;
+  totalItems?: number;
+  currentPage?: number;
+  totalPages?: number;
+}</pre>
+            </div>
+            
+                         <h3>การใช้งาน GraphQL สำหรับการดึงข้อมูลที่ยืดหยุ่น</h3>
+             
+             <p>นอกจาก RESTful API แล้ว นายโอ๊คยังใช้ GraphQL เป็นทางเลือกในการดึงข้อมูลที่ยืดหยุ่นและมีประสิทธิภาพมากขึ้น โดยเฉพาะเมื่อต้องการดึงข้อมูลที่ซับซ้อนหรือต้องการลดจำนวน API calls</p>
+             
+             <div class="highlight-box">
+                 <h4>🚀 ข้อดีของ GraphQL</h4>
+                 <ul style="margin-left: 20px; margin-top: 10px;">
+                     <li><strong>Single Endpoint:</strong> ใช้ endpoint เดียวสำหรับการดึงข้อมูลทั้งหมด</li>
+                     <li><strong>Flexible Queries:</strong> Frontend สามารถเลือกข้อมูลที่ต้องการได้อย่างแม่นยำ</li>
+                     <li><strong>Reduced Over-fetching:</strong> ไม่ต้องดึงข้อมูลที่ไม่จำเป็น</li>
+                     <li><strong>Strong Typing:</strong> มี Schema ที่ชัดเจนและ Type Safety</li>
+                     <li><strong>Real-time Updates:</strong> รองรับ Subscription สำหรับข้อมูลแบบ Real-time</li>
+                 </ul>
+             </div>
+             
+             <div class="code-block language-graphql">
+                 <h4>ตัวอย่าง: GraphQL Schema สำหรับ Product และ Order</h4>
+                 <pre># GraphQL Schema Definition
+type Product {
+  id: ID!
+  name: String!
+  description: String
+  price: Float!
+  stock: Int!
+  category: Category
+  reviews: [Review!]
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Category {
+  id: ID!
+  name: String!
+  description: String
+  products: [Product!]
+}
+
+type Review {
+  id: ID!
+  rating: Int!
+  comment: String
+  reviewer: Customer!
+  product: Product!
+  createdAt: String!
+}
+
+type Customer {
+  id: ID!
+  name: String!
+  email: String!
+  orders: [Order!]
+  reviews: [Review!]
+}
+
+type Order {
+  id: ID!
+  customer: Customer!
+  items: [OrderItem!]!
+  totalAmount: Float!
+  status: OrderStatus!
+  createdAt: String!
+}
+
+type OrderItem {
+  id: ID!
+  product: Product!
+  quantity: Int!
+  price: Float!
+}
+
+enum OrderStatus {
+  PENDING
+  CONFIRMED
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+type Query {
+  # Product queries
+  products(
+    categoryId: ID
+    minPrice: Float
+    maxPrice: Float
+    inStock: Boolean
+    limit: Int
+    offset: Int
+  ): [Product!]!
+  
+  product(id: ID!): Product
+  
+  # Category queries
+  categories: [Category!]!
+  category(id: ID!): Category
+  
+  # Customer queries
+  customer(id: ID!): Customer
+  customers: [Customer!]!
+  
+  # Order queries
+  orders(customerId: ID, status: OrderStatus): [Order!]!
+  order(id: ID!): Order
+}
+
+type Mutation {
+  # Product mutations
+  createProduct(input: CreateProductInput!): Product!
+  updateProduct(id: ID!, input: UpdateProductInput!): Product!
+  deleteProduct(id: ID!): Boolean!
+  
+  # Order mutations
+  createOrder(input: CreateOrderInput!): Order!
+  updateOrderStatus(id: ID!, status: OrderStatus!): Order!
+  
+  # Review mutations
+  createReview(input: CreateReviewInput!): Review!
+}
+
+input CreateProductInput {
+  name: String!
+  description: String
+  price: Float!
+  stock: Int!
+  categoryId: ID
+}
+
+input UpdateProductInput {
+  name: String
+  description: String
+  price: Float
+  stock: Int
+  categoryId: ID
+}
+
+input CreateOrderInput {
+  customerId: ID!
+  items: [OrderItemInput!]!
+}
+
+input OrderItemInput {
+  productId: ID!
+  quantity: Int!
+}
+
+input CreateReviewInput {
+  productId: ID!
+  rating: Int!
+  comment: String
+}</pre>
+             </div>
+             
+             <div class="code-block language-java">
+                 <h4>ตัวอย่าง: Spring Boot GraphQL Resolver สำหรับ Product</h4>
+                 <pre>@Component
+public class ProductResolver implements GraphQLResolver<Product> {
+    
+    private final ReviewService reviewService;
+    private final CategoryService categoryService;
+    
+    public ProductResolver(ReviewService reviewService, CategoryService categoryService) {
+        this.reviewService = reviewService;
+        this.categoryService = categoryService;
+    }
+    
+    // Resolve reviews field for Product
+    public List<Review> getReviews(Product product) {
+        return reviewService.getReviewsByProductId(product.getId());
+    }
+    
+    // Resolve category field for Product
+    public Category getCategory(Product product) {
+        if (product.getCategoryId() != null) {
+            return categoryService.getCategoryById(product.getCategoryId());
+        }
+        return null;
+    }
+}
+
+@Component
+public class ProductQueryResolver implements GraphQLQueryResolver {
+    
+    private final ProductService productService;
+    
+    public ProductQueryResolver(ProductService productService) {
+        this.productService = productService;
+    }
+    
+    // Query: products
+    public List<Product> products(
+            @GraphQLArgument(name = "categoryId") Long categoryId,
+            @GraphQLArgument(name = "minPrice") Double minPrice,
+            @GraphQLArgument(name = "maxPrice") Double maxPrice,
+            @GraphQLArgument(name = "inStock") Boolean inStock,
+            @GraphQLArgument(name = "limit") Integer limit,
+            @GraphQLArgument(name = "offset") Integer offset
+    ) {
+        return productService.searchProducts(categoryId, minPrice, maxPrice, inStock, limit, offset);
+    }
+    
+    // Query: product(id: ID!)
+    public Product product(@GraphQLArgument(name = "id") Long id) {
+        return productService.getProductById(id);
+    }
+}
+
+@Component
+public class ProductMutationResolver implements GraphQLMutationResolver {
+    
+    private final ProductService productService;
+    
+    public ProductMutationResolver(ProductService productService) {
+        this.productService = productService;
+    }
+    
+    // Mutation: createProduct
+    public Product createProduct(@GraphQLArgument(name = "input") CreateProductInput input) {
+        Product product = new Product();
+        product.setName(input.getName());
+        product.setDescription(input.getDescription());
+        product.setPrice(input.getPrice());
+        product.setStock(input.getStock());
+        product.setCategoryId(input.getCategoryId());
+        
+        return productService.saveProduct(product);
+    }
+    
+    // Mutation: updateProduct
+    public Product updateProduct(
+            @GraphQLArgument(name = "id") Long id,
+            @GraphQLArgument(name = "input") UpdateProductInput input
+    ) {
+        return productService.updateProduct(id, input);
+    }
+    
+    // Mutation: deleteProduct
+    public Boolean deleteProduct(@GraphQLArgument(name = "id") Long id) {
+        return productService.deleteProduct(id);
+    }
+}</pre>
+             </div>
+             
+             <div class="code-block language-typescript">
+                 <h4>ตัวอย่าง: Angular GraphQL Service ใช้ Apollo Client</h4>
+                 <pre>import { Injectable } from '@angular/core';
+import { Apollo, gql } from 'apollo-angular';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProductGraphQLService {
+
+  constructor(private apollo: Apollo) { }
+
+  // Query: ดึงข้อมูลสินค้าพร้อม Category และ Reviews
+  getProductsWithDetails(
+    categoryId?: number,
+    minPrice?: number,
+    maxPrice?: number,
+    inStock?: boolean
+  ): Observable<any[]> {
+    const GET_PRODUCTS = gql`
+      query GetProducts($categoryId: ID, $minPrice: Float, $maxPrice: Float, $inStock: Boolean) {
+        products(categoryId: $categoryId, minPrice: $minPrice, maxPrice: $maxPrice, inStock: $inStock) {
+          id
+          name
+          description
+          price
+          stock
+          category {
+            id
+            name
+          }
+          reviews {
+            id
+            rating
+            comment
+            reviewer {
+              name
+            }
+            createdAt
+          }
+        }
+      }
+    `;
+
+    return this.apollo.watchQuery<any>({
+      query: GET_PRODUCTS,
+      variables: {
+        categoryId: categoryId?.toString(),
+        minPrice,
+        maxPrice,
+        inStock
+      }
+    }).valueChanges.pipe(
+      map(result => result.data.products)
+    );
+  }
+
+  // Query: ดึงข้อมูลสินค้าเดียวพร้อมรายละเอียดครบถ้วน
+  getProductById(id: number): Observable<any> {
+    const GET_PRODUCT = gql`
+      query GetProduct($id: ID!) {
+        product(id: $id) {
+          id
+          name
+          description
+          price
+          stock
+          category {
+            id
+            name
+            description
+          }
+          reviews {
+            id
+            rating
+            comment
+            reviewer {
+              id
+              name
+              email
+            }
+            createdAt
+          }
+          createdAt
+          updatedAt
+        }
+      }
+    `;
+
+    return this.apollo.watchQuery<any>({
+      query: GET_PRODUCT,
+      variables: { id: id.toString() }
+    }).valueChanges.pipe(
+      map(result => result.data.product)
+    );
+  }
+
+  // Mutation: เพิ่มสินค้าใหม่
+  createProduct(productInput: any): Observable<any> {
+    const CREATE_PRODUCT = gql`
+      mutation CreateProduct($input: CreateProductInput!) {
+        createProduct(input: $input) {
+          id
+          name
+          description
+          price
+          stock
+          categoryId
+          createdAt
+        }
+      }
+    `;
+
+    return this.apollo.mutate<any>({
+      mutation: CREATE_PRODUCT,
+      variables: { input: productInput }
+    }).pipe(
+      map(result => result.data?.createProduct)
+    );
+  }
+
+  // Mutation: อัปเดตข้อมูลสินค้า
+  updateProduct(id: number, updateInput: any): Observable<any> {
+    const UPDATE_PRODUCT = gql`
+      mutation UpdateProduct($id: ID!, $input: UpdateProductInput!) {
+        updateProduct(id: $id, input: $input) {
+          id
+          name
+          description
+          price
+          stock
+          categoryId
+          updatedAt
+        }
+      }
+    `;
+
+    return this.apollo.mutate<any>({
+      mutation: UPDATE_PRODUCT,
+      variables: { 
+        id: id.toString(), 
+        input: updateInput 
+      }
+    }).pipe(
+      map(result => result.data?.updateProduct)
+    );
+  }
+
+  // Subscription: รับข้อมูล Real-time เมื่อมีการเปลี่ยนแปลงสินค้า
+  subscribeToProductUpdates(): Observable<any> {
+    const PRODUCT_SUBSCRIPTION = gql`
+      subscription OnProductUpdate {
+        productUpdated {
+          id
+          name
+          price
+          stock
+          updatedAt
+        }
+      }
+    `;
+
+    return this.apollo.subscribe<any>({
+      query: PRODUCT_SUBSCRIPTION
+    }).pipe(
+      map(result => result.data?.productUpdated)
+    );
+  }
+}</pre>
+             </div>
+             
+             <div class="code-block language-typescript">
+                 <h4>ตัวอย่าง: Angular Component ที่ใช้ GraphQL</h4>
+                 <pre>import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ProductGraphQLService } from '../services/product-graphql.service';
+import { Subscription } from 'rxjs';
+
+@Component({
+  selector: 'app-product-graphql',
+  templateUrl: './product-graphql.component.html',
+  styleUrls: ['./product-graphql.component.css']
+})
+export class ProductGraphQLComponent implements OnInit, OnDestroy {
+
+  products: any[] = [];
+  loading = false;
+  error = '';
+  private subscription = new Subscription();
+
+  constructor(private productGraphQLService: ProductGraphQLService) { }
+
+  ngOnInit(): void {
+    this.loadProducts();
+    this.subscribeToUpdates();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  loadProducts(): void {
+    this.loading = true;
+    this.subscription.add(
+      this.productGraphQLService.getProductsWithDetails()
+        .subscribe({
+          next: (data) => {
+            this.products = data;
+            this.loading = false;
+          },
+          error: (error) => {
+            this.error = 'เกิดข้อผิดพลาดในการโหลดข้อมูลสินค้า';
+            this.loading = false;
+            console.error('GraphQL Error:', error);
+          }
+        })
+    );
+  }
+
+  subscribeToUpdates(): void {
+    this.subscription.add(
+      this.productGraphQLService.subscribeToProductUpdates()
+        .subscribe({
+          next: (updatedProduct) => {
+            // อัปเดตข้อมูลสินค้าในรายการเมื่อมีการเปลี่ยนแปลง
+            const index = this.products.findIndex(p => p.id === updatedProduct.id);
+            if (index !== -1) {
+              this.products[index] = { ...this.products[index], ...updatedProduct };
+            }
+          },
+          error: (error) => {
+            console.error('Subscription Error:', error);
+          }
+        })
+    );
+  }
+
+  createProduct(productData: any): void {
+    this.subscription.add(
+      this.productGraphQLService.createProduct(productData)
+        .subscribe({
+          next: (newProduct) => {
+            this.products.unshift(newProduct);
+            alert('เพิ่มสินค้าเรียบร้อยแล้ว');
+          },
+          error: (error) => {
+            alert('เกิดข้อผิดพลาดในการเพิ่มสินค้า');
+            console.error('Create Product Error:', error);
+          }
+        })
+    );
+  }
+}</pre>
+             </div>
+             
+             <div class="highlight-box">
+                 <h4>🔗 การเชื่อมโยงระหว่าง Frontend และ Backend</h4>
+                 <p>นายโอ๊คใช้หลักการ RESTful API และ GraphQL เพื่อให้ Frontend และ Backend สามารถสื่อสารกันได้อย่างมีประสิทธิภาพ:</p>
+                 <ul style="margin-left: 20px; margin-top: 10px;">
+                     <li><strong>RESTful API:</strong> ใช้สำหรับการจัดการข้อมูลพื้นฐาน (CRUD operations)</li>
+                     <li><strong>GraphQL:</strong> ใช้สำหรับการดึงข้อมูลที่ซับซ้อนและต้องการความยืดหยุ่น</li>
+                     <li><strong>HTTP Methods:</strong> GET, POST, PUT, DELETE สำหรับการจัดการข้อมูล</li>
+                     <li><strong>JSON Format:</strong> ใช้ JSON เป็นรูปแบบข้อมูลมาตรฐานในการแลกเปลี่ยน</li>
+                     <li><strong>CORS Configuration:</strong> ตั้งค่าให้ Angular สามารถเรียกใช้ API ได้</li>
+                     <li><strong>Error Handling:</strong> จัดการข้อผิดพลาดและส่ง Response ที่เหมาะสมกลับไป</li>
+                     <li><strong>Real-time Updates:</strong> ใช้ GraphQL Subscription สำหรับข้อมูลแบบ Real-time</li>
+                 </ul>
+             </div>
+        </div>
+
+        <!-- Mission 3 -->
+        <div class="mission-card">
+            <h2>
+                <span class="step-number">3</span>
+                ภารกิจที่ 3: การตรวจสอบคุณภาพและกำจัดแมลง
+            </h2>
+            
+            <p>ก่อนจะเปิดร้านอย่างเป็นทางการ นายโอ๊คต้องแน่ใจว่าร้านของเขาไม่มีข้อผิดพลาดใดๆ เขาใช้หลักการ Test-Driven Development (TDD) โดยเขียนบททดสอบก่อนเขียนโค้ดจริง</p>
+            
+            <div class="code-block language-java">
+                <h4>ตัวอย่าง: TDD - เขียน Test ก่อนเขียนโค้ดจริง</h4>
+                <pre>// Test: ต้องโยน Exception ถ้าพยายามสร้างสินค้าที่มีราคาติดลบ
+@Test
+public void givenNegativePrice_whenCreatingProduct_thenThrowException() {
+    assertThrows(IllegalArgumentException.class, () -> {
+        new Product("Invalid Product", -10.0);
+    });
+}</pre>
+            </div>
+            
+            <div class="highlight-box">
+                <h4>🔍 แนวคิด: SonarQube</h4>
+                <p>SonarQube จะวิเคราะห์โค้ดของเราและรายงานผลดังนี้:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Bug:</strong> ข้อผิดพลาดที่ทำให้โปรแกรมทำงานผิดปกติ เช่น NullPointerException</li>
+                    <li><strong>Vulnerability:</strong> ช่องโหว่ด้านความปลอดภัย เช่น การใช้ SQL Injection</li>
+                    <li><strong>Code Smells:</strong> โค้ดที่เขียนไม่ดีแต่ยังทำงานได้ (ต้องทำ Code Refactoring) เช่น Long Method</li>
+                </ul>
+            </div>
+            
+            <h3>การเขียนโค้ดที่มีคุณภาพ: Clean Code และ Design Pattern</h3>
+            
+            <div class="example-box">
+                <h4>1. Clean Code</h4>
+                <p>หลักการ Clean Code คือการเขียนโค้ดที่ใครๆ ก็สามารถทำความเข้าใจได้ง่าย เหมือนกับการจัดระเบียบห้องให้สะอาดอยู่เสมอ</p>
+            </div>
+            
+            <div class="code-block language-java">
+                <h4>ตัวอย่าง: การตั้งชื่อตัวแปรและฟังก์ชันให้สื่อความหมาย</h4>
+                <pre>// Bad Example: ไม่สื่อความหมาย
+public void calc(List<Order> o) { ... }
+
+// Good Example: สื่อความหมายชัดเจน
+public double calculateTotalPrice(List<Order> orders) { ... }</pre>
+            </div>
+            
+            <div class="code-block language-java">
+                <h4>ตัวอย่าง: สร้างฟังก์ชันให้ทำหน้าที่เดียว</h4>
+                <pre>// Bad Example: ฟังก์ชันทำหลายอย่างเกินไป
+public void processOrder(Order order) {
+    // 1. Validate order
+    // 2. Save to database
+    // 3. Send email confirmation
+}
+
+// Good Example: แยกหน้าที่ให้ชัดเจน
+public void validateOrder(Order order) { ... }
+public void saveOrder(Order order) { ... }
+public void sendConfirmationEmail(Order order) { ... }</pre>
+            </div>
+            
+            <div class="code-block language-java">
+                <h4>ตัวอย่าง: ไม่ใช้เลขมหัศจรรย์ (Magic Numbers)</h4>
+                <pre>// Bad Example: 1000 คืออะไร?
+if (price > 1000) {
+    //...
+}
+
+// Good Example: ใช้ตัวแปรค่าคงที่ที่สื่อความหมาย
+private static final int VIP_THRESHOLD_PRICE = 1000;
+if (price > VIP_THRESHOLD_PRICE) {
+    //...
+}</pre>
+            </div>
+            
+            <h3>2. Design Pattern</h3>
+            
+            <div class="code-block language-java">
+                <h4>Singleton Pattern</h4>
+                <pre>public final class DatabaseConnection {
+    private static volatile DatabaseConnection instance;
+
+    private DatabaseConnection() {
+        // ป้องกันการสร้าง instance ผ่าน constructor
+    }
+
+    public static DatabaseConnection getInstance() {
+        if (instance == null) {
+            synchronized (DatabaseConnection.class) {
+                if (instance == null) {
+                    instance = new DatabaseConnection();
+                }
+            }
+        }
+        return instance;
+    }
+}</pre>
+            </div>
+            
+            <div class="code-block language-java">
+                <h4>Factory Pattern</h4>
+                <pre>public interface PaymentGateway {
+    void processPayment(double amount);
+}
+
+public class PayPalGateway implements PaymentGateway {
+    @Override
+    public void processPayment(double amount) {
+        System.out.println("Processing PayPal payment: " + amount);
+    }
+}
+
+public class PaymentGatewayFactory {
+    public static PaymentGateway getGateway(String type) {
+        if ("PAYPAL".equalsIgnoreCase(type)) {
+            return new PayPalGateway();
+        } else if ("CREDIT_CARD".equalsIgnoreCase(type)) {
+            return new CreditCardGateway(); // สมมติว่ามีคลาสนี้
+        }
+        return null;
+    }
+}</pre>
+            </div>
+        </div>
+
+        <!-- Mission 4 -->
+        <div class="mission-card">
+            <h2>
+                <span class="step-number">4</span>
+                ภารกิจที่ 4: การเปิดร้านและการดูแลแบบมืออาชีพ
+            </h2>
+            
+            <h3>การแยกสภาพแวดล้อม (Environment Separation)</h3>
+            
+            <div class="highlight-box">
+                <h4>1. ห้องซ้อม: Development Environment</h4>
+                <p>นี่คือสนามเด็กเล่นของเหล่านักพัฒนา แต่ละคนจะทำงานและทดสอบโค้ดบนเครื่องคอมพิวเตอร์ของตัวเอง</p>
+            </div>
+            
+            <div class="code-block language-yaml">
+                <h4>การตั้งค่า: application-dev.properties</h4>
+                <pre># ไฟล์: application-dev.properties
+# นี่คือไฟล์สำหรับนักพัฒนาแต่ละคน
+spring.datasource.url=jdbc:h2:mem:oakdb_dev
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=create-drop
+
+server.port=8080
+app.environment.name=Development</pre>
+            </div>
+            
+            <div class="highlight-box">
+                <h4>2. ห้องทดลอง: Staging Environment</h4>
+                <p>เมื่อนักพัฒนาแต่ละคนทำโค้ดเสร็จและรวมกันใน Git แล้ว โค้ดจะถูกส่งมาที่ห้องทดลองนี้</p>
+            </div>
+            
+            <div class="code-block language-yaml">
+                <h4>การตั้งค่า: application-staging.properties</h4>
+                <pre># ไฟล์: application-staging.properties
+# นี่คือสภาพแวดล้อมสำหรับทีม QA และการทดสอบ UAT
+spring.datasource.url=jdbc:mysql://staging-db.oakcommerce.com:3306/oakdb_staging
+spring.datasource.username=staging_user
+spring.datasource.password=staging_password
+spring.jpa.hibernate.ddl-auto=validate
+
+server.port=8081
+app.environment.name=Staging</pre>
+            </div>
+            
+            <div class="highlight-box">
+                <h4>3. ร้านจริง: Production Environment</h4>
+                <p>นี่คือสภาพแวดล้อมที่ลูกค้าตัวจริงเข้ามาใช้งาน โค้ดที่นี่ต้องผ่านการทดสอบมาอย่างเข้มงวดแล้วเท่านั้น</p>
+            </div>
+            
+            <div class="code-block language-yaml">
+                <h4>การตั้งค่า: application-prod.properties</h4>
+                <pre># ไฟล์: application-prod.properties
+# นี่คือสภาพแวดล้อมที่ใช้งานจริง
+spring.datasource.url=jdbc:mysql://prod-db.oakcommerce.com:3306/oakdb_prod
+spring.datasource.username=prod_user
+spring.datasource.password=${DB_PROD_PASSWORD} # ใช้ Environment Variable เพื่อความปลอดภัย
+spring.jpa.hibernate.ddl-auto=validate
+
+server.port=8080
+app.environment.name=Production</pre>
+            </div>
+            
+            <p>จากนั้นเขาได้ตั้งสายพานลำเลียงวิเศษ Continuous Integration and Continuous Delivery (CI/CD) ที่จะทดสอบและส่งโค้ดใหม่ไปยังร้านค้าโดยอัตโนมัติทุกครั้งที่มีการอัปเดต</p>
+            
+            <div class="code-block language-yaml">
+                <h4>ตัวอย่าง: CI/CD Pipeline ใน GitLab CI</h4>
+                <pre>stages:
+  - build
+  - test
+  - deploy
+
+build_job:
+  stage: build
+  script:
+    - mvn clean package
+
+test_job:
+  stage: test
+  script:
+    - mvn test
+
+deploy_to_prod:
+  stage: deploy
+  script:
+    - deploy.sh
+  environment: production</pre>
+            </div>
+            
+            <p>เพื่อเสกเซิร์ฟเวอร์ใหม่ได้ในพริบตา นายโอ๊คใช้ Infrastructure as Code (IaC) ด้วยเครื่องมืออย่าง Terraform</p>
+            
+            <div class="code-block language-yaml">
+                <h4>ตัวอย่าง: Terraform - สร้างเซิร์ฟเวอร์ใหม่</h4>
+                <pre># ตัวอย่าง: Terraform - สร้างเซิร์ฟเวอร์ใหม่
+resource "aws_instance" "app_server" {
+  ami           = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+  tags = {
+    Name = "OakCommerce-App-Server"
+  }
+}</pre>
+            </div>
+            
+            <h3>การใช้งาน Docker สำหรับ Containerization</h3>
+            
+            <p>นายโอ๊คใช้ Docker เป็นเหมือนกล่องมหัศจรรย์ที่บรรจุแอปพลิเคชันและทุกอย่างที่จำเป็นไว้ด้วยกัน ทำให้สามารถย้ายแอปพลิเคชันไปรันบนเครื่องไหนก็ได้โดยไม่ต้องกังวลเรื่องความแตกต่างของสภาพแวดล้อม</p>
+            
+            <div class="highlight-box">
+                <h4>🐳 ข้อดีของ Docker</h4>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Consistency:</strong> แอปพลิเคชันทำงานเหมือนกันทุกที่ ไม่ว่าจะเป็นเครื่องของนักพัฒนา หรือเซิร์ฟเวอร์จริง</li>
+                    <li><strong>Isolation:</strong> แต่ละแอปพลิเคชันทำงานแยกกันอย่างอิสระ ไม่กระทบกัน</li>
+                    <li><strong>Portability:</strong> ย้ายแอปพลิเคชันไปรันบน Cloud ไหนก็ได้</li>
+                    <li><strong>Scalability:</strong> เพิ่มจำนวนแอปพลิเคชันได้ง่ายๆ โดยการสร้าง Container เพิ่ม</li>
+                </ul>
+            </div>
+            
+            <div class="code-block language-dockerfile">
+                <h4>ตัวอย่าง: Dockerfile สำหรับ Spring Boot Application</h4>
+                <pre># ใช้ OpenJDK 17 เป็น Base Image
+FROM openjdk:17-jdk-slim
+
+# ตั้งค่า Working Directory
+WORKDIR /app
+
+# คัดลอก JAR file จาก Maven build
+COPY target/oak-commerce-0.0.1-SNAPSHOT.jar app.jar
+
+# เปิด Port 8080
+EXPOSE 8080
+
+# ตั้งค่า Environment Variables
+ENV SPRING_PROFILES_ACTIVE=prod
+ENV JAVA_OPTS="-Xmx512m -Xms256m"
+
+# รันแอปพลิเคชัน
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]</pre>
+            </div>
+            
+            <div class="code-block language-dockerfile">
+                <h4>ตัวอย่าง: Dockerfile สำหรับ Angular Application</h4>
+                <pre># Build Stage - ใช้ Node.js เพื่อ build Angular
+FROM node:18-alpine AS build
+
+WORKDIR /app
+
+# คัดลอก package.json และ package-lock.json
+COPY package*.json ./
+
+# ติดตั้ง dependencies
+RUN npm ci --only=production
+
+# คัดลอก source code
+COPY . .
+
+# Build Angular application
+RUN npm run build --prod
+
+# Production Stage - ใช้ Nginx เพื่อ serve static files
+FROM nginx:alpine
+
+# คัดลอก built files จาก build stage
+COPY --from=build /app/dist/oak-commerce /usr/share/nginx/html
+
+# คัดลอก nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# เปิด Port 80
+EXPOSE 80
+
+# รัน Nginx
+CMD ["nginx", "-g", "daemon off;"]</pre>
+            </div>
+            
+            <div class="code-block language-yaml">
+                <h4>ตัวอย่าง: Docker Compose สำหรับ Development Environment</h4>
+                <pre>version: '3.8'
+
+services:
+  # Spring Boot Backend
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/oakdb_dev
+      - SPRING_DATASOURCE_USERNAME=dev_user
+      - SPRING_DATASOURCE_PASSWORD=dev_password
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./backend/logs:/app/logs
+
+  # Angular Frontend
+  frontend:
+    build: ./frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+    environment:
+      - API_URL=http://localhost:8080
+
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root_password
+      - MYSQL_DATABASE=oakdb_dev
+      - MYSQL_USER=dev_user
+      - MYSQL_PASSWORD=dev_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mysql_data:
+  redis_data:</pre>
+            </div>
+            
+            <div class="code-block language-bash">
+                <h4>ตัวอย่าง: Docker Commands ที่ใช้บ่อย</h4>
+                <pre># Build Docker Image
+docker build -t oak-commerce-backend:latest ./backend
+docker build -t oak-commerce-frontend:latest ./frontend
+
+# รัน Container
+docker run -d -p 8080:8080 --name oak-backend oak-commerce-backend:latest
+docker run -d -p 4200:80 --name oak-frontend oak-commerce-frontend:latest
+
+# ดู Container ที่กำลังรัน
+docker ps
+
+# ดู Logs ของ Container
+docker logs oak-backend
+docker logs oak-frontend
+
+# หยุด Container
+docker stop oak-backend oak-frontend
+
+# ลบ Container
+docker rm oak-backend oak-frontend
+
+# ใช้ Docker Compose
+docker-compose up -d          # รัน services ทั้งหมด
+docker-compose down           # หยุดและลบ services ทั้งหมด
+docker-compose logs -f        # ดู logs แบบ real-time
+docker-compose restart backend # restart เฉพาะ backend service</pre>
+            </div>
+            
+            <div class="highlight-box">
+                <h4>🔧 การ Optimize Docker Images</h4>
+                <p>นายโอ๊คใช้เทคนิคต่างๆ เพื่อทำให้ Docker Images มีขนาดเล็กลงและรันได้เร็วขึ้น:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Multi-stage Builds:</strong> ใช้หลาย stage ใน Dockerfile เพื่อลดขนาด final image</li>
+                    <li><strong>Alpine Linux:</strong> ใช้ Alpine Linux แทน Ubuntu เพื่อลดขนาด base image</li>
+                    <li><strong>Layer Caching:</strong> จัดลำดับการ copy files เพื่อใช้ประโยชน์จาก Docker layer caching</li>
+                    <li><strong>Minimal Dependencies:</strong> ติดตั้งเฉพาะ packages ที่จำเป็นเท่านั้น</li>
+                </ul>
+            </div>
+            
+            <h3>Security and Compliance</h3>
+            
+            <div class="code-block language-java">
+                <h4>ตัวอย่าง: การตรวจสอบสิทธิ์การเข้าถึงข้อมูลสินค้าเฉพาะแอดมินเท่านั้น</h4>
+                <pre>@PreAuthorize("hasRole('ADMIN')")
+@PostMapping("/api/products/add")
+public ResponseEntity<Product> addNewProduct(@RequestBody Product product) {
+    // โค้ดสำหรับเพิ่มสินค้าใหม่ จะทำงานได้ก็ต่อเมื่อผู้ใช้มี Role เป็น 'ADMIN' เท่านั้น
+    ...
+}</pre>
+            </div>
+            
+            <h3>Rollback Procedures</h3>
+            
+            <div class="code-block language-yaml">
+                <h4>ตัวอย่าง: GitLab CI/CD Job สำหรับ Rollback</h4>
+                <pre># ตัวอย่าง: GitLab CI/CD Job สำหรับ Rollback
+rollback:
+  stage: rollback
+  script:
+    - kubectl rollout undo deployment/oak-commerce-app
+  when: manual # จะทำงานเมื่อมีการสั่งงานด้วยมือเท่านั้น</pre>
+            </div>
+        </div>
+
+        <!-- Mission 5 -->
+        <div class="mission-card">
+            <h2>
+                <span class="step-number">5</span>
+                ภารกิจที่ 5: การขยายอาณาจักรที่ไม่มีวันหยุด
+            </h2>
+            
+            <h3>การขยายอาณาจักรด้วย Microservices และ Kubernetes</h3>
+            
+            <p>เมื่อร้านค้า Oak Commerce เติบโตขึ้น นายโอ๊คได้ปรับปรุงโครงสร้างจากร้านค้าใหญ่ๆ ก้อนเดียว (Monolithic Architecture) มาเป็นอาคารเล็กๆ จำนวนมากที่เรียกว่า Microservices</p>
+            
+            <div class="code-block language-yaml">
+                <h4>ตัวอย่าง: การจัดการ Microservices ด้วย Kubernetes Deployment</h4>
+                <pre># Deployment เป็นคำสั่งให้ Kubernetes สร้างและจัดการชุดของ Pods (คอนเทนเนอร์)
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service-deployment
+spec:
+  # replicas: กำหนดจำนวน copies ของ Microservice ที่ต้องการให้รันเพื่อรองรับลูกค้า
+  replicas: 3
+  # selector: บอก Kubernetes ว่า Deployment นี้ต้องดูแล Pod ที่มี label ตรงกับที่กำหนดไว้
+  selector:
+    matchLabels:
+      app: product-service
+  template:
+    metadata:
+      # labels: ป้ายกำกับสำหรับ Pod
+      labels:
+        app: product-service
+    spec:
+      containers:
+      - name: product-service-app
+        # image: ระบุ Docker Image ที่จะใช้สร้างคอนเทนเนอร์
+        image: oakcommerce/product-service:v1.0
+        ports:
+        # ports: ระบุ Port ที่คอนเทนเนอร์เปิดให้ภายนอกใช้งาน
+        - containerPort: 8080</pre>
+            </div>
+            
+            <div class="code-block language-yaml">
+                <h4>ตัวอย่าง: การสร้าง Kubernetes Service เพื่อเปิดเผย Microservice</h4>
+                <pre># ตัวอย่าง: การสร้าง Kubernetes Service เพื่อเปิดเผย Microservice
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service
+spec:
+  # selector: เชื่อม Service นี้เข้ากับ Deployment ที่มี label "app: product-service"
+  selector:
+    app: product-service
+  ports:
+    - protocol: TCP
+      port: 80 # Port ของ Service ที่รับการเชื่อมต่อจากภายนอก
+      targetPort: 8080 # Port ที่ Service จะส่งต่อการเชื่อมต่อไปยังคอนเทนเนอร์
+  # type: ระบุประเภทของ Service (ClusterIP, NodePort, LoadBalancer)
+  type: ClusterIP</pre>
+            </div>
+            
+            <p>และเมื่อร้านค้าของเขามีลูกค้าจากหลายประเทศ นายโอ๊คก็ใช้หลักการ Internationalization and Localization เพื่อรองรับภาษาและสกุลเงินที่หลากหลาย</p>
+            
+            <div class="code-block">
+                <h4>ตัวอย่าง: ไฟล์ messages_th.properties สำหรับ Internationalization</h4>
+                <pre>welcome.message=ยินดีต้อนรับสู่ Oak Commerce!
+product.price.label=ราคา: {0} บาท</pre>
+            </div>
+            
+            <p>นอกจากนี้ เขายังสร้างระบบ Report System Implementation และใช้ Graph System เพื่อสรุปยอดขายให้ผู้จัดการดูได้อย่างง่ายดาย</p>
+            
+            <div class="code-block language-sql">
+                <h4>ตัวอย่าง: SQL Query สำหรับระบบ Report</h4>
+                <pre>SELECT
+    p.product_name,
+    SUM(o.quantity) AS total_sold,
+    SUM(o.quantity * o.price) AS total_revenue
+FROM
+    orders o
+JOIN
+    products p ON o.product_id = p.id
+GROUP BY
+    p.product_name
+ORDER BY
+    total_revenue DESC;</pre>
+            </div>
+            
+            <h3>การเฝ้าระวังขั้นสูงและแก้ไขปัญหา</h3>
+            
+            <div class="highlight-box">
+                <h4>1. การสืบสวนปัญหา: Troubleshooting & Debugging</h4>
+                <p>เมื่อเกิดข้อผิดพลาดขึ้น ทีมของนายโอ๊คจะใช้กระบวนการดังนี้:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Log Analysis:</strong> วิเคราะห์ไฟล์ Log ที่บันทึกการทำงานของแอปพลิเคชัน</li>
+                    <li><strong>Performance Profiling:</strong> ใช้เครื่องมืออย่าง JProfiler หรือ VisualVM</li>
+                    <li><strong>Remote Debugging:</strong> เชื่อมต่อ Debugger เข้ากับแอปพลิเคชันที่รันอยู่</li>
+                </ul>
+            </div>
+            
+            <div class="code-block">
+                <h4>ตัวอย่าง Log Analysis</h4>
+                <pre>2024-05-23 10:30:15.123 ERROR [product-service] c.o.p.ProductController - Failed to retrieve product with ID 123: Product not found.</pre>
+            </div>
+            
+            <div class="highlight-box">
+                <h4>2. ดวงตาที่สาม: Observability</h4>
+                <p>Observability คือการทำให้ระบบสามารถถูก "สังเกต" ได้จากภายนอก โดยนายโอ๊คใช้เครื่องมือหลัก 2 อย่าง:</p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Prometheus:</strong> นักสะสมข้อมูล</li>
+                    <li><strong>Grafana:</strong> นักวาดภาพข้อมูล</li>
+                </ul>
+            </div>
+            
+            <div class="code-block language-yaml">
+                <h4>Prometheus Configuration File (prometheus.yml)</h4>
+                <pre># Prometheus Configuration File (prometheus.yml)
+scrape_configs:
+  - job_name: 'product-service'
+    # prometheus จะไปดึงข้อมูลจาก endpoint นี้ทุกๆ 15 วินาที
+    static_configs:
+      - targets: ['localhost:9090']</pre>
+            </div>
+        </div>
+
+        <!-- Conclusion -->
+        <div class="conclusion">
+            <h2>🎉 บทสรุปการผจญภัย</h2>
+            <p>ด้วยการมีระบบ Observability ที่แข็งแกร่ง นายโอ๊คจึงสามารถมองเห็นปัญหาได้ตั้งแต่เนิ่นๆ และแก้ไขได้อย่างรวดเร็วก่อนที่ลูกค้าจะได้รับผลกระทบ ทำให้ Oak Commerce เป็นร้านค้าที่น่าเชื่อถือและมั่นคง</p>
+        </div>
+    </div>
+
+    <!-- Material UI JavaScript -->
+    <script src="https://unpkg.com/@material-ui/core@latest/umd/material-ui.development.js"></script>
+</body>
+</html>
