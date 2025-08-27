@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>PostgreSQL Performance and Optimization</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css" id="theme">
+    <style>
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+            color: #42affa;
+        }
+        .reveal pre {
+            background-color: #2d2d2d;
+            border-radius: 5px;
+            padding: 15px;
+        }
+        .reveal code {
+            font-family: 'Fira Code', 'JetBrains Mono', monospace;
+            color: #e8e8e8;
+        }
+        .reveal .slide-number {
+            font-size: 0.5em;
+        }
+        .reveal .r-hstack {
+            gap: 20px;
+        }
+        .reveal .r-stack {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section>
+                <h1>การเพิ่มประสิทธิภาพและการปรับแต่ง PostgreSQL</h1>
+                <p>การเรียนรู้ฉบับเต็มตั้งแต่พื้นฐานถึงขั้นสูง</p>
+            </section>
+
+            <section>
+                <h2 class="title">โมดูล 1: บทนำสู่ PostgreSQL</h2>
+            </section>
+
+            <section>
+                <h3>บทที่ 1: การทำความเข้าใจ PostgreSQL</h3>
+                <h4>1.1 PostgreSQL คืออะไร?</h4>
+                <ul>
+                    <li><strong>PostgreSQL</strong> หรือ <strong>Postgres</strong> เป็นระบบจัดการฐานข้อมูลเชิงสัมพันธ์แบบเปิด (Open-Source RDBMS)</li>
+                    <li>เด่นเรื่องความเสถียร, ความสมบูรณ์ของข้อมูล (<strong>Data Integrity</strong>) และความยืดหยุ่น</li>
+                    <li>พัฒนาต่อเนื่องตั้งแต่ปี 1986 โดยชุมชนนักพัฒนาทั่วโลก</li>
+                </ul>
+            </section>
+
+            <section>
+                <h4>คุณสมบัติหลัก</h4>
+                <ul>
+                    <li>✅ <strong>ฟรีและโอเพนซอร์ส:</strong> ใช้งาน, ดัดแปลง, และเผยแพร่ได้อย่างอิสระ</li>
+                    <li>✅ <strong>รองรับมาตรฐาน SQL:</strong> ปฏิบัติตามมาตรฐาน SQL อย่างเคร่งครัด</li>
+                    <li>✅ <strong>ACID Compliance:</strong> รับประกันความถูกต้องของข้อมูลตามหลัก Atomicity, Consistency, Isolation, และ Durability</li>
+                    <li>✅ <strong>ความยืดหยุ่นสูง:</strong> รองรับข้อมูลหลากหลาย เช่น JSON, JSONB, XML, UUID และ Geospatial data (ผ่านส่วนขยาย PostGIS)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h4>1.2 การใช้งานและกรณีศึกษา</h4>
+                <div class="r-hstack">
+                    <div class="fragment" data-fragment-index="1">
+                        <h4>การพัฒนาเว็บ 🌐</h4>
+                        <p>ฐานข้อมูลหลักสำหรับเว็บแอปพลิเคชันที่ต้องการความน่าเชื่อถือสูง</p>
+                    </div>
+                    <div class="fragment" data-fragment-index="2">
+                        <h4>ระบบข้อมูลองค์กร 🏢</h4>
+                        <p>ใช้ในระบบ ERP และ CRM ที่ต้องการความคงทนของข้อมูล</p>
+                    </div>
+                </div>
+                <div class="r-hstack">
+                    <div class="fragment" data-fragment-index="3">
+                        <h4>วิทยาศาสตร์ข้อมูล 📈</h4>
+                        <p>ใช้เป็น Data Warehouse สำหรับการวิเคราะห์ข้อมูลขนาดใหญ่และซับซ้อน</p>
+                    </div>
+                    <div class="fragment" data-fragment-index="4">
+                        <h4>แอปพลิเคชันมือถือ 📱</h4>
+                        <p>ใช้เป็น Backend สำหรับแอปที่ต้องการความน่าเชื่อถือในการจัดการข้อมูลผู้ใช้</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>บทที่ 2: สถาปัตยกรรม PostgreSQL</h3>
+                <h4>2.1 โครงสร้างแบบ Client-Server</h4>
+                <div class="r-stack">
+                    <img src="https://i.imgur.com/3F3Y31A.png" alt="Client-Server Architecture" width="800">
+                    <div class="fragment fade-in-then-out" data-fragment-index="1" style="position: absolute; top: 15%; left: 10%;">
+                        <p><strong>Client</strong></p>
+                        <small>แอปพลิเคชัน, psql</small>
+                    </div>
+                    <div class="fragment fade-in-then-out" data-fragment-index="2" style="position: absolute; top: 15%; right: 10%;">
+                        <p><strong>Server</strong></p>
+                        <small>PostgreSQL Process</small>
+                    </div>
+                    <div class="fragment fade-in-then-out" data-fragment-index="3" style="position: absolute; top: 50%; left: 35%; right: 35%;">
+                        <p>ส่งคำสั่ง SQL</p>
+                        <small>Request</small>
+                    </div>
+                    <div class="fragment fade-in-then-out" data-fragment-index="4" style="position: absolute; top: 65%; left: 35%; right: 35%;">
+                        <p>ส่งผลลัพธ์</p>
+                        <small>Response</small>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h4>2.2 กระบวนการทำงาน (Processes)</h4>
+                <ul>
+                    <li class="fragment"><strong>Postmaster Process:</strong> ผู้จัดการหลักของเซิร์ฟเวอร์<br><small>จัดการการเชื่อมต่อ, สร้าง Backend Process</small></li>
+                    <li class="fragment"><strong>Backend Processes:</strong> สำหรับแต่ละการเชื่อมต่อของไคลเอนต์<br><small>ประมวลผลคำสั่ง SQL และ Transaction</small></li>
+                    <li class="fragment"><strong>Background Processes:</strong> ทำงานเบื้องหลังเพื่อสนับสนุน<br><small>เช่น WAL Writer, Checkpointer, Autovacuum Daemon</small></li>
+                </ul>
+            </section>
+
+            <section>
+                <h4>2.3 โครงสร้างหน่วยความจำ (Memory Structures)</h4>
+                <ul>
+                    <li class="fragment"><strong>Shared Buffers:</strong> พื้นที่สำคัญที่สุด ใช้แคชบล็อกข้อมูลที่อ่านจากดิสก์</li>
+                    <li class="fragment"><strong>WAL Buffers:</strong> พื้นที่สำหรับ Write-Ahead Log (WAL) บันทึกการเปลี่ยนแปลงก่อนลงดิสก์</li>
+                    <li class="fragment"><strong>Work Memory:</strong> หน่วยความจำสำหรับแต่ละ Backend Process ใช้ในการ Sorting หรือ Joining</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>บทที่ 3: การติดตั้งและตั้งค่า PostgreSQL</h3>
+                <h4>3.1 ขั้นตอนการติดตั้ง</h4>
+                <div class="r-hstack">
+                    <div class="fragment">
+                        <p>🐧 <strong>Linux</strong></p>
+                        <pre><code>sudo apt-get install postgresql</code></pre>
+                    </div>
+                    <div class="fragment">
+                        <p>🖥️ <strong>Windows</strong></p>
+                        <p>ดาวน์โหลด Installer จากเว็บไซต์ทางการ</p>
+                    </div>
+                    <div class="fragment">
+                        <p>🍎 <strong>macOS</strong></p>
+                        <pre><code>brew install postgresql</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h4>3.2 ไฟล์ตั้งค่าหลัก: postgresql.conf</h4>
+                <p>ไฟล์นี้คือ <strong>"สมอง"</strong> ที่ควบคุมพฤติกรรมของฐานข้อมูล</p>
+                <ul>
+                    <li class="fragment"><strong>listen_addresses:</strong> กำหนด IP ที่เซิร์ฟเวอร์จะรับการเชื่อมต่อ</li>
+                    <li class="fragment"><strong>port:</strong> หมายเลขพอร์ต (ค่าเริ่มต้น: 5432)</li>
+                    <li class="fragment"><strong>max_connections:</strong> จำนวนการเชื่อมต่อพร้อมกันสูงสุด</li>
+                    <li class="fragment"><strong>shared_buffers:</strong> ขนาดของ Shared Buffers (แนะนำ 25% ของ RAM)</li>
+                    <li class="fragment"><strong>log_min_duration_statement:</strong> เวลาขั้นต่ำที่ Query จะถูกบันทึกใน Log</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>บทที่ 4: การใช้งานและคำสั่งพื้นฐาน</h3>
+                <h4>4.1 การเชื่อมต่อด้วย psql</h4>
+                <p><strong>psql</strong> เป็นเครื่องมือบรรทัดคำสั่งที่มาพร้อมกับ PostgreSQL</p>
+                <pre><code class="language-bash">psql -U &lt;username&gt; -d &lt;dbname&gt;</code></pre>
+                <p><strong>คำสั่งเมตา (Meta-commands)</strong> ขึ้นต้นด้วย <code>\</code></p>
+                <ul>
+                    <li class="fragment"><code>\l</code>: แสดงรายการฐานข้อมูล</li>
+                    <li class="fragment"><code>\c &lt;dbname&gt;</code>: สลับไปใช้ฐานข้อมูลอื่น</li>
+                    <li class="fragment"><code>\dt</code>: แสดงรายการตาราง</li>
+                    <li class="fragment"><code>\d &lt;tablename&gt;</code>: แสดงรายละเอียดของตาราง</li>
+                </ul>
+            </section>
+
+            <section>
+                <h4>4.2 คำสั่ง SQL พื้นฐาน</h4>
+                <div class="r-hstack">
+                    <div class="fragment">
+                        <h4>DDL (Data Definition Language)</h4>
+                        <ul>
+                            <li><code>CREATE TABLE</code>: สร้างตาราง</li>
+                            <li><code>ALTER TABLE</code>: แก้ไขโครงสร้างตาราง</li>
+                            <li><code>DROP TABLE</code>: ลบตาราง</li>
+                        </ul>
+                    </div>
+                    <div class="fragment">
+                        <h4>DML (Data Manipulation Language)</h4>
+                        <ul>
+                            <li><code>INSERT INTO</code>: เพิ่มข้อมูล</li>
+                            <li><code>SELECT FROM</code>: เลือกดูข้อมูล</li>
+                            <li><code>UPDATE ... SET</code>: อัปเดตข้อมูล</li>
+                            <li><code>DELETE FROM</code>: ลบข้อมูล</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h4>4.3 การทำความเข้าใจ Query Execution Plan</h4>
+                <p>ใช้คำสั่ง <code>EXPLAIN</code> เพื่อดูว่า PostgreSQL วางแผนการรัน Query อย่างไร</p>
+                <pre><code class="language-sql">EXPLAIN SELECT * FROM users WHERE user_id = 1;</code></pre>
+                <p class="fragment"><strong>การวิเคราะห์ผลลัพธ์:</strong></p>
+                <ul>
+                    <li class="fragment"><strong>Sequential Scan:</strong> สแกนข้อมูลทั้งตาราง (ช้า)</li>
+                    <li class="fragment"><strong>Index Scan:</strong> ใช้ดัชนีเพื่อค้นหาข้อมูล (เร็ว)</li>
+                </ul>
+                <p class="fragment"><strong>ความแตกต่างกับ <code>EXPLAIN ANALYZE</code>:</strong></p>
+                <p class="fragment"><code>EXPLAIN ANALYZE</code> จะรัน Query จริงและแสดงข้อมูลที่ละเอียดกว่า เช่น เวลาที่ใช้จริง</p>
+            </section>
+
+            <section>
+                <h2 class="title">โมดูล 2: การทำความเข้าใจประสิทธิภาพของฐานข้อมูล</h2>
+            </section>
+
+            <section>
+                <h3>บทที่ 1: พื้นฐานของประสิทธิภาพฐานข้อมูล</h3>
+                <h4>1.1 ตัวชี้วัดประสิทธิภาพที่สำคัญ (KPIs)</h4>
+                <ul>
+                    <li class="fragment"><strong>Throughput:</strong> จำนวนธุรกรรมที่ประมวลผลต่อวินาที</li>
+                    <li class="fragment"><strong>Latency:</strong> เวลาที่ใช้ตั้งแต่ส่งคำสั่งจนถึงได้รับผลลัพธ์</li>
+                    <li class="fragment"><strong>Response Time:</strong> เวลาตอบสนองทั้งหมด</li>
+                    <li class="fragment"><strong>Utilization:</strong> การใช้ทรัพยากรระบบ (CPU, RAM, Disk I/O)</li>
+                </ul>
+                <p class="fragment"><strong>ตัวอย่าง:</strong> แอปช้าลงในช่วงเวลาที่มีผู้ใช้เยอะ อาจต้องตรวจสอบ <strong>Throughput</strong> และ <strong>CPU Utilization</strong></p>
+            </section>
+
+            <section>
+                <h3>บทที่ 2: เครื่องมือและเทคนิคการวิเคราะห์</h3>
+                <h4>2.1 การใช้ EXPLAIN และ EXPLAIN ANALYZE</h4>
+                <p><strong><code>EXPLAIN</code></strong>: แสดงแผนการสืบค้น <strong>(ไม่รันจริง)</strong></p>
+                <pre><code class="language-sql">EXPLAIN SELECT * FROM employees WHERE department = 'IT';</code></pre>
+                <p><strong>ผลลัพธ์ (ก่อนสร้างดัชนี):</strong></p>
+                <pre><code>Seq Scan on employees  (cost=0.00..12.50 rows=10 width=500)</code></pre>
+                <p class="fragment"><strong><code>EXPLAIN ANALYZE</code></strong>: แสดงแผนการสืบค้น <strong>(รันจริง)</strong></p>
+                <pre><code class="language-sql">EXPLAIN ANALYZE SELECT * FROM employees WHERE department = 'IT';</code></pre>
+                <p class="fragment"><strong>ผลลัพธ์ (หลังสร้างดัชนี):</strong></p>
+                <pre><code>Index Scan using idx_department on employees (actual time=0.015..0.025 rows=2 loops=1)</code></pre>
+            </section>
+
+            <section>
+                <h4>2.2 การใช้มุมมองสถิติ (Statistics Views)</h4>
+                <ul>
+                    <li class="fragment"><strong><code>pg_stat_activity</code>:</strong> ดูว่ามี Query ใดบ้างที่กำลังทำงานอยู่แบบเรียลไทม์<br>
+                        <pre><code class="language-sql">SELECT pid, datname, usename, state, query FROM pg_stat_activity;</code></pre>
+                    </li>
+                    <li class="fragment"><strong><code>pg_stat_statements</code>:</strong> ดูสถิติของทุก Query ที่เคยรัน (ต้องเปิดใช้งาน Extension)<br>
+                        <pre><code class="language-sql">SELECT query, calls, total_time FROM pg_stat_statements ORDER BY total_time DESC;</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>บทที่ 3: การเพิ่มประสิทธิภาพ Query และ Indexing</h3>
+                <h4>3.1 การเพิ่มประสิทธิภาพ Query</h4>
+                <ul>
+                    <li class="fragment"><strong>ลดการใช้ <code>SELECT *</code>:</strong> เลือกเฉพาะคอลัมน์ที่จำเป็นเท่านั้น<br>
+                        <pre><code class="language-sql">SELECT first_name, last_name FROM employees WHERE department = 'IT';</code></pre>
+                    </li>
+                    <li class="fragment"><strong>ใช้ <code>JOIN</code> แทน <code>Subquery</code>:</strong> มักจะมีประสิทธิภาพดีกว่า<br>
+                        <pre><code class="language-sql">-- Good Query
+SELECT e.first_name FROM employees e JOIN departments d ON e.dept = d.dept_name WHERE d.location = 'Bangkok';</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h4>3.2 กลยุทธ์การทำดัชนี (Indexing Strategies)</h4>
+                <ul>
+                    <li class="fragment"><strong>Composite Index (ดัชนีหลายคอลัมน์):</strong> มีประโยชน์เมื่อมีเงื่อนไขใน <code>WHERE</code> หลายคอลัมน์<br>
+                        <pre><code class="language-sql">CREATE INDEX idx_dept_salary ON employees(department, salary);</code></pre>
+                    </li>
+                    <li class="fragment"><strong>ข้อควรระวัง:</strong> ลำดับของคอลัมน์ในดัชนีมีความสำคัญ</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>บทที่ 4: การปรับแต่งการตั้งค่าเบื้องต้น</h3>
+                <h4>4.1 พารามิเตอร์ที่เกี่ยวข้องกับหน่วยความจำ</h4>
+                <ul>
+                    <li class="fragment"><strong><code>shared_buffers</code>:</strong> แคชข้อมูลในหน่วยความจำ (แนะนำ 25% ของ RAM)<br>
+                        <pre><code class="language-ini">shared_buffers = 2GB</code></pre>
+                    </li>
+                    <li class="fragment"><strong><code>work_mem</code>:</strong> หน่วยความจำสำหรับ Sorting/Joining ของแต่ละ Query<br>
+                        <pre><code class="language-ini">work_mem = 64MB</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="title">โมดูล 3: การตั้งค่า PostgreSQL</h2>
+            </section>
+
+            <section>
+                <h3>บทที่ 1: หลักการตั้งค่าสำหรับประสิทธิภาพ</h3>
+                <h4>1.1 ไฟล์ postgresql.conf</h4>
+                <p>ไฟล์ตั้งค่าหลักที่ควบคุมพฤติกรรมฐานข้อมูล</p>
+                <p><strong>คำแนะนำ:</strong> ควรสำรองไฟล์ก่อนแก้ไขเสมอ</p>
+            </section>
+
+            <section>
+                <h3>บทที่ 2: การตั้งค่าหน่วยความจำ</h3>
+                <h4>2.1 shared_buffers</h4>
+                <ul>
+                    <li>บัฟเฟอร์หน่วยความจำสำหรับแคชบล็อกข้อมูลที่อ่านจากดิสก์</li>
+                    <li><strong>คำแนะนำ:</strong> ตั้งค่าเป็นประมาณ <strong>25% ของ RAM</strong> ทั้งหมดของเซิร์ฟเวอร์</li>
+                    <li><strong>การตรวจสอบ:</strong> <code>SHOW shared_buffers;</code></li>
+                </ul>
+            </section>
+
+            <section>
+                <h4>2.2 work_mem</h4>
+                <ul>
+                    <li>หน่วยความจำที่แต่ละ Backend Process ใช้สำหรับการดำเนินการชั่วคราว</li>
+                    <li>หากใช้เกิน จะเกิด <strong>Disk Spilling</strong> ทำให้ประสิทธิภาพลดลงอย่างรุนแรง</li>
+                    <li><strong>การตรวจสอบ:</strong> <code>SHOW work_mem;</code></li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>บทที่ 3: การตั้งค่า I/O และ Disk</h3>
+                <h4>3.1 wal_buffers</h4>
+                <p>บัฟเฟอร์หน่วยความจำสำหรับ Write-Ahead Log (WAL)</p>
+                <pre><code class="language-ini">wal_buffers = 16MB</code></pre>
+            </section>
+
+            <section>
+                <h4>3.2 synchronous_commit</h4>
+                <ul>
+                    <li>ควบคุมการบังคับเขียนข้อมูลลงดิสก์หลัง <code>COMMIT</code></li>
+                    <li><strong><code>on</code>:</strong> ปลอดภัยที่สุด แต่ Latency สูงขึ้น</li>
+                    <li><strong><code>off</code>:</strong> ประสิทธิภาพสูงสุด แต่มีความเสี่ยงข้อมูลหาย</li>
+                    <li><strong>คำแนะนำ:</strong> ใช้ <code>on</code> สำหรับ Production, ใช้ <code>off</code> สำหรับ Bulk Load</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>บทที่ 4: การตั้งค่าการเชื่อมต่อและอื่นๆ</h3>
+                <ul>
+                    <li class="fragment"><strong><code>max_connections</code>:</strong> จำนวนการเชื่อมต่อพร้อมกันสูงสุด<br><small>ไม่ควรตั้งค่าสูงเกินไป ควรใช้ Connection Pooling แทน</small></li>
+                    <li class="fragment"><strong><code>effective_cache_size</code>:</strong> บอก Optimizer ว่า OS มีหน่วยความจำแคชเท่าไหร่<br><small>ตั้งค่าให้ใกล้เคียงกับ RAM ทั้งหมด</small></li>
+                    <li class="fragment"><strong><code>log_min_duration_statement</code>:</strong> บันทึก Query ที่ทำงานช้าลง Log File<br><small>มีประโยชน์มากในการระบุปัญหา</small><br>
+                        <pre><code class="language-ini">log_min_duration_statement = 500ms</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="title">โมดูล 4: กลยุทธ์การทำดัชนี (Indexing Strategies)</h2>
+            </section>
+
+            <section>
+                <h3>บทที่ 1: การทำความเข้าใจดัชนี</h3>
+                <h4>1.1 ดัชนีคืออะไร?</h4>
+                <p>ดัชนี <strong>(Index)</strong> เปรียบเสมือนดัชนีในหนังสือ 📚 ช่วยให้ค้นหาข้อมูลได้อย่างรวดเร็วโดยไม่ต้องสแกนทั้งตาราง</p>
+                <p class="fragment"><strong>ข้อดี:</strong> เพิ่มความเร็ว <code>SELECT</code>, บังคับความเป็นเอกลักษณ์</p>
+                <p class="fragment"><strong>ข้อเสีย:</strong> ใช้พื้นที่จัดเก็บ, ลดความเร็ว <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></p>
+            </section>
+
+            <section>
+                <h3>บทที่ 2: ประเภทของดัชนีใน PostgreSQL</h3>
+                <ul>
+                    <li class="fragment"><strong>B-Tree:</strong> ดัชนีที่ใช้บ่อยที่สุด<br><small>เหมาะสำหรับ =, >, <, BETWEEN, LIKE 'prefix%'</small></li>
+                    <li class="fragment"><strong>Hash Index:</strong> เหมาะสำหรับสืบค้นแบบ Equality (=) เท่านั้น</li>
+                    <li class="fragment"><strong>GiST / SP-GiST:</strong> สำหรับข้อมูลเชิงพื้นที่ (Geospatial) หรือ Array</li>
+                    <li class="fragment"><strong>GIN:</strong> สำหรับการค้นหาใน Array, JSONB หรือ Full-Text Search</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>บทที่ 3: กลยุทธ์การออกแบบดัชนี</h3>
+                <h4>3.1 การเลือกคอลัมน์สำหรับดัชนี</h4>
+                <ul>
+                    <li class="fragment">คอลัมน์ใน <strong><code>WHERE</code></strong> clause</li>
+                    <li class="fragment">คอลัมน์ใน <strong><code>JOIN</code></strong> clause</li>
+                    <li class="fragment">คอลัมน์ใน <strong><code>ORDER BY</code></strong> clause</li>
+                </ul>
+            </section>
+
+            <section>
+                <h4>3.2 ดัชนีแบบหลายคอลัมน์ (Composite Index)</h4>
+                <ul>
+                    <li class="fragment">ใช้เมื่อ Query มีเงื่อนไขใน <code>WHERE</code> หลายคอลัมน์<br>
+                        <pre><code class="language-sql">CREATE INDEX idx_dept_lastname ON employees (department, last_name);</code></pre>
+                    </li>
+                    <li class="fragment"><strong>ลำดับของคอลัมน์มีความสำคัญ:</strong> ควรเรียงจากคอลัมน์ที่ถูกใช้ในเงื่อนไขการสืบค้นที่แคบที่สุด</li>
+                </ul>
+            </section>
+
+            <section>
+                <h4>3.3 Partial Index</h4>
+                <p>สร้างดัชนีบนส่วนหนึ่งของตารางเท่านั้น โดยใช้เงื่อนไข <code>WHERE</code></p>
+                <pre><code class="language-sql">CREATE INDEX idx_active_products ON products (product_name) WHERE is_active = true;</code></pre>
+                <p class="fragment"><strong>ประโยชน์:</strong> ลดขนาดของดัชนี ทำให้การสืบค้นเร็วขึ้น</p>
+            </section>
+
+            <section>
+                <h3>บทที่ 4: การบำรุงรักษาและการตรวจสอบดัชนี</h3>
+                <h4>4.1 การตรวจสอบการใช้งานดัชนี</h4>
+                <p>ใช้มุมมอง <strong><code>pg_stat_user_indexes</code></strong> เพื่อดูสถิติ</p>
+                <pre><code class="language-sql">SELECT indexrelname, idx_scan FROM pg_stat_user_indexes ORDER BY idx_scan DESC;</code></pre>
+                <p class="fragment">หาก <code>idx_scan</code> ต่ำมาก อาจพิจารณาลบทิ้งได้</p>
+            </section>
+
+            <section>
+                <h2 class="title">โมดูล 5: การเพิ่มประสิทธิภาพการสืบค้น (Query Optimization)</h2>
+            </section>
+
+            <section>
+                <h3>บทที่ 1: การทำความเข้าใจ Query Optimizer</h3>
+                <h4>1.1 Query Optimizer คืออะไร?</h4>
+                <p>ส่วนประกอบที่วิเคราะห์คำสั่ง SQL และสร้าง <strong>แผนการสืบค้น (Query Plan)</strong> ที่ดีที่สุดเพื่อดึงข้อมูล</p>
+                <p class="fragment">ตัดสินใจว่าจะทำ <strong>Sequential Scan</strong> หรือ <strong>Index Scan</strong> โดยคำนวณจากค่า <strong>cost</strong></p>
+            </section>
+
+            <section>
+                <h4>1.2 บทบาทของ EXPLAIN และ EXPLAIN ANALYZE</h4>
+                <ul>
+                    <li class="fragment"><strong><code>EXPLAIN</code>:</strong> วางแผนแต่ไม่รันจริง</li>
+                    <li class="fragment"><strong><code>EXPLAIN ANALYZE</code>:</strong> รันจริงและแสดงข้อมูลละเอียด<br>
+                        <pre><code class="language-sql">EXPLAIN ANALYZE SELECT * FROM employees WHERE salary > 90000;</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>บทที่ 2: เทคนิคการเพิ่มประสิทธิภาพ Query</h3>
+                <ul>
+                    <li class="fragment"><strong>ใช้ <code>SELECT</code> ที่เหมาะสม:</strong> เลือกเฉพาะคอลัมน์ที่จำเป็น</li>
+                    <li class="fragment"><strong>ใช้ <code>JOIN</code> อย่างมีประสิทธิภาพ:</strong> เลี่ยงการใช้ Subquery ที่ซับซ้อน</li>
+                    <li class="fragment"><strong>หลีกเลี่ยง <code>LIKE '%text%'</code>:</strong> เพราะไม่สามารถใช้ดัชนีได้</li>
+                    <li class="fragment"><strong>ระวังการใช้ <code>OFFSET</code>:</strong> เพราะต้องสแกนแถวข้อมูลจำนวนมาก</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>บทที่ 3: การใช้เครื่องมือเพื่อระบุ Query ที่ทำงานช้า</h3>
+                <ul>
+                    <li class="fragment"><strong><code>pg_stat_statements</code>:</strong> ระบุ Query ที่ใช้ทรัพยากรมากที่สุดในระบบ Production</li>
+                    <li class="fragment"><strong><code>log_min_duration_statement</code>:</strong> บันทึก Query ที่ใช้เวลาเกินกำหนดลงใน Log File โดยอัตโนมัติ</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="title">โมดูล 6: การตรวจสอบและแก้ไขปัญหา</h2>
+            </section>
+
+            <section>
+                <h3>บทที่ 1: การทำความเข้าใจการตรวจสอบและแก้ไขปัญหา</h3>
+                <h4>1.1 ความสำคัญของการตรวจสอบ</h4>
+                <p>การตรวจสอบ <strong>(Monitoring)</strong> ช่วยให้คุณระบุปัญหาได้ก่อนที่จะส่งผลกระทบต่อผู้ใช้งานอย่างรุนแรง</p>
+            </section>
+
+            <section>
+                <h4>1.2 วงจรการแก้ไขปัญหา</h4>
+                <ol>
+                    <li class="fragment"><strong>การระบุปัญหา:</strong> ปัญหาคืออะไร?</li>
+                    <li class="fragment"><strong>การวิเคราะห์:</strong> หาต้นตอของปัญหา</li>
+                    <li class="fragment"><strong>การแก้ไข:</strong> นำแนวทางแก้ไขไปใช้</li>
+                    <li class="fragment"><strong>การตรวจสอบผลลัพธ์:</strong> ตรวจสอบว่าปัญหาได้รับการแก้ไขแล้ว</li>
+                </ol>
+            </section>
+
+            <section>
+                <h3>บทที่ 2: เครื่องมือสำหรับการตรวจสอบ</h3>
+                <ul>
+                    <li class="fragment"><strong><code>pg_stat_activity</code>:</strong> ข้อมูลเรียลไทม์เกี่ยวกับ Query ที่กำลังทำงาน</li>
+                    <li class="fragment"><strong><code>pg_stat_database</code>:</strong> สถิติระดับฐานข้อมูล เช่น จำนวน Transaction, Block ที่อ่าน</li>
+                    <li class="fragment"><strong><code>pg_locks</code>:</strong> ข้อมูลการล็อกทั้งหมดในฐานข้อมูล (ระบุปัญหา Deadlock)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>บทที่ 3: เทคนิคการแก้ไขปัญหา</h3>
+                <ul>
+                    <li class="fragment"><strong>ปัญหาการล็อก:</strong> ใช้ <code>pg_locks</code> เพื่อหาและยกเลิกกระบวนการที่ล็อก</li>
+                    <li class="fragment"><strong>Query ที่ทำงานช้า:</strong> ใช้ <code>EXPLAIN ANALYZE</code> เพื่อหาปัญหาและเพิ่มดัชนี</li>
+                    <li class="fragment"><strong>ปัญหาทรัพยากรระบบ:</strong> ตรวจสอบ CPU, RAM, Disk I/O และปรับแต่งพารามิเตอร์ที่เกี่ยวข้อง</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="title">โมดูล 7: เทคนิคการปรับปรุงประสิทธิภาพขั้นสูง</h2>
+            </section>
+
+            <section>
+                <h3>บทที่ 1: การใช้ประโยชน์จากฟีเจอร์ขั้นสูง</h3>
+                <ul>
+                    <li class="fragment"><strong>Materialized Views:</strong> จัดเก็บผลลัพธ์ของ Query ลงในดิสก์<br><small>เหมาะสำหรับรายงานที่ไม่ได้ต้องการข้อมูลแบบเรียลไทม์</small><br>
+                        <pre><code class="language-sql">CREATE MATERIALIZED VIEW daily_sales_summary AS ...;</code></pre>
+                    </li>
+                    <li class="fragment"><strong>Common Table Expressions (CTE):</strong> สร้างชุดผลลัพธ์ชั่วคราว<br><small>ทำให้ Query ที่ซับซ้อนอ่านง่ายขึ้น</small></li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>บทที่ 2: การจัดการสถิติและการทำ Vacuum</h3>
+                <ul>
+                    <li class="fragment"><strong>สถิติฐานข้อมูล:</strong> ทำให้ Optimizer สร้าง Query Plan ที่ถูกต้อง<br>
+                        <pre><code class="language-sql">ANALYZE employees;</code></pre>
+                    </li>
+                    <li class="fragment"><strong>VACUUM และ Autovacuum:</strong> กู้คืนพื้นที่ที่ใช้งานโดยข้อมูลที่ "ตาย" (dead tuples)<br><small>Autovacuum จะทำงานโดยอัตโนมัติ</small></li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>บทที่ 3: เทคนิคการเพิ่มประสิทธิภาพขั้นสูงเพิ่มเติม</h3>
+                <ul>
+                    <li class="fragment"><strong>การปรับแต่งการแคช:</strong> ตั้งค่า <code>effective_cache_size</code> ให้เหมาะสม</li>
+                    <li class="fragment"><strong>การปรับแต่ง Query Planner:</strong> ใช้ <code>SET enable_seqscan TO off;</code> เพื่อการทดสอบ</li>
+                    <li class="fragment"><strong><code>pg_prewarm</code>:</strong> โหลดข้อมูลจากดิสก์เข้า Shared Buffers ก่อนการใช้งานจริง</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2 class="title">โมดูล 8: การแบ่งพาร์ทิชันฐานข้อมูล</h2>
+            </section>
+
+            <section>
+                <h3>บทที่ 1: หลักการพื้นฐานของการแบ่งพาร์ทิชัน</h3>
+                <h4>1.1 การแบ่งพาร์ทิชันคืออะไร?</h4>
+                <p>การแบ่งตารางขนาดใหญ่ออกเป็นส่วนย่อยๆ เพื่อเพิ่มประสิทธิภาพการจัดการข้อมูลจำนวนมาก</p>
+                <p><strong>ประโยชน์:</strong></p>
+                <ul>
+                    <li class="fragment">เพิ่มความเร็ว Query (สแกนเฉพาะพาร์ทิชันที่เกี่ยวข้อง)</li>
+                    <li class="fragment">เพิ่มความเร็วในการบำรุงรักษา</li>
+                    <li class="fragment">จัดการข้อมูลเก่าได้ง่าย (ลบทั้งพาร์ทิชัน)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h4>1.2 ประเภทของการแบ่งพาร์ทิชันใน PostgreSQL</h4>
+                <div class="r-hstack">
+                    <div class="fragment">
+                        <h4>Range Partitioning</h4>
+                        <p>แบ่งตามช่วงของค่า (วันที่, ตัวเลข)</p>
+                    </div>
+                    <div class="fragment">
+                        <h4>List Partitioning</h4>
+                        <p>แบ่งตามค่าที่ระบุ (รหัสประเทศ, รหัสแผนก)</p>
+                    </div>
+                    <div class="fragment">
+                        <h4>Hash Partitioning</h4>
+                        <p>แบ่งตามค่า Hash เพื่อกระจายข้อมูล</p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>บทที่ 2: การใช้งาน Range Partitioning</h3>
+                <h4>ตัวอย่างการแบ่งตาราง Sales ตามวันที่</h4>
+                <p><strong>1. สร้างตารางแม่:</strong></p>
+                <pre><code class="language-sql">CREATE TABLE sales (...) PARTITION BY RANGE (sale_date);</code></pre>
+                <p><strong>2. สร้างตารางลูก:</strong></p>
+                <pre><code class="language-sql">CREATE TABLE sales_2024_jan PARTITION OF sales
+    FOR VALUES FROM ('2024-01-01') TO ('2024-02-01');</code></pre>
+                <p class="fragment"><strong>3. การสืบค้น:</strong> Query จะสแกนเฉพาะพาร์ทิชันที่เกี่ยวข้องเท่านั้น</p>
+            </section>
+
+            <section>
+                <h3>บทที่ 3: การใช้งาน List และ Hash Partitioning</h3>
+                <ul>
+                    <li class="fragment"><strong>List Partitioning:</strong><br>
+                        <pre><code class="language-sql">CREATE TABLE employees PARTITION BY LIST (department_code);</code></pre>
+                    </li>
+                    <li class="fragment"><strong>Hash Partitioning:</strong><br>
+                        <pre><code class="language-sql">CREATE TABLE products PARTITION BY HASH (product_id);</code></pre>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>บทที่ 4: การจัดการและบำรุงรักษาพาร์ทิชัน</h3>
+                <ul>
+                    <li class="fragment"><strong>การเพิ่ม/ลบพาร์ทิชัน:</strong> ง่ายและรวดเร็ว<br>
+                        <pre><code class="language-sql">DROP TABLE sales_2024_jan;</code></pre>
+                    </li>
+                    <li class="fragment"><strong>การตรวจสอบ:</strong> ใช้ <code>\d+ &lt;parent_table_name&gt;</code> ใน psql</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+    <script>
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            center: true,
+            hash: true,
+            plugins: [ RevealHighlight ]
+        });
+    </script>
+</body>
+</html>
