@@ -157,13 +157,18 @@
                         <li>
                             <div class="icon-text"><span class="icon"><i
                                         class="fas fa-calendar-check"></i></span><span><strong>วันเรียน:</strong>
-                                    ทุกวันเสาร์ 9:00–12:00 น. ทั้งหมด 16 ครั้ง เริ่มเรียนวันแรก วันที่ 6 กย. 2568</span>
+                                    ทุกวันเสาร์ 9:00–12:00 น. ทั้งหมด 16 ครั้ง เริ่มเรียนวันแรก วันที่ $courseStartDate</span>
                             </div>
                         </li>
                         <li>
                             <div class="icon-text"><span class="icon"><i
-                                        class="fas fa-tags"></i></span><span><strong>ราคา:</strong> THB 6,900 ถึง 30 ส.ค. 2568
-                                    → THB 9,900 หลังจากนั้น</span></div>
+                                        class="fas fa-tags"></i></span><span><strong>ราคา:<span id="priceTextF"></span></strong>
+                                <script>
+                                    document.addEventListener("DOMContentLoaded", () => {
+                                        
+                                    });
+                                </script>
+                            </div>
                         </li>
                         <li>
                             <div class="icon-text"><span class="icon"><i
@@ -190,17 +195,15 @@
         <div class="container">
             <div class="price-box">
                 <h3 class="title is-4">Camp ต่อยอดเพื่อรู้ทุกเทคนิคในโลกการทำงานจริงในบริษัทชั้นนำ</h3>
-                <h4 class="title is-size-1 has-text-dark">THB 6,900</h4>
-                <p class="is-size-5 has-text-dark">ราคานี้ถึงวันที่ 30 สิงหาคม 2568</p>
+                <h4 class="title is-size-1 has-text-dark">THB $quickBirdPrice</h4>
+                <p class="is-size-5 has-text-dark">ราคานี้ถึงวันที่ $quickBirdEndDate
                 <div class="columns is-centered mt-4">
                     <div class="column is-narrow">
                         <p class="is-size-5 has-text-dark"><strong>จากนั้นราคาจะถูกปรับเป็น:</strong></p>
-                        <p class="is-size-6 has-text-grey mt-2">THB 9,900 หลังจากนั้น</p>
+                        <p class="is-size-6 has-text-grey mt-2">THB $lateBirdPrice หลังจากนั้น</p>
                     </div>
                 </div>
-                <div class="notification is-info mt-4">
-                    <strong>พิเศษ!</strong> หากสมัครและชำระเงินภายในวันที่ 26 สิงหาคม 2568 รับฟรี Namifie face scrub และ Namifie ครีมกันแดด มูลค่ารวม 600 บาท
-                </div>
+                
             </div>
         </div>
     </section>
@@ -605,8 +608,7 @@
                             <p class="is-size-5 has-text-weight-bold">การันตีได้งานภายใน 6 เดือน</p>
                             <p class="is-size-6">หากไม่ได้งานภายใน 6 เดือน คืนเงิน 100%</p>
                             <div class="notification is-warning is-light mt-3">
-                                <p class="is-size-4 has-text-weight-bold">+ THB 10,000</p>
-                                <p class="is-size-6">รวมทั้งหมด: THB 16,900</p>
+                                <p class="is-size-4 has-text-weight-bold">+ THB $packageWorkPrice</p>
                             </div>
                             <ul class="mt-3">
                                 <li>✅ การันตีได้งาน 100%</li>
@@ -644,8 +646,7 @@
                             <p class="is-size-5 has-text-weight-bold">มีผู้ช่วยสอนประกบเพื่อสอบถามทุกวัน</p>
                             <p class="is-size-6">ไม่ต้องรอคำตอบ 24/7 Support</p>
                             <div class="notification is-info is-light mt-3">
-                                <p class="is-size-4 has-text-weight-bold">+ THB 5,000</p>
-                                <p class="is-size-6">รวมทั้งหมด: THB 9,900</p>
+                                <p class="is-size-4 has-text-weight-bold">+ THB $packageTAPrice>
                             </div>
                             <ul class="mt-3">
                                 <li>✅ ผู้ช่วยสอนประกบ 24/7</li>
@@ -684,8 +685,7 @@
                     <p class="is-size-5 has-text-weight-bold">รวมทั้ง 2 Package เสริม</p>
                     <p class="is-size-6">การันตีได้งาน + ผู้ช่วยสอนประกบ 24/7</p>
                     <div class="notification is-danger is-light mt-3">
-                        <p class="is-size-4 has-text-weight-bold">ราคารวม: THB 17,900 จาก 19,900 บาท</p>
-                        <p class="is-size-6">ประหยัด THB 2,000 เมื่อซื้อรวม</p>
+                        <p class="is-size-4 has-text-weight-bold">ราคารวม: THB $packageFullPrice </p>
                     </div>
                     <ul class="mt-3">
                         <li>✅ การันตีได้งาน 100%</li>
@@ -1957,13 +1957,13 @@
                     <!-- Pricing & Packages -->
                     <div class="notification">
                         <p class="is-size-5 has-text-weight-bold">Q6. ค่าใช้จ่ายในการสมัครเรียน</p>
-                        <p><strong>ราคาพื้นฐาน:</strong> THB 4,900 (ราคา Early Bird ถึง 23 สิงหาคม 2568)</p>
-                        <p><strong>ราคาปกติ:</strong> THB 6,900 (24-30 สิงหาคม 2568), THB 9,900 (หลังจากนั้น)</p>
+                        <p><strong>ราคาพื้นฐาน:</strong> THB $earlyBirdPrice (ราคา Early Bird ถึง $earlyBirdEndDate)</p>
+                        <p><strong>ราคาปกติ:</strong> THB $quickBirdPrice ถึง $quickBirdEndDate, THB $lateBirdPrice (หลังจากนั้น)</p>
                         <p><strong>Package เสริม:</strong></p>
                         <ul>
-                            <li>การันตีได้งาน: + THB 10,000 (รวม THB 14,900)</li>
-                            <li>ผู้ช่วยสอนประกบ: + THB 5,000 (รวม THB 9,900)</li>
-                            <li>ครบครัน: THB 17,900 (ประหยัด THB 2,000)</li>
+                            <li>การันตีได้งาน: + THB $packageWorkPrice </li>
+                            <li>ผู้ช่วยสอนประกบ: + THB $packageTAPrice </li>
+                            <li>ครบครัน: THB $packageFullPrice/li>
                         </ul>
                     </div>
 
@@ -2098,7 +2098,7 @@
                             <div class="box"
                                 style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white;">
                                 <h4 class="title is-5 has-text-white">📅 เปิดรับสมัคร</h4>
-                                <p class="is-size-6">วันนี้ - 6 กันยายน 2568</p>
+                                <p class="is-size-6">วันนี้ - $applyEndDate</p>
                                 <div class="notification is-warning is-light mt-2">
                                     <p class="is-size-5 has-text-weight-bold has-text-dark">Quick Bird Price</p>
                                     <p class="is-size-4 has-text-weight-bold has-text-success">THB 6,900</p>
@@ -2110,7 +2110,7 @@
                             <div class="box"
                                 style="background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); color: white;">
                                 <h4 class="title is-5 has-text-white">⏰ เริ่มเรียน</h4>
-                                <p class="is-size-6">วันเสาร์ที่ 7 กันยายน 2568</p>
+                                <p class="is-size-6">$courseStartDate</p>
                                 <div class="notification is-info is-light mt-2">
                                     <p class="is-size-5 has-text-weight-bold has-text-dark">Live Schedule</p>
                                     <p class="is-size-6">ทุกวันเสาร์ 9:00-12:00 น.</p>
@@ -2231,6 +2231,42 @@
                 });
             }
         });
+    </script>
+    <script src="setting.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Helper function to format numbers with commas
+        const formatNumber = (num) => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        // Helper function to format dates to Thai format
+        const formatDateToThai = (dateStr) => {
+            const months = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"];
+            const [day, month, year] = dateStr.split("/");
+            return `${parseInt(day)} ${months[parseInt(month) - 1]} ${parseInt(year)}`;
+        };
+
+        // Replace placeholders dynamically
+        document.body.innerHTML = document.body.innerHTML.replace(/\$courseStartDate/g, formatDateToThai(settings.courseStartDate));
+        document.body.innerHTML = document.body.innerHTML.replace(/\$applyEndDate/g, formatDateToThai(settings.applyEndDate));
+        document.body.innerHTML = document.body.innerHTML.replace(/\$quickBirdPrice/g, formatNumber(settings.quickBirdPrice));
+        document.body.innerHTML = document.body.innerHTML.replace(/\$quickBirdEndDate/g, formatDateToThai(settings.quickBirdEndDate));
+        document.body.innerHTML = document.body.innerHTML.replace(/\$lateBirdPrice/g, formatNumber(settings.lateBirdPrice));
+        document.body.innerHTML = document.body.innerHTML.replace(/\$earlyBirdPrice/g, formatNumber(settings.earlyBirdPrice));
+        document.body.innerHTML = document.body.innerHTML.replace(/\$earlyBirdEndDate/g, formatDateToThai(settings.earlyBirdEndDate));
+        document.body.innerHTML = document.body.innerHTML.replace(/\$packageWorkPrice/g, formatNumber(settings.packageWorkPrice));
+        document.body.innerHTML = document.body.innerHTML.replace(/\$packageTAPrice/g, formatNumber(settings.packageTAPrice));
+        document.body.innerHTML = document.body.innerHTML.replace(/\$packageFullPrice/g, formatNumber(settings.packageFullPrice));
+
+        let priceText = "";
+                                        if (settings.currentState === "earlyBird") {
+                                            priceText = ` THB ${formatNumber(settings.earlyBirdPrice)} ถึง ${formatDateToThai(settings.earlyBirdEndDate)}` + ` แล้วปรับเป็น THB ${formatNumber(settings.lateBirdPrice)} หลังจากนั้น`;
+                                        } else if (settings.currentState === "quickBird") {
+                                            priceText = ` THB ${formatNumber(settings.quickBirdPrice)} ถึง ${formatDateToThai(settings.quickBirdEndDate)}`+ ` แล้วปรับเป็น THB ${formatNumber(settings.lateBirdPrice)} หลังจากนั้น`;
+                                        } else if (settings.currentState === "lateBird") {
+                                            priceText = ` THB ${formatNumber(settings.lateBirdPrice)} `;
+                                        }
+                                        document.querySelector("#priceTextF").textContent = priceText;
+    });
     </script>
 </body>
 
