@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular Deep Dive</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/black.css" id="theme">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/monokai.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap');
+        
+        body, h1, h2, h3, h4, p, li, pre, code, .r-stack {
+            font-family: 'Prompt', sans-serif !important;
+            font-size: 24px !important;
+        }
+
+        .reveal .slides section pre {
+            font-size: 0.6em;
+            text-align: left;
+        }
+
+        .reveal pre code {
+            max-height: 55vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Angular Deep Dive
+                    ### สร้างแอปพลิเคชันเว็บที่ทรงพลังและปรับขนาดได้
+                    <br>
+                    โดย: [ชื่อของคุณ]
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Angular คืออะไร?
+                    * **Framework สำหรับสร้าง Single-Page Applications (SPAs)**
+                        * พัฒนาโดย Google
+                        * ใช้ TypeScript เป็นภาษาหลัก
+                    * **คุณสมบัติเด่น:**
+                        * Component-based Architecture
+                        * Two-way Data Binding
+                        * Dependency Injection
+                        * CLI (Command Line Interface) ที่ทรงพลัง
+                        * รองรับการพัฒนา Mobile (NativeScript) และ Desktop (Electron)
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # ประวัติโดยย่อของ Angular
+                    * **AngularJS (Angular 1.x):** เปิดตัวปี 2010, ใช้ JavaScript
+                    * **Angular (Angular 2+):** เปิดตัวปี 2016, เขียนใหม่ทั้งหมดด้วย TypeScript
+                        * เป็นการเปลี่ยนผ่านครั้งใหญ่
+                        * เน้นประสิทธิภาพและสถาปัตยกรรมแบบ Component
+                    * **การพัฒนาอย่างต่อเนื่อง:**
+                        * ออกเวอร์ชันใหม่ทุก 6 เดือน (Angular 12, 13, 14, ...)
+                        * มีการปรับปรุงและเพิ่มฟีเจอร์ใหม่ๆ ตลอดเวลา
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # ทำไมต้อง Angular?
+                    * **โครงสร้างที่ชัดเจน:** เหมาะสำหรับโปรเจกต์ขนาดใหญ่
+                    * **ประสิทธิภาพสูง:** รองรับ Server-Side Rendering (SSR) และ Web Workers
+                    * **เครื่องมือครบวงจร:** Angular CLI, IDE Support
+                    * **TypeScript:** เพิ่มความปลอดภัยของโค้ดและช่วยในการ Refactoring
+                    * **ระบบนิเวศ (Ecosystem) ที่ใหญ่:** มีไลบรารีและชุมชนผู้ใช้งานที่แข็งแกร่ง
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Prerequisites (สิ่งที่ต้องมีก่อนเริ่ม)
+                    * **Node.js:** Runtime สำหรับ JavaScript (มาพร้อม npm)
+                        * ใช้สำหรับรัน Angular CLI และติดตั้งแพ็กเกจ
+                    * **npm หรือ Yarn:** Package Manager
+                    * **Visual Studio Code (VS Code):** IDE ที่แนะนำ
+                        * มี Extension สำหรับ Angular และ TypeScript
+                    * **ความเข้าใจพื้นฐาน:**
+                        * HTML, CSS, JavaScript (ES6+)
+                        * แนวคิดการเขียนโปรแกรมเชิงวัตถุ (OOP)
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # การติดตั้ง Angular CLI
+                    * Angular CLI (Command Line Interface) คือเครื่องมือสำคัญสำหรับสร้าง จัดการ และ Build โปรเจกต์ Angular
+                    * **คำสั่งติดตั้ง:**
+                        ```bash
+                        npm install -g @angular/cli
+                        ```
+                    * **ตรวจสอบเวอร์ชัน:**
+                        ```bash
+                        ng version
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # การสร้างโปรเจกต์ใหม่
+                    * ใช้คำสั่ง `ng new` ตามด้วยชื่อโปรเจกต์
+                        ```bash
+                        ng new my-angular-app
+                        ```
+                    * **ตัวเลือกเพิ่มเติม:**
+                        * `--routing`: เพิ่ม Angular Routing Module
+                        * `--style=scss`: เลือก Preprocessor สำหรับ CSS (sass, less, styl)
+                        * `--skip-tests`: ไม่สร้างไฟล์ทดสอบ
+                    * เมื่อสร้างเสร็จ ให้เข้าไปใน Folder โปรเจกต์
+                        ```bash
+                        cd my-angular-app
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # การรันแอปพลิเคชัน Angular
+                    * ใช้คำสั่ง `ng serve`
+                        ```bash
+                        ng serve
+                        ```
+                    * แอปพลิเคชันจะรันที่ `http://localhost:4200/`
+                    * `--open` หรือ `-o`: เปิดบราวเซอร์อัตโนมัติ
+                        ```bash
+                        ng serve --open
+                        ```
+                    * เมื่อแก้ไขโค้ดและบันทึก ไฟล์จะถูก Compile และบราวเซอร์จะ Refresh อัตโนมัติ (Live Reload)
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Component-based Architecture
+                    * Angular สร้างแอปพลิเคชันด้วยการประกอบรวมกันของ **Components**
+                    * **Component** คือส่วนประกอบ UI ที่มี Logic และ Template ของตัวเอง
+                    * แต่ละ Component มีหน้าที่เฉพาะเจาะจง ทำให้โค้ด Modular และนำกลับมาใช้ใหม่ได้
+                    * **ตัวอย่าง:** Navbar, Sidebar, Product Card เป็นต้น
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # โครงสร้างไฟล์โปรเจกต์ (Overview)
+                    * `src/`: โค้ดแอปพลิเคชันหลัก
+                        * `app/`: Components, Modules, Services
+                        * `assets/`: รูปภาพ, ไฟล์ Static
+                        * `environments/`: การตั้งค่า Environment
+                        * `index.html`: ไฟล์ HTML หลัก
+                        * `main.ts`: Entry point ของแอปพลิเคชัน
+                        * `styles.css`: Global Styles
+                    * `node_modules/`: แพ็กเกจที่ติดตั้งโดย npm
+                    * `angular.json`: การตั้งค่าโปรเจกต์ของ Angular CLI
+                    * `package.json`: ข้อมูลโปรเจกต์และ Dependencies
+                    * `tsconfig.json`: การตั้งค่า TypeScript
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Anatomy of a Component
+                    * แต่ละ Component ประกอบด้วย 3 ไฟล์หลัก:
+                        1.  **`.ts` (TypeScript):** โค้ด Logic ของ Component
+                        2.  **`.html` (Template):** โครงสร้าง UI ของ Component
+                        3.  **`.css` (Stylesheet):** สไตล์สำหรับ Component นั้นๆ
+                    * ไฟล์ `.spec.ts`: สำหรับเขียน Unit Tests
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Component - .ts File
+                    * ใช้ `import { Component } from '@angular/core';`
+                    * ใช้ `decorator @Component` เพื่อกำหนด Metadata
+                        ```typescript
+                        import { Component } from '@angular/core';
+
+                        @Component({
+                          selector: 'app-my-component', // CSS selector
+                          templateUrl: './my-component.component.html', // ไฟล์ HTML
+                          styleUrls: ['./my-component.component.css'] // ไฟล์ CSS
+                        })
+                        export class MyComponent {
+                          title = 'Hello Angular';
+
+                          handleClick() {
+                            alert(this.title);
+                          }
+                        }
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Component - .html Template
+                    * ใช้ Syntax ของ Angular Template
+                    * **Interpolation `{{ }}`:** แสดงค่าจาก TypeScript Class
+                    * **Property Binding `[ ]`:** ผูกค่ากับ Property ของ HTML Element
+                    * **Event Binding `( )`:** จัดการ Event
+                        ```html
+                        <h1>{{ title }}</h1>
+                        <button (click)="handleClick()">คลิกฉัน</button>
+                        <img [src]="imageUrl" alt="Angular Logo">
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Module (NgModule)
+                    * NgModule คือกลไกการจัดระเบียบโค้ดใน Angular
+                    * แต่ละ Module จะรวบรวม Components, Services, Directives, Pipes ที่เกี่ยวข้องเข้าด้วยกัน
+                    * ช่วยในการจัดกลุ่มโค้ดและกำหนดขอบเขต
+                    * ทุกแอปพลิเคชัน Angular มีอย่างน้อยหนึ่ง Root Module (AppModule)
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Anatomy of a Module
+                    * ใช้ `import { NgModule } from '@angular/core';`
+                    * ใช้ `decorator @NgModule` เพื่อกำหนด Metadata
+                        ```typescript
+                        import { NgModule } from '@angular/core';
+                        import { BrowserModule } from '@angular/platform-browser';
+                        import { AppComponent } from './app.component';
+                        import { MyComponent } from './my/my.component';
+
+                        @NgModule({
+                          declarations: [ // Components, Directives, Pipes ที่เป็นของ Module นี้
+                            AppComponent,
+                            MyComponent
+                          ],
+                          imports: [ // Modules อื่นๆ ที่ Module นี้ต้องใช้
+                            BrowserModule
+                          ],
+                          providers: [], // Services
+                          bootstrap: [AppComponent] // Root Component สำหรับ Root Module เท่านั้น
+                        })
+                        export class AppModule { }
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # การสร้าง Component ด้วย CLI
+                    * ใช้คำสั่ง `ng generate component` หรือ `ng g c`
+                        ```bash
+                        ng generate component header
+                        # หรือ
+                        ng g c products/product-list
+                        ```
+                    * CLI จะสร้างไฟล์ Component ให้โดยอัตโนมัติ และลงทะเบียนใน Module ที่เหมาะสม
+                    * ลดความผิดพลาดและประหยัดเวลา
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Data Binding Overview
+                    * กลไกการซิงโครไนซ์ข้อมูลระหว่าง Model (TypeScript Class) และ View (HTML Template)
+                    * **ประเภทของ Data Binding:**
+                        * **One-way Binding:**
+                            * Interpolation `{{ }}`
+                            * Property Binding `[ ]`
+                            * Event Binding `( )`
+                        * **Two-way Binding:**
+                            * `[(ngModel)]`
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Interpolation (`{{ }}`)
+                    * ใช้เพื่อแสดงค่าของ Property จาก Component Class ไปยัง Template
+                    * เป็น One-way Binding จาก Component ไปยัง View
+                        ```typescript
+                        // app.component.ts
+                        export class AppComponent {
+                          username = 'Angular Lover';
+                          age = 30;
+                        }
+                        ```
+                        ```html
+                        <p>สวัสดีครับ, {{ username }}</p>
+                        <p>คุณอายุ {{ age }} ปี</p>
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Property Binding (`[ ]`)
+                    * ใช้เพื่อผูกค่าของ Property จาก Component Class กับ HTML Element Property
+                    * เป็น One-way Binding จาก Component ไปยัง View
+                        ```typescript
+                        // app.component.ts
+                        export class AppComponent {
+                          isDisabled = true;
+                          imageUrl = 'assets/logo.png';
+                        }
+                        ```
+                        ```html
+                        <button [disabled]="isDisabled">คลิกไม่ได้</button>
+                        <img [src]="imageUrl" [alt]="'Angular Logo'">
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Event Binding (`( )`)
+                    * ใช้เพื่อตอบสนองต่อ Event ที่เกิดขึ้นบน HTML Element (เช่น `click`, `mouseover`, `submit`)
+                    * เป็น One-way Binding จาก View ไปยัง Component
+                        ```typescript
+                        // app.component.ts
+                        export class AppComponent {
+                          message = 'ยังไม่ได้คลิก';
+                          onClickButton() {
+                            this.message = 'คลิกแล้ว!';
+                          }
+                        }
+                        ```
+                        ```html
+                        <button (click)="onClickButton()">คลิกที่นี่</button>
+                        <p>{{ message }}</p>
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Two-way Data Binding (`[(ngModel)]`)
+                    * ผูกข้อมูลทั้งสองทาง:
+                        * จาก Component ไปยัง View
+                        * จาก View กลับไปยัง Component (เมื่อค่าใน Input เปลี่ยน)
+                    * ต้องนำเข้า `FormsModule` ใน `app.module.ts` ก่อนใช้งาน
+                        ```typescript
+                        // app.module.ts
+                        import { FormsModule } from '@angular/forms';
+                        // ...
+                        @NgModule({
+                          // ...
+                          imports: [
+                            BrowserModule,
+                            FormsModule // &lt;-- เพิ่มตรงนี้
+                          ],
+                          // ...
+                        })
+                        export class AppModule { }
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Two-way Data Binding (ตัวอย่าง)
+                        ```typescript
+                        // app.component.ts
+                        export class AppComponent {
+                          name = 'โลก';
+                        }
+                        ```
+                        ```html
+                        <input [(ngModel)]="name" type="text">
+                        <p>สวัสดี, {{ name }}!</p>
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Component Interaction: `@Input()`
+                    * ใช้สำหรับส่งข้อมูลจาก **Parent Component** ไปยัง **Child Component**
+                    * Child Component รับค่าผ่าน Property ที่มี `@Input()` decorator
+                        ```typescript
+                        // child.component.ts
+                        import { Component, Input } from '@angular/core';
+
+                        @Component({
+                          selector: 'app-child',
+                          template: '&lt;p&gt;ข้อความจากแม่: {{ message }}&lt;/p&gt;'
+                        })
+                        export class ChildComponent {
+                          @Input() message: string = '';
+                        }
+                        ```
+                        ```html
+                        &lt;app-child [message]="'สวัสดีจาก Parent'"&gt;&lt;/app-child&gt;
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Component Interaction: `@Output()` & `EventEmitter`
+                    * ใช้สำหรับส่งข้อมูลจาก **Child Component** ไปยัง **Parent Component**
+                    * Child Component ใช้ `@Output()` คู่กับ `EventEmitter` เพื่อ "ปล่อย" Event
+                    * Parent Component ดักฟัง Event
+                        ```typescript
+                        // child.component.ts
+                        import { Component, Output, EventEmitter } from '@angular/core';
+
+                        @Component({
+                          selector: 'app-child',
+                          template: '&lt;button (click)="sendToParent()"&gt;ส่งข้อมูลให้แม่&lt;/button&gt;'
+                        })
+                        export class ChildComponent {
+                          @Output() dataEmitter = new EventEmitter&lt;string&gt;();
+
+                          sendToParent() {
+                            this.dataEmitter.emit('ข้อมูลจาก Child!');
+                          }
+                        }
+                        ```
+                        ```html
+                        &lt;app-child (dataEmitter)="onDataReceived($event)"&gt;&lt;/app-child&gt;
+                        &lt;p&gt;รับข้อมูลจากลูก: {{ receivedData }}&lt;/p&gt;
+                        ```
+                        ```typescript
+                        // parent.component.ts
+                        export class ParentComponent {
+                          receivedData: string = '';
+                          onDataReceived(data: string) {
+                            this.receivedData = data;
+                          }
+                        }
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Directives Overview
+                    * Directives คือคำสั่งที่ใช้ในการเปลี่ยนแปลงลักษณะการทำงานหรือรูปลักษณ์ของ DOM Element
+                    * **ประเภทของ Directives:**
+                        * **Component Directives:** Components คือ Directives ที่มี Template
+                        * **Structural Directives:** เปลี่ยนแปลงโครงสร้างของ DOM (เพิ่ม/ลบ Element)
+                        * **Attribute Directives:** เปลี่ยนแปลงรูปลักษณ์หรือพฤติกรรมของ Element
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Structural Directives (`*ngIf`, `*ngFor`)
+                    * **`*ngIf`:** แสดง/ซ่อน Element ตามเงื่อนไข
+                        ```html
+                        &lt;div *ngIf="isLoggedIn"&gt;ยินดีต้อนรับ!&lt;/div&gt;
+                        &lt;div *ngIf="!isLoggedIn; else loginBlock"&gt;กรุณา Login&lt;/div&gt;
+                        &lt;ng-template #loginBlock&gt;&lt;button&gt;เข้าสู่ระบบ&lt;/button&gt;&lt;/ng-template&gt;
+                        ```
+                    * **`*ngFor`:** วนลูปเพื่อแสดง Element ซ้ำๆ
+                        ```html
+                        &lt;ul&gt;
+                          &lt;li *ngFor="let item of items; let i = index"&gt;
+                            {{ i + 1 }}. {{ item }}
+                          &lt;/li&gt;
+                        &lt;/ul&gt;
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Attribute Directives (`[ngClass]`, `[ngStyle]`)
+                    * **`[ngClass]`:** เพิ่ม/ลบคลาส CSS ตามเงื่อนไข
+                        ```html
+                        &lt;div [ngClass]="{ 'active': isActive, 'highlight': isHighlight }"&gt;
+                          ข้อความมีสไตล์
+                        &lt;/div&gt;
+                        ```
+                    * **`[ngStyle]`:** กำหนดสไตล์ CSS แบบ Inline
+                        ```html
+                        &lt;div [ngStyle]="{ 'color': textColor, 'font-size.px': fontSize }"&gt;
+                          ข้อความเปลี่ยนสีและขนาด
+                        &lt;/div&gt;
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Custom Directives
+                    * เราสามารถสร้าง Directive ของตัวเองได้เพื่อปรับแต่งพฤติกรรมของ Element
+                    * **สร้างด้วย CLI:** `ng generate directive highlight`
+                        ```typescript
+                        // highlight.directive.ts
+                        import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+
+                        @Directive({
+                          selector: '[appHighlight]' // ใช้เป็น &lt;div appHighlight&gt;...&lt;/div&gt;
+                        })
+                        export class HighlightDirective {
+                          @Input('appHighlight') highlightColor: string = 'yellow'; // รับค่าสี
+
+                          constructor(private el: ElementRef) { }
+
+                          @HostListener('mouseenter') onMouseEnter() {
+                            this.highlight(this.highlightColor);
+                          }
+
+                          @HostListener('mouseleave') onMouseLeave() {
+                            this.highlight('');
+                          }
+
+                          private highlight(color: string) {
+                            this.el.nativeElement.style.backgroundColor = color;
+                          }
+                        }
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Services Overview
+                    * **Services** คือคลาสที่รวบรวม Logic หรือฟังก์ชันที่สามารถนำกลับมาใช้ใหม่ได้
+                    * มักใช้สำหรับ:
+                        * การเรียกใช้ API
+                        * การจัดการข้อมูล
+                        * การจัดการ Business Logic
+                        * การแชร์ข้อมูลระหว่าง Components
+                    * ไม่มี View หรือ Template
+                    * ออกแบบมาเพื่อใช้งานร่วมกับ **Dependency Injection**
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Dependency Injection (DI)
+                    * รูปแบบการออกแบบที่ช่วยให้คลาสได้รับ Dependencies จากภายนอก แทนที่จะสร้างเอง
+                    * Angular DI System ช่วยจัดการการสร้างและฉีด (Inject) Instances ของ Services เข้าไปใน Components หรือ Services อื่นๆ
+                    * ทำให้โค้ด Modular, Testable และ Maintainable
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # การสร้าง Service และการ Inject
+                    * **สร้างด้วย CLI:** `ng generate service data`
+                        ```typescript
+                        // data.service.ts
+                        import { Injectable } from '@angular/core';
+                        import { HttpClient } from '@angular/common/http'; // สำหรับเรียก API
+
+                        @Injectable({
+                          providedIn: 'root' // Service นี้จะถูกสร้างเป็น Singleton และ Inject ได้ทั่วแอป
+                        })
+                        export class DataService {
+                          constructor(private http: HttpClient) { } // Inject HttpClient
+
+                          getUsers() {
+                            return this.http.get('[https://api.example.com/users](https://api.example.com/users)');
+                          }
+                        }
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # การใช้งาน Service ใน Component
+                        ```typescript
+                        // app.component.ts
+                        import { Component, OnInit } from '@angular/core';
+                        import { DataService } from './data.service'; // นำเข้า Service
+
+                        @Component({ /* ... */ })
+                        export class AppComponent implements OnInit {
+                          users: any[] = [];
+
+                          constructor(private dataService: DataService) { } // Inject DataService ผ่าน Constructor
+
+                          ngOnInit() {
+                            this.dataService.getUsers().subscribe((data: any) => {
+                              this.users = data;
+                            });
+                          }
+                        }
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Angular Routing Overview
+                    * ใช้สำหรับนำทาง (Navigation) ระหว่าง Views (Components) ใน Single-Page Application
+                    * ผู้ใช้สามารถย้ายหน้าได้โดยไม่ต้องโหลดหน้าเว็บใหม่ทั้งหมด
+                    * URL จะเปลี่ยนไปตาม Component ที่แสดงอยู่
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # การตั้งค่า Routing Module
+                    * มักจะถูกสร้างอัตโนมัติเมื่อใช้ `ng new --routing`
+                    * ไฟล์ `app-routing.module.ts`
+                        ```typescript
+                        // app-routing.module.ts
+                        import { NgModule } from '@angular/core';
+                        import { RouterModule, Routes } from '@angular/router';
+                        import { HomeComponent } from './home/home.component';
+                        import { AboutComponent } from './about/about.component';
+                        import { ContactComponent } from './contact/contact.component';
+
+                        const routes: Routes = [
+                          { path: '', component: HomeComponent }, // เส้นทางเริ่มต้น
+                          { path: 'about', component: AboutComponent },
+                          { path: 'contact', component: ContactComponent },
+                          { path: '**', redirectTo: '' } // Wildcard route สำหรับ Page Not Found
+                        ];
+
+                        @NgModule({
+                          imports: [RouterModule.forRoot(routes)],
+                          exports: [RouterModule]
+                        })
+                        export class AppRoutingModule { }
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # การกำหนด Routes และ `router-outlet`
+                    * `Routes` Array: กำหนด Object ของ Path และ Component ที่เกี่ยวข้อง
+                    * `RouterModule.forRoot(routes)`: กำหนด Root Routes ของแอปพลิเคชัน
+                    * `router-outlet`: เป็น Directive ที่ Angular จะ Render Component ที่ตรงกับ Route ณ ปัจจุบัน
+                        ```html
+                        &lt;nav&gt;
+                          &lt;a routerLink="/"&gt;หน้าแรก&lt;/a&gt; |
+                          &lt;a routerLink="/about"&gt;เกี่ยวกับเรา&lt;/a&gt; |
+                          &lt;a routerLink="/contact"&gt;ติดต่อ&lt;/a&gt;
+                        &lt;/nav&gt;
+                        &lt;router-outlet&gt;&lt;/router-outlet&gt; &lt;!-- Component ที่ถูกเลือกจะถูกแสดงที่นี่ --&gt;
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Parameterized Routes และ `ActivatedRoute`
+                    * ส่งค่า Parameters ผ่าน URL (เช่น ID ของสินค้า)
+                        ```typescript
+                        // app-routing.module.ts
+                        const routes: Routes = [
+                          { path: 'products/:id', component: ProductDetailComponent }
+                        ];
+                        ```
+                    * ใน Component ปลายทาง, ใช้ `ActivatedRoute` เพื่ออ่านค่า Parameter
+                        ```typescript
+                        // product-detail.component.ts
+                        import { Component, OnInit } from '@angular/core';
+                        import { ActivatedRoute } from '@angular/router';
+
+                        @Component({ /* ... */ })
+                        export class ProductDetailComponent implements OnInit {
+                          productId: string | null = null;
+
+                          constructor(private route: ActivatedRoute) { }
+
+                          ngOnInit() {
+                            this.route.paramMap.subscribe(params => {
+                              this.productId = params.get('id');
+                              // โหลดข้อมูลสินค้าด้วย productId
+                            });
+                          }
+                        }
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Pipes Overview
+                    * **Pipes** คือฟังก์ชันที่ใช้ในการแปลงข้อมูลสำหรับแสดงผลใน Template
+                    * ไม่เปลี่ยนแปลงค่าต้นฉบับใน Component Class แต่เปลี่ยนเฉพาะการแสดงผล
+                    * ใช้สัญลักษณ์ `|` ใน Template
+                        ```html
+                        &lt;p&gt;วันที่ปัจจุบัน: {{ todayDate | date:'fullDate' }}&lt;/p&gt;
+                        &lt;p&gt;สกุลเงิน: {{ price | currency:'THB':'symbol':'1.2-2' }}&lt;/p&gt;
+                        &lt;p&gt;ตัวพิมพ์ใหญ่: {{ 'hello' | uppercase }}&lt;/p&gt;
+                        ```
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Built-in Pipes
+                    * `DatePipe`: จัดรูปแบบวันที่
+                    * `CurrencyPipe`: จัดรูปแบบสกุลเงิน
+                    * `DecimalPipe`: จัดรูปแบบตัวเลข
+                    * `PercentPipe`: จัดรูปแบบเปอร์เซ็นต์
+                    * `UpperCasePipe`, `LowerCasePipe`: เปลี่ยนตัวพิมพ์
+                    * `JsonPipe`: แปลง Object เป็น JSON String
+                    * `AsyncPipe`: จัดการ Promise และ Observable
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # Forms: Template-driven vs. Reactive Forms
+                    * **Template-driven Forms:**
+                        * สร้างฟอร์มส่วนใหญ่ใน Template โดยใช้ `ngModel` และ Directives อื่นๆ
+                        * เหมาะสำหรับฟอร์มง่ายๆ
+                        * ต้องนำเข้า `FormsModule`
+                    * **Reactive Forms:**
+                        * สร้างฟอร์มใน TypeScript Class ด้วย `FormControl`, `FormGroup`, `FormBuilder`
+                        * เหมาะสำหรับฟอร์มที่ซับซ้อน, มีการ Validate เยอะ, หรือ Dynamic Forms
+                        * ต้องนำเข้า `ReactiveFormsModule`
+                </textarea>
+            </section>
+
+            <section data-markdown>
+                <textarea data-template>
+                    # คำถาม & คำตอบ
+                    ### ขอบคุณครับ/ค่ะ
+                    <br>
+                    มีคำถามเพิ่มเติมหรือไม่ครับ/คะ?
+                </textarea>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+            hash: true,
+            transition: 'slide',
+            plugins: [ RevealMarkdown, RevealHighlight ]
+        });
+    </script>
+</body>
+</html>

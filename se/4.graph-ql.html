@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>การสร้างและใช้งาน GraphQL API สำหรับการจัดการข้อมูลแบบ Flexible และ Efficient</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.0/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.0/theme/simple.min.css" id="theme">
+    <style>
+        body, .reveal, .reveal h1, .reveal h2, .reveal h3, .reveal p, .reveal li, .reveal code, .reveal pre {
+            font-family: 'Prompt', sans-serif !important;
+            font-size: 30px;
+        }
+        .reveal h1, .reveal h2 {
+            font-weight: 700;
+        }
+        .reveal p, .reveal li {
+            font-weight: 400;
+        }
+        .reveal code {
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <!-- Slide 1: Title -->
+            <section>
+                <h1>การสร้างและใช้งาน GraphQL API</h1>
+                <h2>สำหรับการจัดการข้อมูลแบบ Flexible และ Efficient</h2>
+                <p>โดย Grok 4 จาก xAI</p>
+                <p>วันที่ 4 กันยายน 2025</p>
+            </section>
+
+            <!-- Slide 2: GraphQL คืออะไร? -->
+            <section>
+                <h2>GraphQL คืออะไร?</h2>
+                <p>GraphQL เป็นภาษาสอบถาม (Query Language) สำหรับ API ที่ช่วยให้ client สามารถขอข้อมูลที่ต้องการได้อย่างแม่นยำ โดยไม่ต้อง over-fetching หรือ under-fetching ข้อมูล</p>
+                <ul>
+                    <li>พัฒนาโดย Facebook ในปี 2012 และเปิดเป็น open-source ในปี 2015</li>
+                    <li>ทำงานบนฐานของ schema ที่กำหนดโครงสร้างข้อมูล</li>
+                    <li>รองรับ queries, mutations, และ subscriptions สำหรับการจัดการข้อมูลแบบ real-time</li>
+                    <li>ข้อดีหลัก: Flexible (ยืดหยุ่น) และ Efficient (มีประสิทธิภาพ) ในการดึงข้อมูล</li>
+                </ul>
+            </section>
+
+            <!-- Slide 3: REST API vs GraphQL -->
+            <section>
+                <h2>REST API vs GraphQL</h2>
+                <p>เปรียบเทียบระหว่าง REST และ GraphQL เพื่อเห็นความแตกต่างในการจัดการข้อมูล</p>
+                <table>
+                    <tr><th>REST</th><th>GraphQL</th></tr>
+                    <tr><td>หลาย endpoints (e.g., /users, /posts)</td><td>endpoint เดียว (e.g., /graphql)</td></tr>
+                    <tr><td>over-fetching/under-fetching ข้อมูล</td><td>ขอข้อมูลเฉพาะที่ต้องการ</td></tr>
+                    <tr><td>เวอร์ชัน API แยก (e.g., v1, v2)</td><td>schema evolve โดยไม่ต้อง versioning</td></tr>
+                    <tr><td>ไม่รองรับ real-time โดยตรง</td><td>รองรับ subscriptions สำหรับ real-time</td></tr>
+                </table>
+                <p>GraphQL เหมาะสำหรับแอปที่ต้องการข้อมูลยืดหยุ่น เช่น mobile apps หรือ web apps ที่ซับซ้อน</p>
+            </section>
+
+            <!-- Slide 4: ข้อดีของ GraphQL -->
+            <section>
+                <h2>ข้อดีของ GraphQL</h2>
+                <ul>
+                    <li><strong>Flexible:</strong> Client สามารถกำหนดโครงสร้างข้อมูลที่ต้องการได้เอง ทำให้ปรับแต่งได้ตามความต้องการ</li>
+                    <li><strong>Efficient:</strong> ลด bandwidth โดยดึงเฉพาะข้อมูลที่จำเป็น ลด latency ในเครือข่าย</li>
+                    <li><strong>Strong Typing:</strong> Schema กำหนด types ชัดเจน ช่วยในการ validate และเอกสารอัตโนมัติ</li>
+                    <li><strong>Real-time Capabilities:</strong> ด้วย subscriptions สามารถอัปเดตข้อมูลแบบ real-time</li>
+                    <li><strong>Tooling:</strong> มี tools มากมาย เช่น GraphiQL สำหรับ testing</li>
+                    <li>ลดปัญหา N+1 queries ด้วย batching และ caching</li>
+                </ul>
+            </section>
+
+            <!-- Slide 5: การตั้งค่า GraphQL Server ด้วย Apollo Server -->
+            <section>
+                <h2>การตั้งค่า GraphQL Server ด้วย Apollo Server</h2>
+                <p>Apollo Server เป็น library ยอดนิยมสำหรับ Node.js ในการสร้าง GraphQL API</p>
+                <pre><code>npm install @apollo/server graphql</code></pre>
+                <p>ตัวอย่าง code การตั้งค่า server พื้นฐาน:</p>
+                <pre><code>const { ApolloServer } = require('@apollo/server');
+const { startStandaloneServer } = require('@apollo/server/standalone');
+
+const typeDefs = gql\` type Query { hello: String } \`;
+const resolvers = { Query: { hello: () => 'Hello world!' } };
+
+const server = new ApolloServer({ typeDefs, resolvers });
+const { url } = await startStandaloneServer(server, { listen: { port: 4000 } });
+console.log(\`🚀 Server ready at \${url}\`);</code></pre>
+                <p>รัน server และทดสอบที่ http://localhost:4000</p>
+            </section>
+
+            <!-- Slide 6: การกำหนด Schema ใน GraphQL -->
+            <section>
+                <h2>การกำหนด Schema ใน GraphQL</h2>
+                <p>Schema เป็นหัวใจของ GraphQL กำหนดโครงสร้างข้อมูลด้วย SDL (Schema Definition Language)</p>
+                <ul>
+                    <li><strong>Types:</strong> Object types, Scalar types (Int, Float, String, Boolean, ID)</li>
+                    <li><strong>Enums, Interfaces, Unions:</strong> สำหรับข้อมูลที่ซับซ้อน</li>
+                    <li><strong>Root Types:</strong> Query, Mutation, Subscription</li>
+                </ul>
+                <p>ตัวอย่าง schema พื้นฐาน:</p>
+                <pre><code>type Query {
+  user(id: ID!): User
+}
+
+type User {
+  id: ID!
+  name: String
+  email: String
+}</code></pre>
+            </section>
+
+            <!-- Slide 7: ประเภทข้อมูล (Types) ใน GraphQL -->
+            <section>
+                <h2>ประเภทข้อมูล (Types) ใน GraphQL</h2>
+                <p>GraphQL มี types หลักๆ ดังนี้:</p>
+                <ul>
+                    <li><strong>Scalar Types:</strong> Int, Float, String, Boolean, ID (unique identifier)</li>
+                    <li><strong>Object Types:</strong> กำหนด fields เช่น type Book { title: String, author: Author }</li>
+                    <li><strong>Enum Types:</strong> สำหรับค่าที่กำหนดไว้ล่วงหน้า e.g., enum Role { ADMIN USER }</li>
+                    <li><strong>Interface & Union:</strong> สำหรับ polymorphism e.g., union SearchResult = Book | Author</li>
+                    <li><strong>Input Types:</strong> สำหรับ arguments ใน mutations e.g., input UserInput { name: String }</li>
+                    <li>Custom Scalars: สามารถกำหนดเอง เช่น Date</li>
+                </ul>
+                <p>types ช่วยให้ API มีความแข็งแรงและ predictable</p>
+            </section>
+
+            <!-- Slide 8: Queries ใน GraphQL -->
+            <section>
+                <h2>Queries ใน GraphQL</h2>
+                <p>Queries ใช้สำหรับดึงข้อมูล (read operations)</p>
+                <p>ตัวอย่าง query:</p>
+                <pre><code>query {
+  user(id: "1") {
+    id
+    name
+    posts {
+      title
+      content
+    }
+  }
+}</code></pre>
+                <p>รองรับ arguments, aliases, fragments, variables, directives (e.g., @include, @skip)</p>
+                <p>ช่วยให้ client ดึงข้อมูล nested ได้ใน request เดียว ลดจำนวน calls</p>
+            </section>
+
+            <!-- Slide 9: Mutations ใน GraphQL -->
+            <section>
+                <h2>Mutations ใน GraphQL</h2>
+                <p>Mutations ใช้สำหรับแก้ไขข้อมูล (create, update, delete)</p>
+                <p>ตัวอย่าง mutation:</p>
+                <pre><code>mutation CreateUser($input: UserInput!) {
+  createUser(input: $input) {
+    id
+    name
+  }
+}</code></pre>
+                <p>Variables: { "input": { "name": "John" } }</p>
+                <ul>
+                    <li>Mutations มัก return ข้อมูลที่อัปเดตเพื่อ sync client</li>
+                    <li>ควร idempotent เมื่อเป็นไปได้</li>
+                    <li>จัดการ errors ด้วย union types เช่น type MutationResponse = Success | Error</li>
+                </ul>
+            </section>
+
+            <!-- Slide 10: Subscriptions ใน GraphQL -->
+            <section>
+                <h2>Subscriptions ใน GraphQL</h2>
+                <p>Subscriptions สำหรับ real-time updates ผ่าน WebSockets</p>
+                <p>ตัวอย่าง subscription:</p>
+                <pre><code>subscription {
+  postAdded {
+    id
+    title
+    author {
+      name
+    }
+  }
+}</code></pre>
+                <p>ใน server: ใช้ Pub/Sub system เช่น Apollo's PubSub</p>
+                <pre><code>const pubsub = new PubSub();
+resolvers.Subscription = {
+  postAdded: { subscribe: () => pubsub.asyncIterator(['POST_ADDED']) }
+};</code></pre>
+                <p>เหมาะสำหรับ chat apps, live feeds</p>
+            </section>
+
+            <!-- Slide 11: Resolvers ใน GraphQL -->
+            <section>
+                <h2>Resolvers ใน GraphQL</h2>
+                <p>Resolvers เป็น functions ที่จัดการ logic สำหรับแต่ละ field ใน schema</p>
+                <p>โครงสร้าง: (parent, args, context, info) => value</p>
+                <pre><code>const resolvers = {
+  Query: {
+    user: async (parent, { id }, context) => {
+      return await context.db.getUser(id);
+    }
+  }
+};</code></pre>
+                <ul>
+                    <li>Context: สำหรับ shared data เช่น auth, db connection</li>
+                    <li>Info: Metadata เกี่ยวกับ query</li>
+                    <li>สามารถ chain resolvers สำหรับ nested fields</li>
+                </ul>
+            </section>
+
+            <!-- Slide 12: Data Sources และ Integration -->
+            <section>
+                <h2>Data Sources และ Integration</h2>
+                <p>GraphQL สามารถเชื่อมต่อกับ data sources ต่างๆ</p>
+                <ul>
+                    <li>Databases: SQL (PostgreSQL, MySQL), NoSQL (MongoDB)</li>
+                    <li>REST APIs: ใช้ data loaders เพื่อ batch requests</li>
+                    <li>Microservices: Stitch schemas จากหลาย services</li>
+                    <li>ตัวอย่าง: Apollo Data Sources library สำหรับ REST, SQL</li>
+                </ul>
+                <pre><code>class UserAPI extends RESTDataSource {
+  async getUser(id) { return this.get(\`/users/\${id}\`); }
+}</code></pre>
+                <p>ช่วยให้ API เป็น unified layer</p>
+            </section>
+
+            <!-- Slide 13: Authentication ใน GraphQL -->
+            <section>
+                <h2>Authentication ใน GraphQL</h2>
+                <p>จัดการ auth ผ่าน context ใน resolvers</p>
+                <ul>
+                    <li>JWT: Parse token จาก headers</li>
+                    <li>OAuth: Integrate กับ providers เช่น Google</li>
+                    <li>Authorization: ใช้ directives เช่น @auth(role: ADMIN)</li>
+                </ul>
+                <pre><code>const server = new ApolloServer({
+  context: ({ req }) => {
+    const token = req.headers.authorization || '';
+    const user = verifyToken(token);
+    return { user };
+  }
+});</code></pre>
+                <p>ป้องกัน unauthorized access ด้วย field-level auth</p>
+            </section>
+
+            <!-- Slide 14: Error Handling ใน GraphQL -->
+            <section>
+                <h2>Error Handling ใน GraphQL</h2>
+                <p>GraphQL return errors ใน response โดยไม่ crash server</p>
+                <ul>
+                    <li>Format: { "data": ..., "errors": [{ "message": "...", "path": [...] }] }</li>
+                    <li>Custom Errors: Extend GraphQLError</li>
+                    <li>Validation Errors: จาก schema หรือ resolvers</li>
+                    <li>Masking: ซ่อน sensitive errors จาก client</li>
+                </ul>
+                <pre><code>throw new GraphQLError('Invalid input', {
+  extensions: { code: 'BAD_USER_INPUT' }
+});</code></pre>
+            </section>
+
+            <!-- Slide 15: Best Practices สำหรับ Schema Design -->
+            <section>
+                <h2>Best Practices สำหรับ Schema Design</h2>
+                <ul>
+                    <li>ใช้ naming conventions ชัดเจน (e.g., camelCase สำหรับ fields)</li>
+                    <li>หลีกเลี่ยง deep nesting เพื่อป้องกัน complexity</li>
+                    <li>ใช้ pagination (e.g., cursor-based) สำหรับ lists</li>
+                    <li>Document schema ด้วย comments ใน SDL</li>
+                    <li>Version schema ด้วย deprecation (@deprecated)</li>
+                    <li>คิดจากมุม client-first: ออกแบบ schema ตาม use cases</li>
+                </ul>
+                <p>ทำให้ schema scalable และ maintainable</p>
+            </section>
+
+            <!-- Slide 16: Performance Optimization -->
+            <section>
+                <h2>Performance Optimization ใน GraphQL</h2>
+                <ul>
+                    <li>DataLoader: Batch และ cache requests เพื่อแก้ N+1 problem</li>
+                    <li>Persisted Queries: Cache queries บน server</li>
+                    <li>Complexity Analysis: Limit query depth/complexity</li>
+                    <li>Caching: ใช้ Redis สำหรับ full responses</li>
+                    <li>Tracing: ด้วย Apollo Tracing เพื่อ monitor performance</li>
+                    <li>Rate Limiting: ป้องกัน abuse</li>
+                </ul>
+                <pre><code>const loader = new DataLoader(keys => batchGetUsers(keys));</code></pre>
+            </section>
+
+            <!-- Slide 17: Tools และ Libraries สำหรับ GraphQL -->
+            <section>
+                <h2>Tools และ Libraries สำหรับ GraphQL</h2>
+                <ul>
+                    <li>Server: Apollo Server, Express-GraphQL, Hasura</li>
+                    <li>Client: Apollo Client, Relay, URQL</li>
+                    <li>Testing: GraphiQL, Postman GraphQL</li>
+                    <li>Federation: Apollo Federation สำหรับ microservices</li>
+                    <li>Schema Stitching: รวม schemas จากหลาย sources</li>
+                    <li>อื่นๆ: Prisma (ORM), Dgraph (Graph DB)</li>
+                </ul>
+                <p>เลือก tools ตาม stack ของโครงการ</p>
+            </section>
+
+            <!-- Slide 18: ตัวอย่างจริงในโลก (Real-world Examples) -->
+            <section>
+                <h2>ตัวอย่างจริงในโลก</h2>
+                <ul>
+                    <li>Facebook: ผู้พัฒนา GraphQL ใช้ใน mobile app</li>
+                    <li>GitHub: API v4 เป็น GraphQL สำหรับ flexible queries</li>
+                    <li>Shopify: ใช้สำหรับ e-commerce API</li>
+                    <li>Netflix: สำหรับ content discovery</li>
+                    <li>Twitter (X): บางส่วนใช้ GraphQL สำหรับ feeds</li>
+                </ul>
+                <p>แสดงให้เห็นว่า GraphQL efficient สำหรับ large-scale apps</p>
+            </section>
+
+            <!-- Slide 19: Case Studies -->
+            <section>
+                <h2>Case Studies</h2>
+                <p>ตัวอย่าง: การ migrate จาก REST ไป GraphQL ในแอป e-commerce</p>
+                <ul>
+                    <li>ปัญหาเดิม: หลาย endpoints, slow loading</li>
+                    <li>แก้ด้วย GraphQL: Single query สำหรับ product + reviews + user</li>
+                    <li>ผลลัพธ์: ลด latency 50%, เพิ่ม developer productivity</li>
+                    <li>挑战: Schema evolution, แต่แก้ด้วย federation</li>
+                </ul>
+                <p>อีก case: Real-time chat app ด้วย subscriptions</p>
+            </section>
+
+            <!-- Slide 20: สรุปและ Q&A -->
+            <section>
+                <h2>สรุป</h2>
+                <p>GraphQL ช่วยให้การจัดการข้อมูล flexible และ efficient โดย schema-driven approach, queries/mutations/subscriptions, และ tools ที่แข็งแกร่ง</p>
+                <p>เหมาะสำหรับ modern apps ที่ต้องการ scalability</p>
+                <h3>คำถาม?</h3>
+                <p>ขอบคุณสำหรับการรับฟัง!</p>
+            </section>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.0/reveal.min.js"></script>
+    <script>
+        Reveal.initialize({
+            hash: true,
+            transition: 'slide'
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Maven / Gradle: การจัดการ Project และ Build Automation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Prompt', sans-serif; font-size: 24px !important;}
+        .reveal .slides { text-align: left; }
+        .reveal pre code { max-height: 600px; }
+        .reveal table { width: 100%; border-collapse: collapse; text-align: left; }
+        .reveal th, .reveal td { border: 1px solid #ddd; padding: 8px; }
+        .reveal th { background-color: #333; color: white; }
+        .reveal li { margin-bottom: 0.5em; }
+        .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6, .reveal p, .reveal li, .reveal td, .reveal th { font-family: 'Prompt', sans-serif; }
+    </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+    <h2>Maven / Gradle</h2>
+    <p>การจัดการ Project และ Build Automation</p>
+</section>
+
+<section>
+    <h3>บทนำ Build Tools</h3>
+    <p>Build Tools คือเครื่องมือที่ช่วยจัดการกระบวนการ build ของโปรเจกต์ เช่น คอมไพล์โค้ด, รัน test, แพ็กเกจ</p>
+</section>
+
+<section>
+    <h3>ปัญหาแบบเดิม</h3>
+    <ul>
+        <li>ต้องคอมไพล์โค้ดเองด้วย javac</li>
+        <li>จัดการ dependencies เอง</li>
+        <li>ไม่มีมาตรฐานในการ build</li>
+    </ul>
+</section>
+
+<section>
+    <h3>Maven คืออะไร?</h3>
+    <p>Maven เป็น build tool ที่ใช้ไฟล์ pom.xml ในการกำหนด dependencies และขั้นตอน build</p>
+</section>
+
+<section>
+    <h3>โครงสร้างโปรเจกต์ Maven</h3>
+    <pre><code class="language-tree">src/
+  main/
+    java/
+    resources/
+  test/
+    java/
+pom.xml
+</code></pre>
+</section>
+
+<section>
+    <h3>ไฟล์ pom.xml</h3>
+    <pre><code class="language-xml">&lt;project&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+  &lt;groupId&gt;com.example&lt;/groupId&gt;
+  &lt;artifactId&gt;demo&lt;/artifactId&gt;
+  &lt;version&gt;1.0.0&lt;/version&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+&lt;/project&gt;
+</code></pre>
+</section>
+
+<section>
+    <h3>Gradle คืออะไร?</h3>
+    <p>Gradle เป็น build tool ที่ใช้ไฟล์ build.gradle และมี DSL ที่ยืดหยุ่นกว่า Maven</p>
+</section>
+
+<section>
+    <h3>โครงสร้างโปรเจกต์ Gradle</h3>
+    <pre><code class="language-tree">src/
+  main/
+    java/
+    resources/
+  test/
+    java/
+build.gradle
+</code></pre>
+</section>
+
+<section>
+    <h3>ไฟล์ build.gradle</h3>
+    <pre><code class="language-groovy">plugins {
+    id 'java'
+}
+group = 'com.example'
+version = '1.0.0'
+repositories {
+    mavenCentral()
+}
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}
+</code></pre>
+</section>
+
+<section>
+    <h3>เปรียบเทียบ Maven กับ Gradle</h3>
+    <table>
+        <tr><th>หัวข้อ</th><th>Maven</th><th>Gradle</th></tr>
+        <tr><td>ไฟล์ตั้งค่า</td><td>pom.xml (XML)</td><td>build.gradle (Groovy/Kotlin)</td></tr>
+        <tr><td>ความยืดหยุ่น</td><td>น้อย</td><td>สูง</td></tr>
+        <tr><td>ความเร็ว</td><td>ช้า</td><td>เร็วกว่า</td></tr>
+        <tr><td>Learning Curve</td><td>ต่ำ</td><td>สูงกว่า</td></tr>
+    </table>
+</section>
+
+<section>
+    <h3>Dependency Management ใน Maven</h3>
+    <pre><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+  &lt;version&gt;3.0.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+</section>
+
+<section>
+    <h3>Dependency Management ใน Gradle</h3>
+    <pre><code class="language-groovy">dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.0.0'
+}
+</code></pre>
+</section>
+
+<section>
+    <h3>Build Lifecycle ใน Maven</h3>
+    <ul>
+        <li>validate: ตรวจสอบโปรเจกต์</li>
+        <li>compile: คอมไพล์โค้ด</li>
+        <li>test: รัน unit test</li>
+        <li>package: แพ็กเกจเป็น JAR/WAR</li>
+        <li>install: ติดตั้งใน local repository</li>
+        <li>deploy: deploy ไป remote repository</li>
+    </ul>
+</section>
+
+<section>
+    <h3>Build Lifecycle ใน Gradle</h3>
+    <ul>
+        <li>compileJava: คอมไพล์ Java</li>
+        <li>processResources: จัดการ resources</li>
+        <li>test: รัน test</li>
+        <li>jar: สร้าง JAR</li>
+        <li>publish: publish ไป repository</li>
+    </ul>
+</section>
+
+<section>
+    <h3>คำสั่งพื้นฐาน Maven</h3>
+    <ul>
+        <li>mvn clean: ลบไฟล์ build</li>
+        <li>mvn compile: คอมไพล์</li>
+        <li>mvn test: รัน test</li>
+        <li>mvn package: แพ็กเกจ</li>
+        <li>mvn install: ติดตั้งใน local repo</li>
+    </ul>
+</section>
+
+<section>
+    <h3>คำสั่งพื้นฐาน Gradle</h3>
+    <ul>
+        <li>gradle clean</li>
+        <li>gradle build</li>
+        <li>gradle test</li>
+        <li>gradle jar</li>
+    </ul>
+</section>
+
+<section>
+    <h3>การจัดการ Multi-Module ใน Maven</h3>
+    <pre><code class="language-xml">&lt;modules&gt;
+  &lt;module&gt;core&lt;/module&gt;
+  &lt;module&gt;web&lt;/module&gt;
+&lt;/modules&gt;
+</code></pre>
+</section>
+
+<section>
+    <h3>การจัดการ Multi-Module ใน Gradle</h3>
+    <pre><code class="language-groovy">include 'core', 'web'
+</code></pre>
+</section>
+
+<section>
+    <h3>Plugin ใน Maven</h3>
+    <pre><code class="language-xml">&lt;build&gt;
+  &lt;plugins&gt;
+    &lt;plugin&gt;
+      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+    &lt;/plugin&gt;
+  &lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre>
+</section>
+
+<section>
+    <h3>Plugin ใน Gradle</h3>
+    <pre><code class="language-groovy">plugins {
+    id 'org.springframework.boot' version '3.0.0'
+}
+</code></pre>
+</section>
+
+<section>
+    <h3>การจัดการ Repository</h3>
+    <ul>
+        <li>Maven Central: repository หลัก</li>
+        <li>JCenter: repository อื่น</li>
+        <li>Private Repository: สำหรับองค์กร</li>
+    </ul>
+</section>
+
+<section>
+    <h3>การแก้ปัญหา Dependency Conflict</h3>
+    <ul>
+        <li>Maven: ใช้ exclusion หรือ dependencyManagement</li>
+        <li>Gradle: ใช้ resolution strategy</li>
+    </ul>
+</section>
+
+<section>
+    <h3>สรุป</h3>
+    <ul>
+        <li>Maven และ Gradle ช่วยให้การพัฒนา Java เป็นระบบและอัตโนมัติ</li>
+        <li>เลือกใช้ตามความเหมาะสมของโปรเจกต์</li>
+    </ul>
+</section>
+
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+<script>
+    Reveal.initialize({
+        hash: true,
+        slideNumber: true,
+        plugins: []
+    });
+</script>
+</body>
+</html>

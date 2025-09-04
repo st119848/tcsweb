@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Java & Spring Boot Development (Core Skill)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Prompt', sans-serif; }
+        .reveal .slides { text-align: left; }
+        .reveal pre code { max-height: 600px; }
+        .reveal table { width: 100%; border-collapse: collapse; text-align: left; }
+        .reveal th, .reveal td { border: 1px solid #ddd; padding: 8px; }
+        .reveal th { background-color: #333; color: white; }
+        .reveal li { margin-bottom: 0.5em; }
+    </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+    <h2>1.1 Java และ Spring Boot Development (Core Skill)</h2>
+    <ul>
+        <li>Java Programming Language</li>
+        <li>Spring Boot & Spring Framework</li>
+        <li>Spring Data JPA / Hibernate</li>
+        <li>MongoDB (NoSQL)</li>
+        <li>GraphQL API</li>
+        <li>Maven & Gradle</li>
+        <li>Angular SPA</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Java Programming Language: พื้นฐานและแนวคิด</h2>
+    <p>Java เป็นภาษาโปรแกรมที่ถูกออกแบบมาให้ใช้งานง่ายและปลอดภัย เหมาะสำหรับผู้เริ่มต้นและมืออาชีพ</p>
+</section>
+<section>
+    <h3>Java คืออะไร?</h3>
+    <p>Java เป็นภาษาโปรแกรมเชิงวัตถุ (OOP) ที่เน้นการนำกลับมาใช้ใหม่และการจัดการโค้ดให้เป็นระบบ</p>
+</section>
+<section>
+    <h3>จุดเด่นของ Java</h3>
+    <ul>
+        <li>Write Once, Run Anywhere (WORA): เขียนโค้ดครั้งเดียว รันได้ทุกระบบ</li>
+        <li>ปลอดภัย: มีระบบจัดการหน่วยความจำอัตโนมัติ</li>
+        <li>มีชุมชนขนาดใหญ่และเครื่องมือช่วยเหลือมากมาย</li>
+    </ul>
+</section>
+<section>
+    <h3>Java Virtual Machine (JVM)</h3>
+    <p>JVM คือโปรแกรมที่ช่วยให้โค้ด Java สามารถรันบนระบบปฏิบัติการต่างๆ ได้โดยไม่ต้องแก้ไขโค้ด</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Java_virtual_machine.svg" style="max-width: 400px;">
+</section>
+<section>
+    <h3>โครงสร้างโปรแกรม Java เบื้องต้น</h3>
+    <pre><code class="language-java">public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, world!");
+    }
+}
+</code></pre>
+    <p>ทุกโปรแกรม Java จะมีเมธอด <code>main</code> เป็นจุดเริ่มต้น</p>
+</section>
+<section>
+    <h3>ตัวแปรและชนิดข้อมูล</h3>
+    <ul>
+        <li>int: ตัวเลขจำนวนเต็ม</li>
+        <li>double: ตัวเลขทศนิยม</li>
+        <li>String: ข้อความ</li>
+        <li>boolean: จริง/เท็จ</li>
+    </ul>
+    <pre><code class="language-java">int age = 20;
+double price = 99.99;
+String name = "Alice";
+boolean isStudent = true;
+</code></pre>
+</section>
+<section>
+    <h3>การรับค่าและแสดงผล</h3>
+    <pre><code class="language-java">import java.util.Scanner;
+Scanner sc = new Scanner(System.in);
+System.out.print("กรุณากรอกชื่อ: ");
+String name = sc.nextLine();
+System.out.println("สวัสดี " + name);
+</code></pre>
+</section>
+<section>
+    <h3>เงื่อนไข (if-else)</h3>
+    <pre><code class="language-java">int score = 80;
+if (score >= 50) {
+    System.out.println("สอบผ่าน");
+} else {
+    System.out.println("สอบตก");
+}
+</code></pre>
+</section>
+<section>
+    <h3>การวนลูป (for, while)</h3>
+    <pre><code class="language-java">for (int i = 1; i <= 5; i++) {
+    System.out.println(i);
+}
+</code></pre>
+    <pre><code class="language-java">int i = 1;
+while (i <= 5) {
+    System.out.println(i);
+    i++;
+}
+</code></pre>
+</section>
+<section>
+    <h3>ฟังก์ชัน (Method)</h3>
+    <pre><code class="language-java">public static int add(int a, int b) {
+    return a + b;
+}
+System.out.println(add(3, 5)); // 8
+</code></pre>
+</section>
+<section>
+    <h3>คลาสและอ็อบเจกต์ (Class & Object)</h3>
+    <pre><code class="language-java">public class Person {
+    String name;
+    int age;
+    public void sayHello() {
+        System.out.println("Hello " + name);
+    }
+}
+Person p = new Person();
+p.name = "Bob";
+p.sayHello();
+</code></pre>
+</section>
+<section>
+    <h3>การสืบทอด (Inheritance)</h3>
+    <pre><code class="language-java">class Animal {
+    void eat() { System.out.println("กินอาหาร"); }
+}
+class Dog extends Animal {
+    void bark() { System.out.println("เห่า"); }
+}
+Dog d = new Dog();
+d.eat();
+d.bark();
+</code></pre>
+</section>
+<section>
+    <h3>Polymorphism (พหุรูป)</h3>
+    <pre><code class="language-java">Animal a = new Dog();
+a.eat(); // เรียก eat() ของ Dog ได้
+</code></pre>
+    <p>Polymorphism คือความสามารถในการใช้คลาสลูกแทนคลาสแม่ได้</p>
+</section>
+<section>
+    <h3>Encapsulation (การห่อหุ้มข้อมูล)</h3>
+    <pre><code class="language-java">class Account {
+    private double balance;
+    public void deposit(double amount) { balance += amount; }
+    public double getBalance() { return balance; }
+}
+</code></pre>
+    <p>Encapsulation คือการซ่อนข้อมูลภายในคลาสและเข้าถึงผ่านเมธอด</p>
+</section>
+<section>
+    <h3>Exception Handling (การจัดการข้อผิดพลาด)</h3>
+    <pre><code class="language-java">try {
+    int x = 10 / 0;
+} catch (ArithmeticException e) {
+    System.out.println("เกิดข้อผิดพลาด: " + e.getMessage());
+}
+</code></pre>
+</section>
+<section>
+    <h3>การใช้งาน Library และ Framework</h3>
+    <p>Java มีไลบรารีและเฟรมเวิร์กมากมาย เช่น Spring, Hibernate, Gson, Apache Commons</p>
+</section>
+
+<section>
+    <h2>Spring Boot: พื้นฐานและแนวคิด</h2>
+    <p>Spring Boot คือเฟรมเวิร์กที่ช่วยให้การสร้างแอปพลิเคชัน Java เป็นเรื่องง่ายและรวดเร็ว</p>
+</section>
+<section>
+    <h3>Spring Boot คืออะไร?</h3>
+    <p>Spring Boot สร้างบน Spring Framework เพื่อช่วยลดขั้นตอนการตั้งค่าและเริ่มต้นโปรเจกต์</p>
+</section>
+<section>
+    <h3>ข้อดีของ Spring Boot</h3>
+    <ul>
+        <li>ตั้งค่าอัตโนมัติ (Auto-Configuration)</li>
+        <li>มี Starter Dependencies ให้เลือกใช้</li>
+        <li>เหมาะสำหรับ Production</li>
+        <li>มี Community ใหญ่และเอกสารครบถ้วน</li>
+    </ul>
+</section>
+<section>
+    <h3>Starter Dependencies คืออะไร?</h3>
+    <p>Starter Dependencies คือชุดไลบรารีที่รวมทุกอย่างที่จำเป็นสำหรับงานแต่ละประเภท เช่น spring-boot-starter-web สำหรับสร้าง Web API</p>
+</section>
+<section>
+    <h3>Auto-Configuration ทำงานอย่างไร?</h3>
+    <p>Spring Boot จะตรวจสอบ dependencies ที่เราเพิ่มเข้าไป แล้วตั้งค่าระบบให้โดยอัตโนมัติ เช่น ถ้าเพิ่ม spring-boot-starter-data-jpa จะตั้งค่าฐานข้อมูลให้เอง</p>
+</section>
+<section>
+    <h3>โครงสร้างโปรเจกต์ Spring Boot</h3>
+    <pre><code class="language-tree">src/
+  main/
+    java/
+      com/example/demo/
+        DemoApplication.java
+    resources/
+      application.properties
+</code></pre>
+</section>
+<section>
+    <h3>สร้างโปรเจกต์ Spring Boot ด้วย Spring Initializr</h3>
+    <p>Spring Initializr คือเว็บไซต์ที่ช่วยสร้างโปรเจกต์ Spring Boot ได้ง่ายๆ</p>
+    <a href="https://start.spring.io/" target="_blank">https://start.spring.io/</a>
+</section>
+<section>
+    <h3>ไฟล์ application.properties</h3>
+    <p>ใช้สำหรับตั้งค่าต่างๆ เช่น พอร์ต, ฐานข้อมูล, การเชื่อมต่อ API</p>
+    <pre><code>server.port=8080
+spring.datasource.url=jdbc:mysql://localhost:3306/demo
+</code></pre>
+</section>
+<section>
+    <h3>สร้าง RESTful API ด้วย Spring Boot</h3>
+    <pre><code class="language-java">@RestController
+@RequestMapping("/api/tasks")
+public class TaskController {
+    @GetMapping
+    public List<Task> getAllTasks() { return taskRepository.findAll(); }
+    @PostMapping
+    public Task createTask(@RequestBody Task task) { return taskRepository.save(task); }
+}
+</code></pre>
+</section>
+<section>
+    <h3>Annotation สำคัญใน Spring Boot</h3>
+    <ul>
+        <li>@RestController: สำหรับสร้าง REST API</li>
+        <li>@RequestMapping: กำหนด URL หลัก</li>
+        <li>@GetMapping, @PostMapping, @PutMapping, @DeleteMapping: กำหนด HTTP Method</li>
+        <li>@Autowired: ฉีด dependencies อัตโนมัติ</li>
+    </ul>
+</section>
+<section>
+    <h3>การเชื่อมต่อฐานข้อมูลกับ Spring Boot</h3>
+    <p>Spring Boot รองรับฐานข้อมูลหลายประเภท เช่น MySQL, PostgreSQL, MongoDB</p>
+    <pre><code class="language-properties">spring.datasource.url=jdbc:mysql://localhost:3306/demo
+spring.datasource.username=root
+spring.datasource.password=1234
+</code></pre>
+</section>
+<section>
+    <h3>Spring Boot กับ JPA/Hibernate</h3>
+    <p>Spring Boot ใช้ Spring Data JPA และ Hibernate ในการจัดการข้อมูลแบบ ORM</p>
+    <pre><code class="language-java">@Entity
+public class Task {
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String name;
+}
+</code></pre>
+</section>
+<section>
+    <h3>การทดสอบ (Testing) ใน Spring Boot</h3>
+    <ul>
+        <li>Unit Test: ทดสอบเมธอดแต่ละตัว</li>
+        <li>Integration Test: ทดสอบการทำงานร่วมกันของหลายส่วน</li>
+        <li>ใช้ JUnit, Mockito, Spring Boot Test</li>
+    </ul>
+</section>
+<section>
+    <h3>Deploy Spring Boot ไปยัง Production</h3>
+    <ul>
+        <li>สามารถรันเป็นไฟล์ JAR หรือ WAR</li>
+        <li>Deploy บน Cloud เช่น AWS, Heroku, Google Cloud</li>
+        <li>รองรับ Docker และ Kubernetes</li>
+    </ul>
+</section>
+<section>
+    <h3>Spring Boot Actuator</h3>
+    <p>Actuator ให้ endpoint สำหรับตรวจสอบสุขภาพระบบ เช่น /actuator/health</p>
+</section>
+<section>
+    <h3>Spring Boot Security</h3>
+    <p>Spring Boot Security ใช้สำหรับจัดการ Authentication และ Authorization</p>
+    <pre><code class="language-java">@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().anyRequest().authenticated();
+    }
+}
+</code></pre>
+</section>
+
+<section>
+    <h3>Spring Boot: การสร้าง Web API และ RESTful Services</h3>
+    <ul>
+        <li>Starter Dependencies: เช่น spring-boot-starter-web</li>
+        <li>Auto-Configuration: ตั้งค่าอัตโนมัติตาม dependencies</li>
+    </ul>
+    <h4>RESTful API</h4>
+    <ul>
+        <li>GET: ดึงข้อมูล</li>
+        <li>POST: สร้างข้อมูลใหม่</li>
+        <li>PUT/PATCH: อัปเดตข้อมูล</li>
+        <li>DELETE: ลบข้อมูล</li>
+    </ul>
+    <pre><code class="language-java">@RestController
+@RequestMapping("/api/tasks")
+public class TaskController {
+    @GetMapping
+    public List<Task> getAllTasks() { return taskRepository.findAll(); }
+    @PostMapping
+    public Task createTask(@RequestBody Task task) { return taskRepository.save(task); }
+}
+</code></pre>
+</section>
+
+<section>
+    <h2>Dependency Management: Maven & Gradle</h2>
+    <p>Maven และ Gradle คือเครื่องมือจัดการโปรเจกต์ Java ที่ช่วยให้การพัฒนาเป็นระบบและอัตโนมัติ</p>
+</section>
+<section>
+    <h3>Dependency คืออะไร?</h3>
+    <p>Dependency คือไลบรารีหรือเฟรมเวิร์กที่โปรเจกต์ของเราต้องใช้ เช่น Spring Boot, JUnit, MySQL Driver</p>
+</section>
+<section>
+    <h3>ปัญหาถ้าไม่มี Dependency Management</h3>
+    <ul>
+        <li>ต้องดาวน์โหลดไฟล์ JAR เอง</li>
+        <li>เสี่ยงต่อการใช้เวอร์ชันผิดหรือขาดไฟล์</li>
+        <li>จัดการอัปเดตยาก</li>
+    </ul>
+</section>
+<section>
+    <h3>Maven คืออะไร?</h3>
+    <p>Maven ใช้ไฟล์ pom.xml ในการกำหนด dependencies และขั้นตอน build</p>
+</section>
+<section>
+    <h3>โครงสร้างไฟล์ pom.xml</h3>
+    <pre><code class="language-xml">&lt;project&gt;
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+      &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+&lt;/project&gt;
+</code></pre>
+</section>
+<section>
+    <h3>Gradle คืออะไร?</h3>
+    <p>Gradle ใช้ไฟล์ build.gradle ที่เขียนด้วย Groovy หรือ Kotlin DSL</p>
+</section>
+<section>
+    <h3>โครงสร้างไฟล์ build.gradle</h3>
+    <pre><code class="language-groovy">plugins {
+    id 'org.springframework.boot' version '3.0.0'
+}
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+}
+</code></pre>
+</section>
+<section>
+    <h3>เปรียบเทียบ Maven กับ Gradle</h3>
+    <table>
+        <tr><th>หัวข้อ</th><th>Maven</th><th>Gradle</th></tr>
+        <tr><td>ไฟล์ตั้งค่า</td><td>pom.xml (XML)</td><td>build.gradle (Groovy/Kotlin)</td></tr>
+        <tr><td>ความยืดหยุ่น</td><td>น้อย</td><td>สูง</td></tr>
+        <tr><td>ความเร็ว</td><td>ช้า</td><td>เร็วกว่า</td></tr>
+        <tr><td>Community</td><td>ใหญ่</td><td>กำลังเติบโต</td></tr>
+    </table>
+</section>
+<section>
+    <h3>การเพิ่ม Dependency ใน Maven</h3>
+    <pre><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+</section>
+<section>
+    <h3>การเพิ่ม Dependency ใน Gradle</h3>
+    <pre><code class="language-groovy">implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+</code></pre>
+</section>
+<section>
+    <h3>Build Automation คืออะไร?</h3>
+    <p>Build Automation คือการคอมไพล์ ทดสอบ และแพ็กเกจโปรเจกต์โดยอัตโนมัติ</p>
+</section>
+<section>
+    <h3>คำสั่งพื้นฐาน Maven</h3>
+    <ul>
+        <li>mvn clean: ลบไฟล์ build เก่า</li>
+        <li>mvn compile: คอมไพล์โค้ด</li>
+        <li>mvn test: รัน unit test</li>
+        <li>mvn package: สร้างไฟล์ JAR/WAR</li>
+    </ul>
+</section>
+<section>
+    <h3>คำสั่งพื้นฐาน Gradle</h3>
+    <ul>
+        <li>gradle clean</li>
+        <li>gradle build</li>
+        <li>gradle test</li>
+    </ul>
+</section>
+<section>
+    <h3>การจัดการเวอร์ชัน Dependency</h3>
+    <p>สามารถระบุเวอร์ชันที่ต้องการในไฟล์ตั้งค่า เช่น <code>spring-boot-starter-web:3.0.0</code></p>
+</section>
+<section>
+    <h3>Repository คืออะไร?</h3>
+    <p>Repository คือแหล่งเก็บไลบรารี เช่น Maven Central, JCenter</p>
+</section>
+<section>
+    <h3>การแก้ปัญหา Dependency Conflict</h3>
+    <p>ถ้า dependency หลายตัวใช้เวอร์ชันต่างกัน อาจเกิดปัญหา ต้องจัดการด้วย exclusion หรือ resolution strategy</p>
+</section>
+<section>
+    <h3>การใช้งานกับ Spring Boot</h3>
+    <p>Spring Boot รองรับทั้ง Maven และ Gradle สามารถเลือกใช้ได้ตามความถนัด</p>
+</section>
+<section>
+    <h3>สรุป</h3>
+    <ul>
+        <li>Maven และ Gradle ช่วยให้การพัฒนา Java เป็นระบบและง่ายขึ้น</li>
+        <li>เลือกใช้ตามความเหมาะสมของโปรเจกต์</li>
+    </ul>
+</section>
+
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+<script>
+    Reveal.initialize({
+        hash: true,
+        slideNumber: true,
+        plugins: []
+    });
+</script>
+</body>
+</html>

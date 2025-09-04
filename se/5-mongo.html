@@ -1,0 +1,497 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MongoDB (NoSQL): Document-based & Spring Data MongoDB — โดยใช้ Reveal.js</title>
+
+  <!-- Google Font: Prompt -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Reveal.js core CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/black.css" id="theme">
+  <!-- Code highlight theme -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/github.min.css">
+
+  <style>
+    :root {
+      --r-main-font: 'Prompt', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      --r-main-font-size: 34px; /* ฐานขนาดตัวอักษรอ่านง่ายบนโปรเจคเตอร์ */
+      --r-heading-font: 'Prompt', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      --r-heading-font-weight: 700;
+      --r-heading-text-transform: none;
+      --r-link-color: #60a5fa;
+      --r-link-color-hover: #93c5fd;
+    }
+    .reveal, .reveal * { font-family: 'Prompt', system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+    .reveal h1 { font-size: 1.8em; letter-spacing: .2px; }
+    .reveal h2 { font-size: 1.3em; }
+    .reveal h3 { font-size: 1.05em; }
+    .reveal p, .reveal li { line-height: 1.35; }
+    .subtitle { font-weight: 400; opacity: .9; }
+    .note { font-size: .7em; opacity: .9; }
+    .tag { display:inline-block; padding:.2em .5em; border-radius:.6em; background:#1f2937; color:#e5e7eb; font-size:.6em; margin-right:.25em; }
+    .grid-2 { display:grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items:start; }
+    .grid-3 { display:grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .box { border: 1px dashed #6b7280; border-radius: 16px; padding: 14px 16px; }
+    .muted { opacity: .85; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: .8em; }
+    .foot { position:absolute; bottom:12px; right:24px; font-size:.5em; opacity:.65; }
+    code { font-size: .8em !important; }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- Slide 1: Title -->
+    <section>
+      <h1>MongoDB (NoSQL) & Spring Data MongoDB</h1>
+      <p class="subtitle">การจัดการข้อมูลแบบ Document-based • แนวคิด • การออกแบบสคีมา • เวิร์กโฟลว์กับ Spring</p>
+      <div style="margin-top:22px">
+        <span class="tag">NoSQL</span>
+        <span class="tag">Document Model</span>
+        <span class="tag">Spring Data</span>
+        <span class="tag">Java</span>
+      </div>
+      <div class="foot">สไลด์นี้สร้างด้วย Reveal.js • ฟอนต์: Prompt</div>
+      <aside class="notes">เกริ่นที่มา NoSQL, เหมาะกับข้อมูลกึ่งมีโครงสร้าง, scale แนวนอน</aside>
+    </section>
+
+    <!-- Slide 2: What is MongoDB -->
+    <section>
+      <h2>MongoDB คืออะไร?</h2>
+      <ul>
+        <li>ฐานข้อมูล <strong>NoSQL</strong> แบบ <strong>Document-oriented</strong> เก็บข้อมูลเป็น <strong>BSON</strong> (Binary JSON)</li>
+        <li>เน้น <em>schema flexibility</em>, การขยายสเกลง่าย (horizontal scaling)</li>
+        <li>รองรับ <span class="tag">Replica Set</span> <span class="tag">Sharding</span> <span class="tag">Aggregation</span> <span class="tag">Transactions</span></li>
+      </ul>
+      <div class="grid-2" style="margin-top:14px">
+        <div class="box">
+          <h3>เมื่อไหร่ควรใช้?</h3>
+          <ul>
+            <li>ข้อมูลเปลี่ยนโครงสร้างบ่อย / กึ่งมีโครงสร้าง</li>
+            <li>เหตุการณ์/ลอค/เอกสาร/โปรไฟล์ผู้ใช้</li>
+            <li>ต้องการ scale-out และความยืดหยุ่นสูง</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>เมื่อไหร่ไม่ควร?</h3>
+          <ul>
+            <li>ธุรกรรมข้ามหลายตารางซับซ้อนมาก ๆ</li>
+            <li>รายงานเชิงสัมพันธ์ลึก ๆ (OLAP เฉพาะทาง)</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 3: Document Model & BSON -->
+    <section>
+      <h2>Document Model &amp; BSON</h2>
+      <div class="grid-2">
+        <div>
+          <p>เอกสาร (Document) = โครงสร้างคล้าย JSON ที่ซ้อนกันได้</p>
+          <ul>
+            <li>คีย์–ค่า, ออบเจ็กต์ย่อย, อาเรย์</li>
+            <li>BSON มีชนิดข้อมูลมากกว่า JSON (Date, Decimal128, ObjectId)</li>
+          </ul>
+        </div>
+        <div>
+<pre><code class="language-json">{
+  _id: ObjectId("66ef..."),
+  name: "Alice",
+  emails: ["a@example.com", "work@ex.com"],
+  address: { city: "Bangkok", zip: 10260 },
+  createdAt: ISODate("2025-09-01T10:20:30Z")
+}
+</code></pre>
+        </div>
+      </div>
+      <p class="note">ObjectId เป็นไอดี 12 ไบต์: timestamp+random+counter</p>
+    </section>
+
+    <!-- Slide 4: โครงสร้าง Database/Collection/Document -->
+    <section>
+      <h2>โครงสร้างข้อมูล</h2>
+      <div class="grid-3">
+        <div class="box">
+          <h3>Database</h3>
+          <p class="muted">กลุ่มของ collections</p>
+        </div>
+        <div class="box">
+          <h3>Collection</h3>
+          <p class="muted">กลุ่มของ documents ประเภทเดียวกัน</p>
+        </div>
+        <div class="box">
+          <h3>Document</h3>
+          <p class="muted">หน่วยข้อมูลหลัก (BSON)</p>
+        </div>
+      </div>
+<pre><code class="language-bash"># ตัวอย่างคำสั่ง mongo shell
+use shop
+
+db.products.insertOne({ name: "Mouse", price: 350, tags:["pc","accessory"] })
+</code></pre>
+    </section>
+
+    <!-- Slide 5: CRUD -->
+    <section>
+      <h2>CRUD พื้นฐาน</h2>
+<pre><code class="language-bash"># Create
+ db.users.insertMany([
+  { name: "Oak", roles:["tutor"], active:true },
+  { name: "Mint", roles:["admin"], active:false }
+ ])
+
+# Read
+ db.users.find({ active: true }).limit(10)
+ db.users.find({ name: /o/i }, { name: 1, roles:1 })
+
+# Update
+ db.users.updateOne({ name: "Oak" }, { $set: { active:false }, $push:{ roles:"owner" } })
+
+# Delete
+ db.users.deleteMany({ active:false })
+</code></pre>
+      <p class="note">โปรดใส่อินเด็กซ์ให้กับฟิลด์ที่ค้นหาบ่อยเพื่อประสิทธิภาพ</p>
+    </section>
+
+    <!-- Slide 6: Schema Design Principles -->
+    <section>
+      <h2>การออกแบบสคีมาสำคัญยังไง?</h2>
+      <ul>
+        <li><strong>ออกแบบตามรูปแบบการอ่านงานจริง</strong> (query-driven design)</li>
+        <li><strong>Embed</strong> ข้อมูลที่มักถูกอ่านพร้อมกัน, <strong>Reference</strong> เมื่อมี n:n หรืออัปเดตแยกส่วน</li>
+        <li>จำกัดขนาดเอกสาร (&lt; 16MB) และความลึกการซ้อน</li>
+      </ul>
+      <div class="grid-2">
+        <div class="box">
+          <h3>Embed</h3>
+<pre><code class="language-json">order: {
+  _id, userId, items:[{ sku, qty, price }], shipping:{...}
+}
+</code></pre>
+        </div>
+        <div class="box">
+          <h3>Reference</h3>
+<pre><code class="language-json">order: { _id, userId, itemIds:[ObjectId,...] }
+items: [{ _id, sku, price }]
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 7: Data Modeling Patterns -->
+    <section>
+      <h2>Data Modeling Patterns ที่พบบ่อย</h2>
+      <ul>
+        <li><strong>Subset pattern</strong>: เก็บฟิลด์ย่อเพื่อหน้ารายการ</li>
+        <li><strong>Bucket pattern</strong>: รวม event หลายรายการต่อ bucket (ลดจำนวนเอกสาร)</li>
+        <li><strong>Extended Reference</strong>: อ้างอิง + เก็บสำเนาฟิลด์สำคัญ</li>
+        <li><strong>Outlier pattern</strong>: ย้ายฟิลด์โตเร็วออก
+        </li>
+      </ul>
+      <p class="note">เลือกแพทเทิร์นให้สอดคล้องกับลักษณะการ query และการอัปเดต</p>
+    </section>
+
+    <!-- Slide 8: Indexes -->
+    <section>
+      <h2>Indexes</h2>
+      <div class="grid-2">
+        <div>
+          <ul>
+            <li>ชนิดหลัก: Single, Compound, Multikey (อาเรย์), Text, TTL, Partial, Sparse</li>
+            <li>กฎง่าย ๆ: <em>สร้างตามเงื่อนไขค้นหา</em> และ/หรือ <em>การเรียงลำดับ</em></li>
+          </ul>
+        </div>
+        <div>
+<pre><code class="language-bash">db.users.createIndex({ active: 1, name: 1 })
+
+db.logs.createIndex({ createdAt: 1 }, { expireAfterSeconds: 604800 }) # TTL 7 วัน
+
+db.articles.createIndex({ content: "text", title: "text" })
+</code></pre>
+        </div>
+      </div>
+      <p class="note">หลีกเลี่ยงการใช้ <span class="mono">$regex</span> นำหน้า และการ sort โดยไม่มี index</p>
+    </section>
+
+    <!-- Slide 9: Aggregation Framework -->
+    <section>
+      <h2>Aggregation Framework (Pipeline)</h2>
+<pre><code class="language-bash">db.orders.aggregate([
+  { $match: { status: "PAID", createdAt: { $gte: ISODate("2025-09-01") } } },
+  { $unwind: "$items" },
+  { $group: { _id: "$items.sku", qty: { $sum: "$items.qty" }, rev: { $sum: { $multiply:["$items.qty","$items.price"] } } } },
+  { $sort: { rev: -1 } },
+  { $limit: 10 }
+])
+</code></pre>
+      <ul>
+        <li>คิดเป็นขั้นตอน: <span class="tag">$match</span> → <span class="tag">$project</span> → <span class="tag">$group</span> → <span class="tag">$sort</span> → ...</li>
+        <li>ใส่อินเด็กซ์ให้ฟิลด์ใน <span class="mono">$match</span> แรกเสมอ</li>
+      </ul>
+    </section>
+
+    <!-- Slide 10: Transactions & Consistency -->
+    <section>
+      <h2>ธุรกรรม & ความถูกต้องของข้อมูล</h2>
+      <ul>
+        <li>รองรับ <strong>multi-document transactions</strong> บน replica set / sharded cluster</li>
+        <li><strong>Write Concern</strong>: ระดับการยืนยันการเขียน (w, j, wtimeout)</li>
+        <li><strong>Read Concern</strong>: local, majority, snapshot</li>
+        <li><strong>Session</strong> จำเป็นเมื่อใช้ธุรกรรม</li>
+      </ul>
+<pre><code class="language-bash">// แนวคิดเท่านั้น: เริ่ม session แล้วเริ่ม transaction
+</code></pre>
+    </section>
+
+    <!-- Slide 11: Replication & Sharding -->
+    <section>
+      <h2>Replication & Sharding</h2>
+      <div class="grid-2">
+        <div class="box">
+          <h3>Replica Set</h3>
+          <ul>
+            <li>High availability: Primary + Secondary(s) + Arbiter(ถ้ามี)</li>
+            <li>อ่านจาก Secondary ได้ (readPreference)</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Sharding</h3>
+          <ul>
+            <li>กระจายข้อมูลด้วย shard key</li>
+            <li>เลือก shard key ให้กระจาย workload และป้องกัน hotspot</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 12: Performance & Anti-patterns -->
+    <section>
+      <h2>ประสิทธิภาพ & Anti-patterns</h2>
+      <ul>
+        <li>คิวรีไม่มี index → <span class="tag">COLLSCAN</span> ช้า</li>
+        <li>เอกสารใหญ่เกิน/ฟิลด์ซ้อนลึกเกิน</li>
+        <li>อัปเดตทั้งเอกสารแทนที่จะใช้ตัวดำเนินการ <span class="mono">$set/$inc/$push</span></li>
+        <li>ใช้ <span class="mono">$regex</span> นำหน้า / sort โดยไร้อินเด็กซ์</li>
+        <li>เก็บไฟล์ใหญ่ลงเอกสาร (พิจารณา <span class="tag">GridFS</span>)</li>
+      </ul>
+    </section>
+
+    <!-- Slide 13: Security & Validation -->
+    <section>
+      <h2>การรักษาความปลอดภัย & Validation</h2>
+      <ul>
+        <li>เปิด <strong>authentication</strong>, ใช้ role ตามหน้าที่ (least privilege)</li>
+        <li><strong>Schema Validation</strong> ด้วย JSON Schema</li>
+        <li>เข้ารหัส at-rest & in-transit (TLS)</li>
+      </ul>
+<pre><code class="language-bash">db.createCollection("users", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["name","active"],
+      properties: {
+        name: { bsonType: "string", minLength: 1 },
+        active: { bsonType: "bool" }
+      }
+    }
+  }
+})
+</code></pre>
+    </section>
+
+    <!-- Slide 14: Spring Data MongoDB Intro -->
+    <section>
+      <h2>Spring Data MongoDB คืออะไร?</h2>
+      <ul>
+        <li>เลเยอร์สำหรับเข้าถึง MongoDB บน Spring</li>
+        <li>มี <strong>Repository</strong> API, <strong>MongoTemplate</strong>, <strong>Aggregation</strong>, และแบบ Reactive</li>
+      </ul>
+<pre><code class="language-xml">&lt;!-- pom.xml --&gt;
+&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-data-mongodb&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<pre><code class="language-yaml"># application.yaml
+spring:
+  data:
+    mongodb:
+      uri: mongodb://user:pass@localhost:27017/shop?authSource=admin
+</code></pre>
+    </section>
+
+    <!-- Slide 15: Domain Model & Annotations -->
+    <section>
+      <h2>แมปปิ้งโดเมน (@Document)</h2>
+<pre><code class="language-java">@Document(collection = "products")
+public class Product {
+  @Id
+  private String id;
+
+  @Indexed
+  private String sku;
+
+  @Field("nm")
+  private String name;
+
+  private BigDecimal price;
+
+  private List&lt;String&gt; tags;
+
+  @CreatedDate
+  private Instant createdAt;
+
+  // getters/setters/constructor
+}
+</code></pre>
+      <ul>
+        <li><span class="mono">@Document</span> กำหนดคอลเลกชัน</li>
+        <li><span class="mono">@Field</span> แมปชื่อฟิลด์ต่างจากโดเมน</li>
+        <li><span class="mono">@Indexed</span> สร้าง index อัตโนมัติ (เปิด <span class="mono">spring.data.mongodb.auto-index-creation=true</span>)</li>
+      </ul>
+    </section>
+
+    <!-- Slide 16: Repository API -->
+    <section>
+      <h2>Repository &amp; Query Methods</h2>
+<pre><code class="language-java">public interface ProductRepository extends MongoRepository&lt;Product, String&gt; {
+  Optional&lt;Product&gt; findBySku(String sku);
+  List&lt;Product&gt; findTop10ByTagsContainsOrderByPriceDesc(String tag);
+
+  @Query(value = "{ 'price': { $gte: ?0, $lte: ?1 } }", fields = "{ 'name': 1, 'price': 1 }")
+  List&lt;Product&gt; searchByPriceRange(BigDecimal min, BigDecimal max);
+}
+</code></pre>
+      <p class="note">เมธอดตามคอนเวนชันช่วยลดโค้ด แต่อย่าซับซ้อนเกินไปจนอ่านยาก</p>
+    </section>
+
+    <!-- Slide 17: MongoTemplate & Aggregation -->
+    <section>
+      <h2>MongoTemplate &amp; Aggregation</h2>
+<pre><code class="language-java">Aggregation agg = newAggregation(
+  match(Criteria.where("status").is("PAID")),
+  unwind("$items"),
+  group("$items.sku")
+    .sum("$items.qty").as("qty")
+    .sum(ArithmeticOperators.valueOf("$items.qty").multiply("$items.price")).as("rev"),
+  sort(Sort.by(Sort.Direction.DESC, "rev")),
+  limit(10)
+);
+AggregationResults&lt;SkuStat&gt; results = mongoTemplate.aggregate(agg, "orders", SkuStat.class);
+</code></pre>
+<pre><code class="language-java">@Data
+public class SkuStat {
+  private String id; // _id from group
+  private long qty;
+  private BigDecimal rev;
+}
+</code></pre>
+    </section>
+
+    <!-- Slide 18: Reactive Stack -->
+    <section>
+      <h2>Reactive MongoDB (WebFlux)</h2>
+<pre><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+  &lt;artifactId&gt;spring-boot-starter-data-mongodb-reactive&lt;/artifactId&gt;
+&lt;/dependency&gt;
+</code></pre>
+<pre><code class="language-java">public interface ReactiveProductRepo extends ReactiveCrudRepository&lt;Product, String&gt; {
+  Mono&lt;Product&gt; findBySku(String sku);
+  Flux&lt;Product&gt; findByTagsContains(String tag);
+}
+
+@RestController
+@RequiredArgsConstructor
+class ProductHandler {
+  private final ReactiveProductRepo repo;
+
+  @GetMapping("/api/products")
+  Flux&lt;Product&gt; all() { return repo.findAll(); }
+}
+</code></pre>
+      <p class="note">เหมาะกับ IO-bound, สตรีมข้อมูลจำนวนมากพร้อม backpressure</p>
+    </section>
+
+    <!-- Slide 19: Transactions in Spring -->
+    <section>
+      <h2>ธุรกรรมกับ Spring</h2>
+      <ul>
+        <li>ต้องใช้ <strong>Replica Set</strong> (แม้จะเป็น single-node ก็เปิดโหมดนี้)</li>
+        <li>เปิด <span class="mono">MongoTransactionManager</span> และใช้ <span class="mono">@Transactional</span></li>
+      </ul>
+<pre><code class="language-java">@Configuration
+class TxConfig {
+  @Bean
+  MongoTransactionManager txManager(MongoDatabaseFactory dbFactory) {
+    return new MongoTransactionManager(dbFactory);
+  }
+}
+
+@Service
+@RequiredArgsConstructor
+class OrderService {
+  private final MongoTemplate template;
+
+  @Transactional
+  public void placeOrder(Order o) {
+    template.insert(o);
+    // อัปเดตสต็อก/บันทึกชำระเงิน ฯลฯ ภายใต้ทรานแซคชันเดียวกัน
+  }
+}
+</code></pre>
+    </section>
+
+    <!-- Slide 20: Testing, Migration, Ops Tips -->
+    <section>
+      <h2>การทดสอบ • การย้ายข้อมูล • เคล็ดลับปฏิบัติการ</h2>
+      <div class="grid-2">
+        <div class="box">
+          <h3>Testing</h3>
+          <ul>
+            <li>ใช้ <span class="mono">@DataMongoTest</span> หรือ Testcontainers (MongoDB)</li>
+            <li>ใส่ <em>fixtures</em> และตรวจสอบอินเด็กซ์</li>
+          </ul>
+        </div>
+        <div class="box">
+          <h3>Migration</h3>
+          <ul>
+            <li>ใช้ <span class="mono">Mongock</span> สำหรับ change logs</li>
+            <li>เวอร์ชันสคีมาด้วยฟิลด์ <span class="mono">schemaVersion</span></li>
+          </ul>
+        </div>
+      </div>
+      <ul>
+        <li>โปรดเปิด <strong>observability</strong>: slow query log, profiler, metrics</li>
+        <li>สำรองข้อมูลสม่ำเสมอ และทดสอบกู้คืน</li>
+        <li>ทบทวน index อย่างน้อยรายไตรมาสตามพฤติกรรมทราฟฟิก</li>
+      </ul>
+      <p class="note">แหล่งต่อยอด: MongoDB Manual, Spring Data MongoDB Reference</p>
+    </section>
+
+  </div>
+</div>
+
+<!-- Reveal.js scripts -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5/plugin/highlight/highlight.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: true,
+    plugins: [ RevealNotes, RevealHighlight ],
+    transition: 'slide',
+    highlight: {
+      // ใช้ highlight.js อัตโนมัติ
+    }
+  });
+</script>
+</body>
+</html>

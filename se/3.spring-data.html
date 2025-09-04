@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spring Data JPA & Hibernate</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/theme/black.css" id="theme">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/monokai.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap');
+        
+        body, h1, h2, h3, h4, p, li, pre, code, .r-stack {
+            font-family: 'Prompt', sans-serif !important;
+        }
+
+        .reveal .slides section pre {
+            font-size: 0.7em;
+            text-align: left;
+        }
+
+        .reveal pre code {
+            max-height: 60vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+            <section>
+                <h1>Spring Data JPA & Hibernate</h1>
+                <h3>ORM และการจัดการฐานข้อมูล</h3>
+                <p>โดย: [ชื่อของคุณ]</p>
+            </section>
+
+            <section>
+                <h2>Object-Relational Mapping (ORM) คืออะไร?</h2>
+                <ul>
+                    <li class="fragment">คือเทคนิคการแปลงข้อมูลระหว่าง **ฐานข้อมูลเชิงสัมพันธ์** (Relational Database) กับ **โค้ดเชิงวัตถุ** (Object-Oriented Programming)</li>
+                    <li class="fragment">ช่วยให้นักพัฒนาสามารถจัดการข้อมูลในฐานข้อมูลผ่าน **Objects** ได้โดยตรง ไม่ต้องเขียนคำสั่ง SQL</li>
+                    <li class="fragment"><strong>ข้อดี:</strong> ลดความซับซ้อน, เพิ่มประสิทธิภาพ, ลดเวลาการพัฒนา</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Hibernate: ORM Framework</h2>
+                <ul>
+                    <li class="fragment">เป็น **ORM Framework** ที่ได้รับความนิยมสูงสำหรับ Java</li>
+                    <li class="fragment">ทำหน้าที่เป็นตัวกลางในการแปลง Java Objects เป็นข้อมูลในฐานข้อมูล และกลับกัน</li>
+                    <li class="fragment">เป็น **Implementation** ของ **JPA** (Java Persistence API)</li>
+                    <li class="fragment">มีฟีเจอร์เด่น เช่น Caching, Lazy Loading, และ Querying</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Spring Data JPA: Abstraction Layer</h2>
+                <ul>
+                    <li class="fragment">ไม่ได้เป็น ORM Framework แต่เป็นส่วนหนึ่งของ **Spring Framework**</li>
+                    <li class="fragment">ทำหน้าที่เป็น **Abstraction Layer** ที่อยู่บน JPA และ Hibernate</li>
+                    <li class="fragment">ลด **Boilerplate Code** (โค้ดซ้ำซาก) ด้วยการสร้าง Repository Interface</li>
+                    <li class="fragment">ช่วยให้การเข้าถึงข้อมูลเป็นเรื่องที่ง่ายและรวดเร็ว</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>JPA vs. Hibernate vs. Spring Data JPA</h2>
+                <div class="r-stack">
+                    <img class="fragment fade-in-then-out" src="https://i.imgur.com/vH9xH4m.png" alt="JPA, Hibernate, Spring Data JPA Diagram">
+                    <p class="fragment fade-in"><strong>JPA:</strong> มาตรฐานหรือข้อกำหนด (Specification)</p>
+                    <p class="fragment fade-in"><strong>Hibernate:</strong> การใช้งานจริงของมาตรฐาน (Implementation)</p>
+                    <p class="fragment fade-in"><strong>Spring Data JPA:</strong> เลเยอร์ที่ทำให้ใช้งานได้ง่ายขึ้น (Abstraction)</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>การตั้งค่า Maven Dependencies</h2>
+                <pre><code data-trim data-noescape>
+&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+&lt;/dependency&gt;
+
+&lt;dependency&gt;
+    &lt;groupId&gt;com.mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-j&lt;/artifactId&gt;
+&lt;/dependency&gt;
+                </code></pre>
+                <p class="fragment">Starter Data JPA จะรวม Hibernate และ JPA ไว้ให้โดยอัตโนมัติ</p>
+            </section>
+
+            <section>
+                <h2>Entity Class: Model ของข้อมูล</h2>
+                <pre><code data-trim data-noescape>
+import javax.persistence.*;
+
+@Entity
+@Table(name = "employees")
+public class Employee {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private String name;
+    private String email;
+    
+    // Constructors, Getters and Setters...
+}
+                </code></pre>
+                <p class="fragment">คลาสที่แมปกับตารางในฐานข้อมูล ใช้ Annotations จาก `javax.persistence`</p>
+            </section>
+
+            <section>
+                <h2>Annotations พื้นฐาน</h2>
+                <ul>
+                    <li><code>@Entity</code>: บอกว่าคลาสนี้คือ Entity ที่จะถูกจัดการโดย JPA</li>
+                    <li><code>@Table(name = "...")</code>: ระบุชื่อตารางในฐานข้อมูล (ถ้าไม่ระบุ จะใช้ชื่อคลาส)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Primary Key</h2>
+                <ul>
+                    <li><code>@Id</code>: ใช้ประกาศว่า Field นี้คือ Primary Key</li>
+                    <li><code>@GeneratedValue</code>: กำหนดกลยุทธ์การสร้างค่า Key อัตโนมัติ เช่น <code>GenerationType.IDENTITY</code> สำหรับ Auto-increment</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Repository Interface</h2>
+                <pre><code data-trim data-noescape>
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EmployeeRepository extends JpaRepository&lt;Employee, Long&gt; {
+}
+                </code></pre>
+                <p class="fragment">เพียงแค่ขยาย `JpaRepository` ก็จะได้เมธอดพื้นฐานสำหรับ CRUD</p>
+            </section>
+
+            <section>
+                <h2>เมธอดพื้นฐานที่มีให้</h2>
+                <ul>
+                    <li><code>save(T entity)</code>: บันทึกหรืออัปเดตข้อมูล</li>
+                    <li><code>findById(ID id)</code>: ค้นหาด้วย Primary Key</li>
+                    <li><code>findAll()</code>: ดึงข้อมูลทั้งหมด</li>
+                    <li><code>deleteById(ID id)</code>: ลบข้อมูลด้วย Primary Key</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Query Methods: สร้าง Query จากชื่อเมธอด</h2>
+                <pre><code data-trim data-noescape>
+public interface EmployeeRepository extends JpaRepository&lt;Employee, Long&gt; {
+    List&lt;Employee&gt; findByEmail(String email);
+    List&lt;Employee&gt; findByNameStartingWith(String prefix);
+    int countByNameContaining(String keyword);
+}
+                </code></pre>
+                <p class="fragment">Spring Data JPA จะสร้าง Query SQL ให้เองจากชื่อเมธอดที่ถูกต้อง</p>
+            </section>
+
+            <section>
+                <h2>@Query Annotation: เขียน JPQL เอง</h2>
+                <pre><code data-trim data-noescape>
+public interface EmployeeRepository extends JpaRepository&lt;Employee, Long&gt; {
+
+    @Query("SELECT e FROM Employee e WHERE e.name = ?1")
+    Employee findEmployeeByName(String name);
+
+    @Query(value = "SELECT * FROM employees WHERE email LIKE %?1%", nativeQuery = true)
+    List&lt;Employee&gt; findByEmailNative(String email);
+}
+                </code></pre>
+                <p class="fragment">ใช้เมื่อ Query Methods ไม่สามารถตอบโจทย์ได้</p>
+            </section>
+
+            <section>
+                <h2>Transaction Management</h2>
+                <ul>
+                    <li>Spring จัดการ Transaction ให้โดยอัตโนมัติใน Service Layer</li>
+                    <li>สามารถใช้ <code>@Transactional</code> เพื่อกำหนดขอบเขตของการทำธุรกรรม (เช่น เพิ่มข้อมูลหลายอย่างพร้อมกัน)</li>
+                </ul>
+                <pre class="fragment"><code data-trim data-noescape>
+@Service
+public class EmployeeService {
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
+    @Transactional
+    public void createNewEmployee(Employee employee) {
+        employeeRepository.save(employee);
+    }
+}
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>ความสัมพันธ์: One-to-One</h2>
+                <pre><code data-trim data-noescape>
+// Employee.java
+@OneToOne(mappedBy = "employee")
+private Address address;
+
+// Address.java
+@OneToOne
+@JoinColumn(name = "employee_id")
+private Employee employee;
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>ความสัมพันธ์: One-to-Many</h2>
+                <pre><code data-trim data-noescape>
+// Department.java
+@OneToMany(mappedBy = "department")
+private List&lt;Employee&gt; employees;
+
+// Employee.java
+@ManyToOne
+@JoinColumn(name = "department_id")
+private Department department;
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>ความสัมพันธ์: Many-to-Many</h2>
+                <pre><code data-trim data-noescape>
+// Student.java
+@ManyToMany
+@JoinTable(name = "student_course", 
+    joinColumns = @JoinColumn(name = "student_id"), 
+    inverseJoinColumns = @JoinColumn(name = "course_id"))
+private Set&lt;Course&gt; courses;
+
+// Course.java
+@ManyToMany(mappedBy = "courses")
+private Set&lt;Student&gt; students;
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Lazy vs. Eager Loading</h2>
+                <ul>
+                    <li><strong>Lazy Loading:</strong> โหลดข้อมูลที่เกี่ยวข้องเมื่อมีการเรียกใช้จริงๆ (ค่าเริ่มต้นสำหรับ <code>@OneToMany</code>, <code>@ManyToMany</code>)</li>
+                    <li><strong>Eager Loading:</strong> โหลดข้อมูลที่เกี่ยวข้องพร้อมกับ Entity หลัก (ค่าเริ่มต้นสำหรับ <code>@OneToOne</code>, <code>@ManyToOne</code>)</li>
+                    <li>**ข้อควรระวัง:** Eager Loading อาจทำให้เกิดปัญหา `N+1 Query`</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Cache ใน Hibernate</h2>
+                <ul>
+                    <li>ช่วยลดจำนวน Query ที่ส่งไปยังฐานข้อมูล ทำให้แอปพลิเคชันทำงานได้เร็วขึ้น</li>
+                    <li>**First-level Cache:** Cache ในระดับ `Session` แต่ละ `Session` จะมี Cache ของตัวเอง</li>
+                    <li>**Second-level Cache:** Cache ที่ใช้ร่วมกันได้ในหลาย `Session` (ต้องตั้งค่าเพิ่มเติม)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>สรุป</h2>
+                <p>Spring Data JPA ช่วยให้การทำงานกับฐานข้อมูลในโลกของ Spring เป็นเรื่องที่ง่ายและรวดเร็ว โดยอาศัยความสามารถของ JPA และ Hibernate ที่เป็นแกนหลัก</p>
+                <br>
+                <h3>Q & A</h3>
+                <p>เปิดโอกาสให้ซักถามข้อสงสัย</p>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@4.3.1/plugin/highlight/highlight.js"></script>
+    <script>
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+            hash: true,
+            transition: 'slide',
+            plugins: [ RevealMarkdown, RevealHighlight ]
+        });
+    </script>
+</body>
+</html>
